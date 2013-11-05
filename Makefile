@@ -26,10 +26,10 @@ EXE		= squaredSumMinMax
 # man -M /software/common/gnu/man g++
 #
 
-GCC		= /software/common/gnu/bin/g++
+GCC		= g++
 
 GCC_FLAGS	= -g -O3 -lpthread -c -Wall -std=c++11
-LD_FLAGS	= -g -Wall
+LD_FLAGS	= -g -lpthread -Wall
 
 #
 # Standard rules
@@ -54,7 +54,7 @@ ${C_OBJS}:      ${HEADERS}
 
 clean:
 	@echo "Cleaning up project directory ..."
-	/usr/bin/rm -f *.o $(EXE) *.ln core a.out
+	rm -f *.o $(EXE) *.ln core a.out
 	@echo ""
 	@echo "Clean."
 
