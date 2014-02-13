@@ -80,6 +80,8 @@ int main( int argc, char *argv[] )
 
   /* TODO Calculate size of each parallel partition */
 
+  /* End Calculate size of parallel partitions */
+
   /*
    * Launch a thread to work on its part of the array. Each thread will
    * return its result in a struct with that partition's squared sum, min,
@@ -115,7 +117,8 @@ int main( int argc, char *argv[] )
     struct result tmpResult = results[i].get();
 
     /*TODO Using the results from each of the threads, calculate the sum of the
-     *     entire array, as well the the min and the max */
+     *     entire array, as well the the min and the max. You should not have
+     *     to make any changes outside of this loop to do this */
 
   } 
 
