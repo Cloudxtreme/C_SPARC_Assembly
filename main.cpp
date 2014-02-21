@@ -134,6 +134,8 @@ int main( int argc, char *argv[] )
 
   (void) printf( "Speed-up: %f\n\n", seqTime / parallelTime );
 
+  free(array);
+
   return 0;
 }
 
