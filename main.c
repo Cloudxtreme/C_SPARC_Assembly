@@ -54,7 +54,7 @@ main( int argc, char *argv[] ) {
     /* Error messages are printed to stderr */
     (void) fprintf(
         stderr,
-        argc < EXPECTED_ARGS ? STR_ERR_MISSING_ARGS : STR_ERR_EXTRA_ARG,
+        argc < EXPECTED_ARGS ? STR_ERR_MISSING_ARG : STR_ERR_EXTRA_ARG,
         argv[0] );
 
     (void) fprintf( stderr, STR_ERROR_USAGE, argv[0] );
