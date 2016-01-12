@@ -40,8 +40,12 @@
 
 int
 main( int argc, char *argv[] ) {
-  struct DueDate dueDate;    /* Structure to hold assignment due date */
-  int argVal = 0;            /* Value to square from command line */
+  struct DueDate dueDate;       /* Structure to hold assignment due date */
+  struct DueDate *dueDate_ptr;  /* Pointer for dueDate */
+  
+  dueDate_ptr = &dueDate;       /* Initialize dueDate_ptr */
+
+  int argVal = 0;               /* Value to square from command line */
 
   /*
    * We decrement argc because the name of the program is the first
@@ -85,7 +89,7 @@ main( int argc, char *argv[] ) {
    * printDueDate() takes the address of the DueDate struct
    * (a pointer to the DueDate struct)
    */
-  printDueDate( dueDate );
+  printDueDate( dueDate_ptr );
 
   /*
    * Now square the input and print the result
