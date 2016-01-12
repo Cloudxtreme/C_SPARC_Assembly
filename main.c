@@ -17,6 +17,7 @@
  
 /* Standard C Library Headers use angle brackets < > */
 #include <stdlib.h>
+#include <stdio.h>  // Since we are using fprintf()
 
 /* Local headers use double quotes " " */
 #include "pa0.h"
@@ -91,4 +92,5 @@ main( int argc, char *argv[] ) {
    */
   (void) printf( STR_SQUARENUM, argv[1], squareNum( argVal ) );
 }
+
 
