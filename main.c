@@ -91,6 +91,8 @@ main( int argc, char *argv[] ) {
    * Now square the input and print the result
    */
   (void) printf( STR_SQUARENUM, argv[1], squareNum( argVal ) );
+
+  return 0;   // Was missing from original code; have to return int for main
 }
 
 
