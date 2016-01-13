@@ -10,7 +10,7 @@
  #ifndef PA0_H
  #define PA0_H
 
- #define EXPECTED_ARGS 1
+ #define EXPECTED_ARGS 2
 
  /* User defined types used in PA0 */
 
