@@ -7,7 +7,7 @@
  *              parameter passin in C ans SPARC assembly (also known as
  *              the language's and architechture's calling conventions)
  * Date: Jan. 10, 2016
- * Sources of Help: PA0 Assignment Sheet, PA0 Code Handout
+ * Sources of Help: PA0 Assignment Sheet, PA0 Code Handout, Michael Ohsaka (Tutor)
  */
 
 /*
