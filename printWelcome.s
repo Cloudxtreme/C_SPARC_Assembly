@@ -43,7 +43,7 @@ printWelcome:
 	save 	%sp, -96, %sp	! Save caller's window; if different than -96
 				! then comment on how that value is calculated
 
-	set	fmt, &o0	! Format string
+	set	fmt, %o0	! Format string
 	mov	%i0, %o1	! Copy of formal parameter to print
 	call	printf		! Make function call
 	nop			! Delay slot for call instruction
