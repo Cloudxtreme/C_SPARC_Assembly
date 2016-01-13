@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "pa0_strings.h"
+#include "pa0.h"
 
 /*
  * Function name: printDueDate()
