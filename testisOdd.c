@@ -25,10 +25,12 @@ testisOdd() {
     // Test Odd Numbers
     TEST( isOdd( 1 ) == 1 );
     TEST( isOdd( 3 ) == 1 );
+    TEST( isOdd( -3 ) == 1 );
 
     //  Test Even Numbers
     TEST( isOdd( 4 ) == 0 );
     TEST( isOdd( 16 ) == 0 );
+    TEST( isOdd( -16 ) == 0 );
 
     // Test 0
     TEST( isOdd( 0 ) == 0 );
