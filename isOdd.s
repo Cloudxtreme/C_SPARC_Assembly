@@ -4,7 +4,7 @@
  * Description: SPARC assembly routine to check if the argument
  * 		(width value) is odd or not. 
  * Date: 1/19/2016
- * Sources of Help: PA1 Handout
+ * Sources of Help: PA1 Handout, Lecture #4 Notes, PA1 Discussion Slides
  */
 
 	.global isOdd		! Declares the symbol to be globally visible so
