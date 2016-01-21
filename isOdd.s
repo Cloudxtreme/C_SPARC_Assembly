@@ -33,29 +33,23 @@ isOdd:
 				! -96, then comment on how that value was
 				! calculated
 	
-	mov 	%i0, %o0	! Put a copy of the parameter in the register
-				! %o0 which is to be used by .rem
+	and 	%i0, 1, %o0	! And the parameter with 1 and store in %o0
 
-	mov	2, %o1		! Put constant value of 2 in the register
-				! %o1 which is also to be used by .rem.
-				! .rem return value will be in %o0
-
-	call	.rem		! This is a transfer ofcontrol instruction
-	nop			! must be followed by nop. Calling remainder
-				! subroutine.
 	
-	cmp	%o0, 0		! Compare if .rem subroutine return value
-				! is 0;
+	cmp	%o0, 1 		! Compare if %o0 is equal to 1 or not
 	bne	else		! opposite logic to brach over if statement 
 	nop
 
-	mov	1, %i0		! if statement - remainder was 0, so copy
-	ba	endif		! value of 1 to %i0, so value of 1 will be
-	nop			! returned from this function
+	clr	%i0		! Clear %i0 register
+	mov	1, %i0		! if statement - %i0 is equal to 1, parameter 
+	ba	end_if		! therfore is odd.
+	nop			
 
 else:
-	mov	0, %i0		! else statment - remainder was not 0, so copy
-				! value of 0 to %i0, so value of 0 will be 
-endif:				! returned from this function
+	clr 	%i0		! Clear %i0 register
+	mov	0, %i0		! else statment - %i0 is not equal to 1, 
+				! therefore parameter is even 
+
+end_if:				! After if-else statement
 	ret			! Return from subroutine
 	restore			! Restore caller's window; in "ret" delay slot
