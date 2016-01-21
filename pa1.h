@@ -1,3 +1,11 @@
+/* Filename: pa1.h
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Description: Function prototypes and defines for PA1
+ * Date: 1/19/2016
+ * Sources of Help: PA1 Handout
+ */
+
 #ifndef _MAIN_H
 #define _MAIN_H
 

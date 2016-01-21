@@ -1,11 +1,10 @@
 /*
  * Filename: testcheckRange.c
- * Author: TODO Student Name
- * Userid: TODO cs30xXX
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
  * Description: Unit test program to test the function checkRange.
- * Date: TODO Jan. 1, 1970
- * Sources of Help: TODO List all the people, books, websites, etc. that you
- *                  used to help you write the code in this source file.
+ * Date: 1/19/2106
+ * Sources of Help: PA1 Assignment Specification
  */ 
 
 #include <stdlib.h> /* For rand() function prototype */
