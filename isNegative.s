@@ -40,7 +40,7 @@ isNegative:
 	clr 	%i0		! Clear the %i0 register
 	mov   	1, %i0		! If statement - %i0 is less than 0,
 	ba 	end_if		! parameter is negative
-	nope
+	nop
 
 else:	
 	clr	%i0		! Clear the %i0 register
