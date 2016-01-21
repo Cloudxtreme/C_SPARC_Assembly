@@ -39,6 +39,15 @@ testcheckRange() {
     TEST( checkRange( -1, -1, 6 ) == -1 );
 
     // TODO: Add more test cases (consider all cases)
+    
+    // Check Limits of Long data type
+    TEST( checkRange( 2, LONG_MAX, 3) == 0 ); //Overflow? but still works!?! 
+
+    // Definite overflow situation below
+    // TEST( checkRange( LONG_MIN, 1, LONG_MIN-1) == 0 );  
+
+    TEST ( checkRange( LONG_MIN, LONG_MAX, 0 ) == 0 ); //Should be out of range
+
 
     printf( "Finished running tests on checkRange()\n" );
 }
