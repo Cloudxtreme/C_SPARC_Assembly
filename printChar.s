@@ -4,6 +4,7 @@
  * Userid: cs30xix
  * Description: Prints char passed in as argument to stdout. Just prints a 
  * 		single character
+ * 		Called from line()
  * Date: 1/24/2016
  * Sources of help: PA1 Assignment Sheet, PA1 Discussion Slides Pt.2,
  * 		    PA0 Code Handout (printWelcome.s)
@@ -13,6 +14,11 @@
 				! so we can can call this function from
 				! other modules
 	
+	.section ".data"	! The data segment begins here
+fmt:				! Formatted string used for printf()
+	.asciz "%c\n"		
+
+
 	.section ".text"	! The text segment begins here
 
 /*
@@ -34,7 +40,8 @@ printChar:
 				! -96, then comment on how that value was 
 				! calculated
 	
-	mov 	%i0, %o0	! Copy of parameter to print
+	set	fmt, %o0	! Format Striing
+	mov 	%i0, %o1	! Copy of parameter (char ch) to print
 	call 	printf		! Make printf function call
 	nop			! Delay slot for call instruction
 
