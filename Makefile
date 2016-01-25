@@ -78,7 +78,7 @@ ${C_OBJS}:      ${HEADERS}
 clean:
 	@echo "Cleaning up project directory ..."
 	/usr/bin/rm -f *.o $(EXE) *.ln core a.out \
-	    testcheckRange testisOdd testisNegative
+	    testcheckRange testisOdd testisNegative testprintChar testline
 	@echo ""
 	@echo "Clean."
 
@@ -112,4 +112,16 @@ new:
 	make clean
 	make
 
+testprintChar: pa1.h printChar.s testprintChar.c
+	@echo "Compiling testprintChar.c"
+	gcc -g -o testprintChar testprintChar.c printChar.s
+	@echo "Done."
 
+runtestprintChar: testprintChar
+	@echo "Running testprintChar"
+	@./testprintChar
+
+testline: pa1.h printChar.s line.s testline.c
+	@echo "Compiling testline.c"
+	gcc -g -o testline testline.c line.s printChar.s
+	@echo "Done."

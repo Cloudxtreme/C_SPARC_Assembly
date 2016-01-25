@@ -16,7 +16,7 @@
 	
 	.section ".data"	! The data segment begins here
 fmt:				! Formatted string used for printf()
-	.asciz "%c\n"		
+	.asciz "%c"		
 
 
 	.section ".text"	! The text segment begins here
