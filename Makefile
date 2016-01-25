@@ -125,3 +125,7 @@ testline: pa1.h printChar.s line.s testline.c
 	@echo "Compiling testline.c"
 	gcc -g -o testline testline.c line.s printChar.s
 	@echo "Done."
+
+runtestline: testline
+	@echo "Running testline"
+	@./testline
