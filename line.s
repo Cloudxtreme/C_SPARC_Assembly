@@ -6,6 +6,7 @@
  * 		Called from drawXOR()
  * Date: 1/24/2016
  * Sources of help: PA1 Assignment Sheet, PA1 Discussion Slides Pt.2
+ * 		    Lecture #4 Notes
  */
 
 	.global line		! Decalres the symbol to be globally visible
