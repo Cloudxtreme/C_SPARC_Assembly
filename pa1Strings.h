@@ -1,28 +1,19 @@
-/* Filename: pa1Strings.h
- * Author: Moiz Qureshi
+/*
+ * Filename: pa1Strings.h
+ * Author: CSE30 Tutors - Given file
  * Userid: cs30xix
- * Description: String defines for PA1 - for Usage and Errors
- * Date: 1/19/2016
- * Sources of Help: PA1 Handout
+ * Description: String defines for PA1
+ * Date: 1/24/16
+ * Sources of Help: This is a given, copied over file from public
  */
-
 
 #ifndef PA1_STRINGS_H
 #define PA1_STRINGS_H
-
-/*
- * Usage Output message
- */
-
 #define USAGE "\nUsage: ./pa1 xorChar width speed\n\
   xorChar (must be an ASCII value within the range of [33 - 126])\n\
   width   (must be an numerical value within the range [3 - 39])\n\
           (must be an odd value)\n\
   speed   (must be an numerical value within the range [100000 - 1000000])\n\n"
-
-/*
- * Error Output messages
- */
 
 #define INT_ERR "\n    \"%s\" is not an integer\n\n"
 

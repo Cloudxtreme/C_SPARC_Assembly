@@ -23,6 +23,7 @@ SPACE = 0x20			! Define constant for space character
  * Description: Prints out the XOR character at position charpos, and will fill
  * 		in the rest of the spaces via calls to printChar(). Line will
  * 		be as long as value of width.
+ * 		Called from drawXOR().
  * Parameters: 
  * 	arg 1 -- char xorChar -- xorChar to be printed at position charpos
  * 	arg 2 -- long charpos -- postion where xorChar to be printed
