@@ -39,11 +39,11 @@ NEWLINE = 0x0A
  *
  * 	%l0 -- outerloop_count -- int j
  * 	%l1 -- innerloop_count -- int i
- *	%l2 -- outerloop_upperbound -- (width*2-1)
- *	%l3 -- innerloop first conditional -- (i-1)
- *	%l4 -- innerloop second conditional -- (width-1)
- *	%l5 -- innerloop third conditional -- (j-width+1)
- *	%l6 -- innerloop fourth conditional -- (width-1-i)
+ *	%l2 -- outerloop_upperbound var -- (width*2-1)
+ *	%l3 -- innerloop first conditional var -- (i-1)
+ *	%l4 -- innerloop second conditional var -- (width-1)
+ *	%l5 -- innerloop third conditional var -- (j-width+1)
+ *	%l6 -- innerloop fourth conditional var -- (width-1-i)
  */
 
 drawXOR:
@@ -53,7 +53,11 @@ drawXOR:
 
 	clr	%l0		! set j = 0
 	clr 	%l1		! set i = 0
-	clr 	%l2		! set outerloop_upperbound = 0
+	clr 	%l2		! set outerloop_upperbound var = 0
+	clr	%l3		! set innerloop 1st conditional var = 0	
+	clr	%l4		! set innerloop 2nd conditional var = 0
+	clr	%l5		! set innerloop 3rd conditional var = 0
+	clr	%l6		! set innerloop 4th conditional var = 0
 
 	mov	%i1, %l2	! Copy value of width to %l2, will be used for
 				! upperbound for outerloop
