@@ -61,14 +61,7 @@ drawXOR:
 
 	mov	%i1, %l2	! Copy value of width to %l2, will be used for
 				! upperbound for outerloop
-	mov	%l2, %o0	! Copy value of %l0 (outerloop count) to %o0
-				! so we can multiply by 2
-	
-	mov	2, %o1		! Copy value of two to %o1, since we will 
-	call	.mul		! Multiply %o0 by %o1 (outerloop_count *2)
-	nop
-	
-	mov	%o0, %l2	! Place produt from .mul return value back into
+	add	%l2, %l2, %l2	! Multiply %l2 by 2 (=%l2+%l2) 
 	dec	%l2		! %l2 (outerloop_upperbound) and decrement by 1
 
 	cmp	%l0, %l2	! j < (width*2-1) -- outerloop_upperbound 
@@ -76,21 +69,21 @@ drawXOR:
 	nop
 	
 outerfor:
-	clr 	%l1		! Reset i = 0
+	mov 	%i1, %l1	! Reset i = 0
 
-	cmp	%l1,0		! Check to see if i > 0, if i is less than or
-	ble	endinnerrfor	! or equal to zero then branch to endinnerfor
+	cmp	%l1, 0		! Check to see if i > 0, if i is less than or
+	ble	endinnerfor	! or equal to zero then branch to endinnerfor
 	nop
 
-	clr	%o0		! Clear %o0 output register
-	mov	%i2, %o0	! Copy sleep value to %o0
-	call	usleep		! Call usleep to sleep for sleep value
-	nop
+!	clr	%o0		! Clear %o0 output register
+!	mov	%i2, %o0	! Copy sleep value to %o0
+!	call	usleep		! Call usleep to sleep for sleep value
+!	nop
 
-	clr	%o0		! Clear %o0 output register
-	mov 	NEWLINE, %o0	! Copy newline char to %o0
-	call 	printChar	! Call printChar to print newline char
-	nop
+!	clr	%o0		! Clear %o0 output register
+!	mov 	NEWLINE, %o0	! Copy newline char to %o0
+!	call 	printChar	! Call printChar to print newline char
+!	nop
 
 innerfor:
 	clr	%l3		! Clear %l3 (innerloop 1st conditional) when
@@ -112,7 +105,7 @@ innerfor:
 	nop			! else1 branch
 
 else1:	
-	mov	%i0,%o0		! Since (i-1) > j, then call line line function
+	mov	%i0, %o0	! Since (i-1) > j, then call line line function
 	mov	-1, %o1		! as such:
 	mov	%i1, %o2	! line(xorChar, -1, width)
 	call	line
@@ -130,7 +123,7 @@ endif1:				! Come to this branch after innerfor or else1
 	ble	endif2		! endif2, otherwise continue
 	nop
 	
-	cmp	%l1, $i1	! Compare: i = width, if true then goto endif2
+	cmp	%l1, %i1	! Compare: i = width, if true then goto endif2
 	be	endif2		! otherwise continue
 	nop
 	
@@ -141,7 +134,7 @@ endif1:				! Come to this branch after innerfor or else1
 	sub	%l0, %i1, %l5	! Calculate innerloop 3rd conditional
 	inc	%l5		 
 
-	sub	%i1, 1, %l1	! Calculate innerloop 4th conditional
+	sub	%i1, 1, %l6	! Calculate innerloop 4th conditional
 	sub	%l6, %l1, %l6
 
 	cmp	%l5, %l6	! Compare: (j-width+1)<=(width-1-i), if true
@@ -161,7 +154,7 @@ endif2:
 	
 	dec	%l1		! Decrement i: i--
 
-	cmp	%l1,0		! Comapre: if i>0 then continue innerfor loop
+	cmp	%l1, 0		! Comapre: if i>0 then continue innerfor loop
 	bg	innerfor	! otherwise continue
 	nop
 
