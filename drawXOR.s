@@ -75,16 +75,6 @@ outerfor:
 	ble	endinnerfor	! or equal to zero then branch to endinnerfor
 	nop
 
-!	clr	%o0		! Clear %o0 output register
-!	mov	%i2, %o0	! Copy sleep value to %o0
-!	call	usleep		! Call usleep to sleep for sleep value
-!	nop
-
-!	clr	%o0		! Clear %o0 output register
-!	mov 	NEWLINE, %o0	! Copy newline char to %o0
-!	call 	printChar	! Call printChar to print newline char
-!	nop
-
 innerfor:
 	clr	%l3		! Clear %l3 (innerloop 1st conditional) when
 				! entering the innerfor branch
