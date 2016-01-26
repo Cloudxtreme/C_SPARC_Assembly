@@ -7,6 +7,9 @@
  * Date: 1/24/2016
  * Sources of Help: PA1 Assignment Handout, Lecture #4 Notes, 
  * 		    PA1 Discussion Slides pt.2
+ * 		    Albert Tang (Lab TA): Gave suggestion to help find bug in 
+ * 		    innerfor loop. I wasn't initializing inner loop count
+ * 		    variable correctly.
  */
 
 	.global drawXOR		! Declares the symbol to be globally visible

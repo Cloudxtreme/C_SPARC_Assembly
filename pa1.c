@@ -8,6 +8,7 @@
  *              range checked arguments.
  * Date: 1/25/16
  * Sources of Help: PA1 Assignment Sheet, PA1 Discussion Slides pt.2
+ *                  Alicia Chen (Lab TA): helped me strtol pointer error
  */
 
 /*
