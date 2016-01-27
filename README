@@ -68,7 +68,7 @@ Successful operation of this program requires three integer arguments that are
 within range (please see "How to run" for more details on integer ranges for 
 each argument) to be passed in when running this program.
 
-1) When there are no arguments or wrong number of arguments
+1) When there are no arguments or wrong number of arguments:
 
 [cs30xix@ieng9]:pa1$ ./pa1
 
@@ -78,26 +78,49 @@ Usage: ./pa1 xorChar width speed
           (must be an odd value)
   speed   (must be a numerical value within range [100000-1000000])
 
-2) When there are too many integer arguments passed 
+2) When thee inputs are non-integers: 
 		
-		[cs30xix@ieng9]:pa0$ ./a.out 5 7
-		./a.out: too many arguments
-		Usage: ./a.out [INTEGER]
-		  Integer value to square
+[cs30xix@ieng9]:pa1$ ./pa1 lab2 abc cs30
+
+	"lab2" is not an integer
+
+	"abc" is not an integer
+
+	"cs30" is not an integer
+
+3) When the width is even and both width and speed are not in range:
+
+[cs30xix@ieng9]:pa1$ ./pa1 94 42 10000000
+
+	width (42) (must be within the range [3-39])
+
+	speed (10000000)  (must be within the range [100000-1000000])
+
+4) When the width is even and in the range:
+
+[cs30xix@ieng9]:pa1$ ./pa1 94 30 1000000
+
+	width (30) (must be an odd integer)
+
+
+Many more examples of abnormal output can be given, but all of their issues
+can be described by viewing the normal usage output as seen on part 1 above. 
 
 Testing
 -------
 
-The program was tested by comparing the output of this program with the pa0test
+The program was tested by comparing the output of this program with the pa1test
 executable. Both programs were ran providing identical input integer arguments
-and their respective outputs were redirected to files MYSOL and REFSOL 
-respectively. Output files were compared using the unix command "diff". When
-no differences were found in the outputs, it indicated that this program was
-working as it should be. 
+and their respective outputs were compared to have the same output (same XOR
+patter was drawn and in the same relative time). The input integer arguments
+were the same as from PA1 assignment sheet, which aslo showed correct output.
 
-Also the squareNum function was tested manually by through three test cases:
-1) postive integer input; 2) negative integer input; and 3) zero integer
-input (0).
+Furthermore, several assembly functions from printChar.s, line.s, checkRange.s
+isNegative.s, isOdd.s were unit tested separately with their own respective
+drivers, testing various inputs into these functions and printing their
+respective passed or failed outputs to stdout. Also, drawXOR.s was
+tested by calling it main() in pa1.c with inputs known to work, just to see if 
+the function was implemented correctly.
 
 Questions:
 ----------
@@ -134,7 +157,25 @@ Questions:
 7) I issued the command "p/d errno" which resulted in the decimal formatted
    value of the global variable "errno" to be printed which is 0.
 
-8) 
+8) "git status" is the command to show the current state of your working tree.
+
+9) "git checkout -- [FILE]" is the command used to discard any changes made to
+   to a file since its last commit, replacing [FILE] with the filename you wish
+   to roll back to since last commit.
+
+10) "git diff [FILE]" is the command used to display the differences between 
+    the local version of a file and the version last committed; replace [FILE]
+    with the filename of the file you wish to see differences for.
+
+11) My process for completing this assignment with integrity, was to first of 
+    all start this programming assignment early. Starting early I give myself
+    enough time to work through potential problems that I may encounter at a 
+    good and reasonable pace. Secondly, if I encountered any major problems, 
+    which I did twice, I sought help from the appropriate sources, which were
+    the CSE30 Lab tutors in CSEB240 (Thanks Alicia & Albert!!). Lastly, I 
+    made sure that all my sources of help were only from class lecture notes,
+    programming assignment handouts, Piazza, discussion slides, and tutors. I
+    made sure to list all my sources of help in each file of this assignment. 
 
 
 
