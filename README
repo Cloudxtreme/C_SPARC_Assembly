@@ -1,0 +1,148 @@
+/*
+ * Filename: README
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 01/26/16
+ * Sources of help: gdb --help, git --help, GDB Quick Reference card.
+ */
+
+Description
+-----------
+
+This program draws an XOR pattern of various size, speed, and characters,
+depending on what input arguments are passed in. The program takes three 
+integer inputs as arguments. The first argument being an ascii chararacter, 
+the second argument being wdith of pattern to draw, and the third argument 
+being the speed at which to draw the XOR pattern.
+
+How to compile
+--------------
+
+Navigate to the program directory (pa1), and through the use of the 
+provided makefile, type "make" to compile the program. For more instructions
+on what the makefile can do please view "Makefile" file (other targets). 
+Use "make clean" to clean the directory of compiled files. 
+
+How to run
+----------	
+After successful compilation an executable "pa1" is createed. Run the program
+by typing "./pa1" followed by three integer argument which are passed in to 
+the program. For successful operation of this program, the integer inputs
+must be within a certain range. Argument one (XOR Character) has a range of
+33-126. Argument two (width) has a range of 3-39. Argument 3 has a range of 
+100000-1000000.
+
+example terminal command: 	./pa1 90 3 100000
+
+Normal Output
+-------------
+
+Normal output is printed to stdout (therefore the terminal screen). An
+example of a successful normal output is:
+
+[cs30xix@ieng9]:pa0$ ./pa1 90 3 100000
+
+Z 
+ 
+ Z
+Z
+
+  Z
+ Z
+Z
+
+  Z
+ Z Z
+Z
+
+  Z
+ Z Z
+Z   Z
+
+Abnormal Output
+---------------
+
+Abnormal output is printed to stderr. There are many varieties of cases where
+abnormal output can occur, depending on what arguments are passed in. 
+Successful operation of this program requires three integer arguments that are
+within range (please see "How to run" for more details on integer ranges for 
+each argument) to be passed in when running this program.
+
+1) When there are no arguments or wrong number of arguments
+
+[cs30xix@ieng9]:pa1$ ./pa1
+
+Usage: ./pa1 xorChar width speed
+  xorChar (must be an ASCII value within range of [33-126])
+  width   (must be a numerical value within range [3-39])
+          (must be an odd value)
+  speed   (must be a numerical value within range [100000-1000000])
+
+2) When there are too many integer arguments passed 
+		
+		[cs30xix@ieng9]:pa0$ ./a.out 5 7
+		./a.out: too many arguments
+		Usage: ./a.out [INTEGER]
+		  Integer value to square
+
+Testing
+-------
+
+The program was tested by comparing the output of this program with the pa0test
+executable. Both programs were ran providing identical input integer arguments
+and their respective outputs were redirected to files MYSOL and REFSOL 
+respectively. Output files were compared using the unix command "diff". When
+no differences were found in the outputs, it indicated that this program was
+working as it should be. 
+
+Also the squareNum function was tested manually by through three test cases:
+1) postive integer input; 2) negative integer input; and 3) zero integer
+input (0).
+
+Questions:
+----------
+
+1) First I printed the address of the register "$i0" by issuing the command
+   "p/x $i0", which resulted in the the address 0xffbff23a being printed. Then
+   I printed the contents of this address by issuing the command
+   "x/s 0xffbff23a" which resulted in the string formatted content of the 
+   first argument of strtol which is "9InchNails".
+
+2) I issued the command "p/d $i2" which resulted in the decimal formatted 
+   contents of the third argument of strtol to be printed which was 10.
+
+3) I issued the command "p/x $i1" which resulted in the hexadecimal
+   formatted contents of the second argument of strtol to be printed, which 
+   was 0xffbff034 (a high stack address).
+
+4) a) I issued the command "p xorChar" which resulted in the printing of the
+      value of xorChar (my local vriable used to hold the return value of 
+      strtol) which was 9.
+
+   b) I issued the command "p/d $o0" which resulted in the decimal formatted
+      contents of the return value of strtol to be printed which was 9.
+
+5) I issued first issued the command "p/x testptr" which printed the address 
+   of testptr (my local variable is testptr, not endptr) which printed
+   0xffbff23b to be printed (address of testptr), then I issued the command
+   "x/c 0xffbff23b" which printed the character "I".
+
+6) Since I already know the address of testptr, I now simply issue the command
+   "x/s 0xffbff23b" which prints the string formatted contents of testptr which
+   is "InchNails".
+
+7) I issued the command "p/d errno" which resulted in the decimal formatted
+   value of the global variable "errno" to be printed which is 0.
+
+8) 
+
+
+
+
+
+
+
+
+
+
+
