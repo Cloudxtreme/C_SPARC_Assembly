@@ -21,12 +21,32 @@ void testparseStartTime() {
    * set in the clockDecimal array
    */
 
-  TEST( parseStartTime(clockDecimal, ":::" ) == ERR_TIME_FORMAT );
-
   TEST( parseStartTime(clockDecimal, "a:a:a" ) ==
     (ERR_HR_VALUE | ERR_MIN_VALUE | ERR_SEC_VALUE) );
 
   /* TODO Come up with more test cases */
+  
+  TEST( parseStartTime( clockDecimal, "12:34:56" ) == 0 );
+  TEST( clockDecimal[HR_INDEX] == 12 );
+  TEST( clockDecimal[MIN_INDEX] == 34 );
+  TEST( clockDecimal[SEC_INDEX] == 56 );
+
+  TEST( parseStartTime( clockDecimal, "aa:34:56" ) == ERR_HR_VALUE );
+  TEST( parseStartTime( clockDecimal, "12:aa:56" ) == ERR_MIN_VALUE );
+  TEST( parseStartTime( clockDecimal, "12:50:aa" ) == ERR_SEC_VALUE );
+
+  TEST( parseStartTime( clockDecimal, "25:34:56" ) == ERR_HR_RANGE );
+  TEST( parseStartTime( clockDecimal, "12:60:56" ) == ERR_MIN_RANGE );
+  TEST( parseStartTime( clockDecimal, "12:50:60" ) == ERR_SEC_RANGE );
+
+  TEST( parseStartTime(clockDecimal, "25:66:66" ) ==
+    (ERR_HR_RANGE | ERR_MIN_RANGE | ERR_SEC_RANGE) );
+
+  TEST( parseStartTime(clockDecimal, "12:a:66" ) ==
+    (ERR_MIN_VALUE | ERR_SEC_RANGE) );
+
+
+
 }
 
 int main( void ) {

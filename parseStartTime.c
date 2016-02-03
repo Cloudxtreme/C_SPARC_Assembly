@@ -69,32 +69,60 @@ parseStartTime( long clockDecimal[], const char * time ) {
   // size of BUFSIZ (defined in stdio.h)
   char tempTime[BUFSIZ]; 
   
-  char *colonPtr;
+  char *colonPtr1;
+  char *colonPtr2;
   char *endptr;
+
   // Make copy of string time, and store into tempTime
-  strcpy( time, tempTime );
+  strcpy( tempTime, time );
   
-  stringLenth = strlen( tempTime );
+  stringLength = strlen( tempTime );
   for ( i = 0; i < stringLength; i++ ) {
-    if ( tempTime[i] == ':' ) {
+    if ( tempTime[i] == TIME_STR_DELIMITER ) {
       colonCount++;
     }
   }
   
-  if( colonCount == REQ_SEPARATORS ) (
-    colonPtr = strchr( tempTime, ':' );
-    *colonPtr = NULL;
-    colonPtr++;
-
+  if( colonCount == REQ_SEPARATORS ) {
+    
+    colonPtr1 = strchr( tempTime, TIME_STR_DELIMITER );
+    colonPtr1[0] = '\0';
+    
     errno = 0;
-    hours = strtol( tempTime, *endptr, BASE );
-    if( errno != 0 ) {
-      erroCode = errorCode | ERR_HR_VALUE;
+    hours = strtol( tempTime, &endptr, BASE );
+    if( errno != 0 || *endptr != NULL ) {
+      errorCode =  ERR_HR_VALUE;
     }
     if( checkRange( MIN_HR, HR_OFFSET, hours ) != 1 ) {
-    
+      errorCode |= ERR_HR_RANGE;
     }
+    
+    colonPtr1++;
+    colonPtr2 = strchr( colonPtr1, TIME_STR_DELIMITER );
+    colonPtr2[0] = '\0';
 
+    errno = 0;
+    mins = strtol( colonPtr1 , &endptr, BASE );
+    if( errno != 0 || *endptr != NULL ) {
+      errorCode |= ERR_MIN_VALUE;
+    }
+    if( checkRange( MIN_MINUTE, MINUTE_OFFSET, mins ) != 1 ) {
+      errorCode |= ERR_MIN_RANGE;
+    }
+    
+    colonPtr2++;
+    errno = 0;
+    secs = strtol( colonPtr2, &endptr, BASE );
+    if( errno != 0 || *endptr != NULL) {
+      errorCode |= ERR_SEC_VALUE;
+    }
+    if( checkRange( MIN_SEC, SEC_OFFSET, secs ) != 1 ) {
+      errorCode |= ERR_SEC_RANGE;
+    }
+    
+    clockDecimal[HR_INDEX] = hours;
+    clockDecimal[MIN_INDEX] = mins;
+    clockDecimal[SEC_INDEX] = secs;
 
   } else {
     errorCode = ERR_TIME_FORMAT;
@@ -102,5 +130,5 @@ parseStartTime( long clockDecimal[], const char * time ) {
   }
 
 
-  return erroCode;
+  return errorCode;
 }
