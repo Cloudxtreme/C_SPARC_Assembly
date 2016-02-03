@@ -39,6 +39,16 @@ void testparseStartTime() {
   TEST( parseStartTime( clockDecimal, "12:60:56" ) == ERR_MIN_RANGE );
   TEST( parseStartTime( clockDecimal, "12:50:60" ) == ERR_SEC_RANGE );
 
+
+  TEST( parseStartTime( clockDecimal, "-12:34:56" ) == ERR_HR_RANGE );
+  TEST( parseStartTime( clockDecimal, "12:-34:56" ) == ERR_MIN_RANGE );
+  TEST( parseStartTime( clockDecimal, "12:34:-56" ) == ERR_SEC_RANGE );
+
+
+  TEST( parseStartTime(clockDecimal, "-12:-34:-56" ) ==
+    (ERR_HR_RANGE | ERR_MIN_RANGE | ERR_SEC_RANGE) );
+
+
   TEST( parseStartTime(clockDecimal, "25:66:66" ) ==
     (ERR_HR_RANGE | ERR_MIN_RANGE | ERR_SEC_RANGE) );
 
