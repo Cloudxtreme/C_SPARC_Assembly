@@ -74,7 +74,7 @@ parseStartTime( long clockDecimal[], const char * time ) {
   char *endptr;
 
   // Make copy of string time, and store into tempTime
-  strcpy( tempTime, time );
+  strncpy( tempTime, time, BUFSIZ );
   
   stringLength = strlen( tempTime );
   for ( i = 0; i < stringLength; i++ ) {
