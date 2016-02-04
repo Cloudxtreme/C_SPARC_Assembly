@@ -1,11 +1,19 @@
-#include <stdio.h>
+/*
+ * Filename: testparseStartTime.c
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Description: Unit test program to test the function parseStartTime().
+ * Date: 2/3/2106
+ * Sources of Help: These files were provided, just added more test cases 
+ */ 
 
+// First Library Includes, then local ones
+#include <stdio.h>
 #include "pa2.h"
 #include "test.h"
 
-/*
- * TODO Function headers are always needed!
- */
+// Function prototype
+void testparseStartTime();
 
 void testparseStartTime() {
   long clockDecimal[3];
@@ -24,8 +32,6 @@ void testparseStartTime() {
   TEST( parseStartTime(clockDecimal, "a:a:a" ) ==
     (ERR_HR_VALUE | ERR_MIN_VALUE | ERR_SEC_VALUE) );
 
-  /* TODO Come up with more test cases */
-  
   TEST( parseStartTime( clockDecimal, "12:34:56" ) == 0 );
   TEST( clockDecimal[HR_INDEX] == 12 );
   TEST( clockDecimal[MIN_INDEX] == 34 );
@@ -44,18 +50,14 @@ void testparseStartTime() {
   TEST( parseStartTime( clockDecimal, "12:-34:56" ) == ERR_MIN_RANGE );
   TEST( parseStartTime( clockDecimal, "12:34:-56" ) == ERR_SEC_RANGE );
 
-
   TEST( parseStartTime(clockDecimal, "-12:-34:-56" ) ==
     (ERR_HR_RANGE | ERR_MIN_RANGE | ERR_SEC_RANGE) );
-
 
   TEST( parseStartTime(clockDecimal, "25:66:66" ) ==
     (ERR_HR_RANGE | ERR_MIN_RANGE | ERR_SEC_RANGE) );
 
   TEST( parseStartTime(clockDecimal, "12:a:66" ) ==
     (ERR_MIN_VALUE | ERR_SEC_RANGE) );
-
-
 
 }
 
