@@ -57,7 +57,10 @@ updateClockDecimalValue:
 	save	%sp, -96, %sp	! Save the caller's window; if different than
 				! -96, then comment on how that value was
 				! calculated
-	
+
+	clr	%l0		! Clear contents of %l0
+	clr	%l1		! Clear contents of %l1
+
 	ld	[%i0], %l0	! Get the value stored in pointer *clockVal,
 				! pointer address is in %i0
 	add	%l0, %i1, %l0	! Add value that clockVal is pointing to, to
