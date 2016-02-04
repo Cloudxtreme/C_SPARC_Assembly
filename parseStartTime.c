@@ -103,14 +103,13 @@ parseStartTime( long clockDecimal[], const char * time ) {
     // Clear errono, do conversion of first part of string to get hours value,
     // check *endptr to see if it is null. If errno is not 0 and *endptr is not
     // null, then set appropriate error codes. Also check if hours is
-    // within range or if its negative.
+    // within range.
     errno = 0;
     hours = strtol( tempTime, &endptr, BASE );
     if( errno != 0 || *endptr != NULL ) {
       errorCode =  ERR_HR_VALUE;
     }
-    if( checkRange( MIN_HR, HR_OFFSET, hours ) != 1 || 
-        isNegative( hours ) == 1) {
+    if( checkRange( MIN_HR, HR_OFFSET, hours ) != 1 ) {        
       errorCode |= ERR_HR_RANGE;
     }
     
@@ -124,14 +123,13 @@ parseStartTime( long clockDecimal[], const char * time ) {
     // Clear errno, do conversion of second part of string to get mins value,
     // check *endptr to see if it is null. If errno is not 0 and *endptr is not
     // null, then set appropriate error codes. Also check if mins is within
-    // range or if its negative.
+    // range.
     errno = 0;
     mins = strtol( colonPtr1 , &endptr, BASE );
     if( errno != 0 || *endptr != NULL ) {
       errorCode |= ERR_MIN_VALUE;
     }
-    if( checkRange( MIN_MINUTE, MINUTE_OFFSET, mins ) != 1 ||
-        isNegative( mins ) != 0 ) {
+    if( checkRange( MIN_MINUTE, MINUTE_OFFSET, mins ) != 1 ) {
       errorCode |= ERR_MIN_RANGE;
     }
     
@@ -139,15 +137,14 @@ parseStartTime( long clockDecimal[], const char * time ) {
     // in original string. Then clear errno, do conversion of thrid part of 
     // string to to get secs value, check *endptr to see if it is null. If
     // errno is not 0 and *endptr is not null, then set appropriate error codes
-    // Also check if secs is within range or if its negative.
+    // Also check if secs is within range.
     colonPtr2++;
     errno = 0;
     secs = strtol( colonPtr2, &endptr, BASE );
     if( errno != 0 || *endptr != NULL) {
       errorCode |= ERR_SEC_VALUE;
     }
-    if( checkRange( MIN_SEC, SEC_OFFSET, secs ) != 1 ||
-        isNegative( secs ) != 0 ) {
+    if( checkRange( MIN_SEC, SEC_OFFSET, secs ) != 1 ) {
       errorCode |= ERR_SEC_RANGE;
     }
     
