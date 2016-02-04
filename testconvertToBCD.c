@@ -1,11 +1,19 @@
-#include <stdio.h>
+/*
+ * Filename: testconvertToBCD.c
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Description: Unit test program to test the function convertToBCD().
+ * Date: 2/3/2106
+ * Sources of Help: These files were provided, just added more test cases 
+ */ 
 
+// First Library Header, then local ones
+#include <stdio.h>
 #include "pa2.h"
 #include "test.h"
 
-/*
- * TODO Function headers are always needed!
- */
+// Function prototype
+void testconvertoBCD();
 
 void testconvertToBCD() {
 
@@ -22,7 +30,25 @@ void testconvertToBCD() {
   TEST( (clockBCD[HR_INDEX] == 0x12) && (clockBCD[MIN_INDEX] == 0x34) &&
       (clockBCD[SEC_INDEX] == 0x56) );
 
-  /* TODO Come up with more test cases */
+  /* Test 2 */
+  clockDecimal[HR_INDEX] = 0;
+  clockDecimal[MIN_INDEX] = 0;
+  clockDecimal[SEC_INDEX] = 0;
+
+  convertToBCD(clockDecimal, clockBCD);
+
+  TEST( (clockBCD[HR_INDEX] == 0x00) && (clockBCD[MIN_INDEX] == 0x00) &&
+      (clockBCD[SEC_INDEX] == 0x00 ) );
+
+  /* Test 3 */
+  clockDecimal[HR_INDEX] = 23;
+  clockDecimal[MIN_INDEX] = 59;
+  clockDecimal[SEC_INDEX] = 59;
+
+  convertToBCD(clockDecimal, clockBCD);
+
+  TEST( (clockBCD[HR_INDEX] == 0x23) && (clockBCD[MIN_INDEX] == 0x59) &&
+      (clockBCD[SEC_INDEX] == 0x59 ) );
 
 }
 

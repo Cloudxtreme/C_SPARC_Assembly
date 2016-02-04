@@ -14,16 +14,16 @@
 
 	.section ".text"	! The text segment begins here
 
-LSHIFT = 4
-TEN = 10
+LSHIFT = 4			! Constant to hold left shift byte value
+TEN = 10			! Constant to hold divide and modulus val
 
-HRS_IDX_LONG = 0
-MIN_IDX_LONG = 4
-SEC_IDX_LONG = 8
+HRS_IDX_LONG = 0		! Constant to hold hours long array byte offset
+MIN_IDX_LONG = 4		! Constant to hold mins long array byte offset
+SEC_IDX_LONG = 8		! Constant to hold secs long array byte offset
 
-HRS_IDX_CHAR = 0
-MIN_IDX_CHAR = 1
-SEC_IDX_CHAR = 2
+HRS_IDX_CHAR = 0		! Constant to hold hours char array byte offset
+MIN_IDX_CHAR = 1		! Constant to hold mins char array byte offset
+SEC_IDX_CHAR = 2		! Constant to hold secs char array byte offset
 
 /*
  * Function name: convertToBCD()
@@ -66,64 +66,64 @@ convertToBCD:
 				! -96, then comment on how that value was 
 				! calculated
 	
-	clr	%l0
-	clr	%l1
-	clr	%l2
-	clr	%l3
-	clr	%l4
-	clr	%l5
+	clr	%l0		! Clear contents of %l0
+	clr	%l1		! Clear contents of %l1
+	clr	%l2		! Clear contents of %l2
+	clr	%l3		! Clear contents of %l3
+	clr	%l4		! Clear contents of %l4
+	clr	%l5		! Clear Contents of %l5
 
 	ld	[%i0+HRS_IDX_LONG], %l0	! Load hours from clockDecimal into %l0
 	ld	[%i0+MIN_IDX_LONG], %l1	! Load mins from clockDecimal into %l1
 	ld	[%i0+SEC_IDX_LONG], %l2	! Load secs from clockDecimal into %l2
 
-	mov 	%l0, %o0
-	mov	TEN, %o1
-	call	.div
+	mov 	%l0, %o0	! Put copy of decimal hours into %o0
+	mov	TEN, %o1	! Put copy of 10 into %o1
+	call	.div		! Divide hours by ten
 	nop
 
-	mov	%o0, %l3
-	sll	%l3, LSHIFT, %l3
+	mov	%o0, %l3		! Put division result into %l3
+	sll	%l3, LSHIFT, %l3	! Shift %l3 by 4 bits left 
 
-	mov 	%l0, %o0
-	mov	TEN, %o1
-	call 	.rem
+	mov 	%l0, %o0	! Put copy of decimal hours into %o0		
+	mov	TEN, %o1	! Put copy of 1 into %o1
+	call 	.rem		! Find remainder of (hours/10)
 	nop
 
-	or	%l3, %o0, %l3
-	stb	%l3, [%i1+HRS_IDX_CHAR]
+	or	%l3, %o0, %l3		! Or two nibbles to get hours hex byte
+	stb	%l3, [%i1+HRS_IDX_CHAR]	! Store hours hex byte into clockBCD
 
-	mov 	%l1, %o0
-	mov	TEN, %o1
-	call	.div
+	mov 	%l1, %o0	! Put copy of decimal mins into %o0
+	mov	TEN, %o1	! Put copy of 10 into %01
+	call	.div		! Divide mins by 10
 	nop
 
-	mov	%o0, %l4
-	sll	%l4, LSHIFT, %l4
+	mov	%o0, %l4		! Put division result into %l4
+	sll	%l4, LSHIFT, %l4	! Shift %l4 buy 4 bits left
 
-	mov 	%l1, %o0
-	mov	TEN, %o1
-	call 	.rem
+	mov 	%l1, %o0	! Put copy of decimal mins into %o0
+	mov	TEN, %o1	! Put copy of 10 into %o1
+	call 	.rem		! Find remainder of (mins/10)
 	nop
 
-	or	%l4, %o0, %l4
-	stb	%l4, [%i1+MIN_IDX_CHAR]
+	or	%l4, %o0, %l4		! Or two nibbles to get mins hex byte
+	stb	%l4, [%i1+MIN_IDX_CHAR]	! Store mins hex byte into clockBCD
 
-	mov 	%l2, %o0
-	mov	TEN, %o1
-	call	.div
+	mov 	%l2, %o0	! Put copy of decimal secs into %o0
+	mov	TEN, %o1	! Put copy of 10 into %01
+	call	.div		! Divide secs by 10
 	nop
 
-	mov	%o0, %l5
-	sll	%l5, LSHIFT, %l5
+	mov	%o0, %l5		! Put division result into %l5
+	sll	%l5, LSHIFT, %l5	! Shift %l5 by 4 bits left
 
-	mov 	%l2, %o0
-	mov	TEN, %o1
-	call 	.rem
+	mov 	%l2, %o0 	! Put copy of decimal secs into %o0
+	mov	TEN, %o1	! Put copy of 10 into %o1
+	call 	.rem		! Find remainder of (secs/10)
 	nop
 
-	or	%l5, %o0, %l5
-	stb	%l5, [%i1+SEC_IDX_CHAR]
+	or	%l5, %o0, %l5		! Or two nibbles to get secs hex byte
+	stb	%l5, [%i1+SEC_IDX_CHAR]	! Store secs hex byte into clockBCD
 
-	ret
-	restore
+	ret			! Return from subroutine
+	restore			! Restore caller's window; in "ret" delay slot

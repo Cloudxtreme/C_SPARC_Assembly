@@ -1,11 +1,20 @@
-#include <stdio.h>
+/*
+ * Filename: testupdateClockDecimalValue.c
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Description: Unit test program to test the function 
+ *              updateClockDecimalValue().
+ * Date: 2/3/16
+ * Sources of Help: These files were provided, just added more test cases 
+ */ 
 
+// First Library includes, then local ones
+#include <stdio.h>
 #include "pa2.h"
 #include "test.h"
 
-/*
- * TODO Function headers are always needed!
- */
+// Function prototype
+void testupdateClockDecimalValue();
 
 void testupdateClockDecimalValue() {
 
@@ -19,10 +28,6 @@ void testupdateClockDecimalValue() {
 
   TEST( updateClockDecimalValue(&clockDecimal[MIN_INDEX], 19, MAX_MINUTE) == 0 );
   TEST( (clockDecimal[MIN_INDEX] == 59 ));
-
-
-  /* TODO Come up with more test cases */
-
   
   clockDecimal[HR_INDEX] = 12;
   clockDecimal[MIN_INDEX] = 40;
