@@ -5,7 +5,7 @@
  * Description: Updates the decimal value of the clock based on the amount to 
  * 		increment by.
  * Date: 2/3/2016
- * Sources of help: PA2 Assignment Sheet, PA1 Discussion Slides Pt.1
+ * Sources of help: PA2 Assignment Sheet, PA2 Discussion Slides Pt.1
  * 		    Lecture #6 Notes
  */
 
@@ -36,7 +36,8 @@
  * 	arg 3 -- long maxVal     -- maximum value of current unit 
  * 				    (hours, mins, or secs)
  *	
- * Side Effects: 
+ * Side Effects: Updates the decimal Clock by amount passed in, and 
+ * 		 keeps track of carry out and remainders
  * 		 
  * Error Conditions: None
  * 		     
@@ -54,7 +55,7 @@
 
 updateClockDecimalValue:	
 	save	%sp, -96, %sp	! Save the caller's window; if different than
-				! -96, then commen on how that value was
+				! -96, then comment on how that value was
 				! calculated
 	
 	ld	[%i0], %l0	! Get the value stored in pointer *clockVal,
