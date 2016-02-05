@@ -59,6 +59,11 @@ void testparseStartTime() {
   TEST( parseStartTime(clockDecimal, "12:a:66" ) ==
     (ERR_MIN_VALUE | ERR_SEC_RANGE) );
 
+  TEST( parseStartTime(clockDecimal, "a12:a34:-56" ) ==
+    (ERR_HR_VALUE | ERR_MIN_VALUE | ERR_SEC_RANGE) );
+  
+  TEST( parseStartTime(clockDecimal, "12a:34a:999999999999999" ) == 0x4A);
+   
 }
 
 int main( void ) {

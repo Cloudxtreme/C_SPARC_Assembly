@@ -64,6 +64,12 @@ void testupdateClockDecimalValue() {
   TEST( updateClockDecimalValue(&clockDecimal[MIN_INDEX], 300, MAX_MINUTE) == 5 );
   TEST( (clockDecimal[MIN_INDEX] == 40 ));
 
+  clockDecimal[HR_INDEX] = 12;
+  clockDecimal[MIN_INDEX] = 40;
+  clockDecimal[SEC_INDEX] = 50;
+
+  TEST( updateClockDecimalValue(&clockDecimal[HR_INDEX], 12, MAX_HR) == 1 );
+  TEST( (clockDecimal[HR_INDEX] == 0 ));
 }
 
 int main( void ) {
