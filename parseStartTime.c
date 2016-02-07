@@ -108,11 +108,12 @@ parseStartTime( long clockDecimal[], const char * time ) {
     hours = strtol( tempTime, &endptr, BASE );
     if( errno != 0 || *endptr != NULL ) {
       errorCode =  ERR_HR_VALUE;
+    } else {
+      if( checkRange( MIN_HR, HR_OFFSET, hours ) != 1 ) {        
+         errorCode |= ERR_HR_RANGE;
+       }
     }
-    if( checkRange( MIN_HR, HR_OFFSET, hours ) != 1 ) {        
-      errorCode |= ERR_HR_RANGE;
-    }
-    
+
     // Advance colonPtr1 to now point to position after where first colon was
     // in original string. Then replace second colon in string with null 
     // character, where colonPtr2 will be pointing to
@@ -128,9 +129,10 @@ parseStartTime( long clockDecimal[], const char * time ) {
     mins = strtol( colonPtr1 , &endptr, BASE );
     if( errno != 0 || *endptr != NULL ) {
       errorCode |= ERR_MIN_VALUE;
-    }
-    if( checkRange( MIN_MINUTE, MINUTE_OFFSET, mins ) != 1 ) {
-      errorCode |= ERR_MIN_RANGE;
+    } else {
+      if( checkRange( MIN_MINUTE, MINUTE_OFFSET, mins ) != 1 ) {
+        errorCode |= ERR_MIN_RANGE;
+      }
     }
     
     // Advance colonPtr2 to now point to positin after where second colon was
@@ -143,9 +145,10 @@ parseStartTime( long clockDecimal[], const char * time ) {
     secs = strtol( colonPtr2, &endptr, BASE );
     if( errno != 0 || *endptr != NULL) {
       errorCode |= ERR_SEC_VALUE;
-    }
-    if( checkRange( MIN_SEC, SEC_OFFSET, secs ) != 1 ) {
-      errorCode |= ERR_SEC_RANGE;
+    } else {
+      if( checkRange( MIN_SEC, SEC_OFFSET, secs ) != 1 ) {
+        errorCode |= ERR_SEC_RANGE;
+      }
     }
     
     // Set values of clockDecimal from extrapolated values of hours, mins,

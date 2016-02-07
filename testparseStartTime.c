@@ -18,6 +18,7 @@ void testparseStartTime();
 void testparseStartTime() {
   long clockDecimal[3];
 
+
   TEST( parseStartTime( clockDecimal, "::" ) == 0 );
   TEST( clockDecimal[HR_INDEX] == 0 );
   TEST( clockDecimal[MIN_INDEX] == 0 );
@@ -27,7 +28,7 @@ void testparseStartTime() {
    * If there is an error being thrown, no need to check array values
    * For example... 12:50:aa - No need to check that 12 and 50 are properly
    * set in the clockDecimal array
-   */
+  */
 
   TEST( parseStartTime(clockDecimal, "a:a:a" ) ==
     (ERR_HR_VALUE | ERR_MIN_VALUE | ERR_SEC_VALUE) );
@@ -59,11 +60,9 @@ void testparseStartTime() {
   TEST( parseStartTime(clockDecimal, "12:a:66" ) ==
     (ERR_MIN_VALUE | ERR_SEC_RANGE) );
 
-  TEST( parseStartTime(clockDecimal, "a12:a34:-56" ) ==
+  TEST( parseStartTime(clockDecimal, "aaa:334b:12345" ) ==
     (ERR_HR_VALUE | ERR_MIN_VALUE | ERR_SEC_RANGE) );
   
-  TEST( parseStartTime(clockDecimal, "12a:34a:999999999999999" ) == 0x4A);
-   
 }
 
 int main( void ) {
