@@ -88,24 +88,26 @@ else:
 	mov 	%o0, %l0	! Store the remainder from above, back into
 	st	%l0, [%i0]	! where the pointer clockVal was pointing to
 	
-	cmp	%l1, %i2	! If (clockVal value + updateAmt) is equal to
-	be	else1		! maxVal, then go to else1
+	cmp 	%l1, %i2	! If (clockVal value+updateAmt) is less than
+	bl	else1		! maxVal, then go to else2
 	nop
-	
-	mov	%l1, %o0	! Since (clockVal value + updateAmt) was not
-	mov	%i2, %o1	! equal to maxVal (after addition from line 62)
+
+	mov	%l1, %o0	! Since (clockVal value + updateAmt) was is
+	mov	%i2, %o1	! greater than or equal to maxVal, then find
 	call 	.div		! Find: (clockVal value + updateAmt)/maxVal
 	nop
 
 	mov 	%o0, %i0	! Store result of division from above into %i0
 	ba	endif		! so that value will be returned from this
-	nop			! function.
+	nop			! function. This means carry out was just 
+				! the value from the div call
 
-else1:	
-	mov 	0, %i0		! Since after addition of line 62, 
-				! (clockVal value + updateAmt) was same as 
-				! maxVal, we want carry over to be zero, so 
-				! move 0 to %i0, so 0 will be returned.
+else1:
+	mov	0, %i0		! Since (clockVal value+updateAmt) was less 
+	ba	endif		! maxVal, move 0 to %i0, so we can return 0
+	nop			! from this function, which means carry out
+				! was equal to zero
+
 endif:
 	ret			! Return from subroutine
 	restore			! Restore caller's window; in "ret" delay slot

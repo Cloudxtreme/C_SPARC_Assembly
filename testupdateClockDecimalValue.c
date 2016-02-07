@@ -33,7 +33,7 @@ void testupdateClockDecimalValue() {
   clockDecimal[MIN_INDEX] = 40;
   clockDecimal[SEC_INDEX] = 50;
 
-  TEST( updateClockDecimalValue(&clockDecimal[MIN_INDEX], 20, MAX_MINUTE) == 0 );
+  TEST( updateClockDecimalValue(&clockDecimal[MIN_INDEX], 20, MAX_MINUTE) == 1 );
   TEST( (clockDecimal[MIN_INDEX] == 0 ));
 
   clockDecimal[HR_INDEX] = 0;
@@ -63,6 +63,14 @@ void testupdateClockDecimalValue() {
 
   TEST( updateClockDecimalValue(&clockDecimal[MIN_INDEX], 300, MAX_MINUTE) == 5 );
   TEST( (clockDecimal[MIN_INDEX] == 40 ));
+
+  clockDecimal[HR_INDEX] = 12;
+  clockDecimal[MIN_INDEX] = 40;
+  clockDecimal[SEC_INDEX] = 50;
+
+  TEST( updateClockDecimalValue(&clockDecimal[SEC_INDEX], 10, MAX_SEC) == 1 );
+  TEST( (clockDecimal[SEC_INDEX] == 0 ));
+
 
   clockDecimal[HR_INDEX] = 12;
   clockDecimal[MIN_INDEX] = 40;
