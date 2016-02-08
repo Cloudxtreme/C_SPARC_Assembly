@@ -49,11 +49,16 @@
 
 
 /* Create constants for the binary characters that get printed */
-#define ONE_CHAR 0x4F   // Used in displayBCDClock.c
-#define ZERO_CHAR 0x2E  // Used in displayBCDClock.c
+#define ONE_CHAR 0x4F 
+#define ZERO_CHAR 0x2E
+#define NEWLINE 0x0A   
+#define SPACE 0x20      
 
 /* Constant for length of Nibble */
 #define NIB_LEN 4
+
+/* Constant for row count in displayBCDClock() */
+#define ROWS 4
 
 /*
  * parseStartTime() errors:
