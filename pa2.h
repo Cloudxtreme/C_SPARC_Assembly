@@ -52,6 +52,9 @@
 #define ONE_CHAR 0x4F   // Used in displayBCDClock.c
 #define ZERO_CHAR 0x2E  // Used in displayBCDClock.c
 
+/* Constant for length of Nibble */
+#define NIB_LEN 4
+
 /*
  * parseStartTime() errors:
  * Check for the following errors IN THIS ORDER!
