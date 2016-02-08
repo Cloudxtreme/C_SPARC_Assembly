@@ -15,7 +15,7 @@ default: $(C_FILES) $(S_FILES)
 	gcc -o $(EXE) $(C_FILES) $(S_FILES)
 
 clean:
-	rm -rf $(EXE) $(TEST_CONVERT_EXE) $(TEST_UPDATE_EXE) $(TEST_PARSE_EXE) testdisplayBCDClock
+	rm -rf $(EXE) $(TEST_CONVERT_EXE) $(TEST_UPDATE_EXE) $(TEST_PARSE_EXE) testdisplayBCDClock testusage
 
 testconvertToBCD: $(TEST_CONVERT_FILES)
 	@echo "Compiling testconvertToBCD.c"
@@ -52,4 +52,14 @@ testdisplayBCDClock: pa2.h displayBCDClock.c printChar.s pa2Strings.h
 runtestdisplayBCDClock: testdisplayBCDClock
 	@echo "Running testdisplayBCDClock"
 	@./testdisplayBCDClock
+
+testusage: pa2.h usage.c pa2Strings.h
+	@echo "Compiling testusage.c"
+	gcc -g -o testusage usage.c testusage.c
+	@echo "Done."
+
+runtestusage: testusage
+	@echo "Running testusage"
+	@./testusage
+
 
