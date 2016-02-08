@@ -38,9 +38,8 @@ void
 usage( const char * programName ) {
 
   // Call printf() and pass in parameters correctly
-  printf( STR_USAGE, MIN_HR, HR_OFFSET, MIN_MINUTE, MINUTE_OFFSET, MIN_SEC,
-          SEC_OFFSET, MIN_INTERVAL, MAX_INTERVAL, DEF_INTERVAL, MIN_TICKS,
-          MAX_TICKS, DEF_TICKS );
-
+  printf( STR_USAGE, programName, MIN_HR, HR_OFFSET, MIN_MINUTE, MINUTE_OFFSET,
+          MIN_SEC, SEC_OFFSET, MIN_INTERVAL, MAX_INTERVAL, DEF_INTERVAL, 
+          MIN_TICKS, MAX_TICKS, DEF_TICKS );
 }
 
