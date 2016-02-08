@@ -49,8 +49,8 @@
 
 
 /* Create constants for the binary characters that get printed */
-#define ONE 0x4F        // Used in displayBCDClock.c
-#define ZERO 0x2E       // Used in displayBCDClock.c
+#define ONE_CHAR 0x4F   // Used in displayBCDClock.c
+#define ZERO_CHAR 0x2E  // Used in displayBCDClock.c
 
 /*
  * parseStartTime() errors:
