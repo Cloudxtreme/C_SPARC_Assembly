@@ -44,8 +44,13 @@
 #define TIME_STR_DELIMITER ':'
 
 /* Create any bit masks you need in here */
+#define ONES_MSK 0x08   // Used in displayBCDClock.c
+#define TENS_MSK 0x80   // Used in displayBCDClock.c
+
 
 /* Create constants for the binary characters that get printed */
+#define ONE 0x4F        // Used in displayBCDClock.c
+#define ZERO 0x2E       // Used in displayBCDClock.c
 
 /*
  * parseStartTime() errors:
