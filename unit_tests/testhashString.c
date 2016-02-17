@@ -6,7 +6,7 @@
  */
 
 #include <stdio.h>
-
+#include <string.h>
 #include "pa3.h"
 #include "test.h"
 
@@ -16,7 +16,6 @@
 static void testhashString( ) {
   char *word;
   int hashKey;
-
   /* 
    * Note that these hash values are different than those that will be written
    * to the database for the given word. The hashKeys stored in the database
@@ -27,6 +26,11 @@ static void testhashString( ) {
 
   word = "tops"; hashKey = 10030661;
   TEST(hashString(word) == hashKey);
+
+  word = "\0"; hashKey = 7;
+  TEST(hashString(word) == hashKey);
+
+  printf("%d\n", hashString(word));
 
   /* TODO Come up with more test cases */
 }
