@@ -111,11 +111,6 @@ compileTest: setupTest\
 testcharCompare: charCompare.s $(TEST_DIR)/testcharCompare.c 
 	$(MAKE) -s compileTest DEPEND="$^" TEST_NAME=testcharCompare 
 
-runtestcharCompare: testcharCompare
-	@echo "Running testcharCompare"
-	@./testcharCompare
-
-
 # --- testcreateAnagram ---
 testcreateAnagram: createAnagram.c $(TEST_DIR)/testcreateAnagram.c\
 	lowerCaseSortString.c hashString.s charCompare.s pa3Globals.c
