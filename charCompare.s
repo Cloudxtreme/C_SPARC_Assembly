@@ -25,6 +25,8 @@
  *      arg 2 - const void *p2 - second character argument
  *              
  * Side Effects: None
+ * 
+ * Error Conditions: None
  *
  * Return Values: -1 -- if 2nd char is greater than 1st
  * 		   0 -- if both chars are equal
