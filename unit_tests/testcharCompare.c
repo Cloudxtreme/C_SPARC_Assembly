@@ -24,6 +24,17 @@ static void testcharCompare() {
   TEST( charCompare( &rhs, &lhs ) == 1 );
 
   /* TODO Come up with more test cases */
+
+  lhs = 'A';
+  rhs = 'a';
+  TEST( charCompare( &lhs, &rhs ) == -1 );
+  TEST( charCompare( &rhs, &lhs ) == 1 );
+  
+  lhs = 'z';
+  rhs = 'Z';
+  TEST( charCompare( &lhs, &rhs ) == 1 );
+  TEST( charCompare( &rhs, &lhs ) == -1 );
+
 }
 
 /*
