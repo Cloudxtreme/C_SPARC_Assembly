@@ -33,36 +33,37 @@
  * Registers Used: 
  * 	%o0 - arg1 - const void *p1
  * 	%o1 - arg2 - const void *p2
+ */
 
 charCompare:
 
-	ldub	[%o0], %o0
-	ldub	[%o1]. %o1
+	ldub	[%o0], %o0	! Load char that *p1 is pointing to into %o0
+	ldub	[%o1], %o1	! Load char that *p2 is pointing to into %o1
 
-	cmp	%o0, %o1
+	cmp	%o0, %o1	! If %o0 and %o1 are equal, branch to else1
 	be	else1
 	nop
 
-	cmp 	%o0, %o1
+	cmp 	%o0, %o1	! If %o0 < %o1, branch to else2
 	bl	else2
 	nop
 	
-	mov 	1, %o0
-	ba 	endif
-	nop
+	mov 	1, %o0		! Since %o0 must be greater than %o1, move 1
+	ba 	endif		! to %o0, since we will return this value.
+	nop			! Then branch always to endif
 	
 else1:
-	mov 	0, %o0
-	ba 	endif
-	nop
+	mov 	0, %o0		! Since %o0 and %o1 were equal, move 0 to
+	ba 	endif		! %o0, since we will return this value.
+	nop			! Then branch always to endif
 
 else2:
-	mov	-1, %o0
-	ba 	endif
-	nop
+	mov	-1, %o0		! Since %o1 was greater than %o0, move -1 to
+				! %o0, since we will return this value. 
+				! Then continue to endif always
 
 endif:
-	retl
-	nop
+	retl			! Return from leaf subroutine, and fill delay 
+	nop			! slot with a nop.
 	
 
