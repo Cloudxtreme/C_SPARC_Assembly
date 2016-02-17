@@ -49,27 +49,41 @@ int
 createAnagram( const char *src, struct anagram *anagram ) {
   /* Local Variables */
 
-  // Var to hold lenght of src string
+  // Var to hold length of src string
   int len = 0; 
   
+  // Var to hold value of return status
+  int returnCode = 0;
 
+  // Var to hold calculated hash
+  int hash = 0;
+
+  // Var to hold lowercase src string
+  char lowerCaseString[BUFSIZ];
+
+  // Get length of source string+1, accounting for null char
   len = strlen( src ) + 1;
+ 
+  /* Get lowercase version of source string and store into lowerCaseString,
+   * then calculate hash by calling hashString() function, then
+   * set the anagram hashKey value accordingly
+   */
+  lowerCaseSortString( src, len, lowerCaseString );
+  hash = hashString( lowerCaseString );
+  anagram->hashKey = hash;          
 
+  /* Allocate enough memory (size of src string). If calloc fails then
+   * then set returnCode to 1, otherwise if it passes then set returnCode 
+   * to 0, and copy src string into anagram word string
+   */
   anagram->word = (char *) calloc( len, sizeof( char )); 
-  strncpy( anagram->word, src, len );
-
-  printf("%s\n", anagram->word );
-
-
-  return 0;
-
-
-
-
-
-
-
-
-
-
+  if ( anagram->word != NULL ) {
+    strncpy( anagram->word, src, len );
+    returnCode = 0;
+  } else {
+    returnCode = 1;
+  }
+  
+  // Return returnCode, either 0 or 1 if calloc passed or failed, respectively
+  return returnCode;
 }
