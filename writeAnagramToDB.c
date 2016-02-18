@@ -49,8 +49,8 @@ writeAnagramToDB( const struct anagram *anagram, FILE *stream ) {
   /* Local Variable */
   int writeCount = 0;     // Var to hold error for fwrite()
   
-  char newline = '\n';    // Var to hold newline char
-  char nullchar = '\0';   // Var to hold null char
+  char *newline = "\n";    // Var to hold newline char
+  char *nullchar = "\0";   // Var to hold null char
 
   /* Write the anagram's word to the file, and store return value into 
    * writeCount, so we can check to see correct number of items were
@@ -66,7 +66,7 @@ writeAnagramToDB( const struct anagram *anagram, FILE *stream ) {
    * writeCount, so we can check to see correct number of items were
    * written to the file, if it isnt, then set returnCode
    */
-  writeCount = fwrite( &nullchar, sizeof(char), 1, stream );
+  writeCount = fwrite( nullchar, sizeof(char), 1, stream );
   if ( writeCount != 1) {
     return 1;
   } 
@@ -84,7 +84,7 @@ writeAnagramToDB( const struct anagram *anagram, FILE *stream ) {
    * writeCount, so we can check to see correct number of items were
    * written to the file, if it isnt, then set returnCode
    */
-  writeCount = fwrite( &newline, sizeof(char), 1, stream );
+  writeCount = fwrite( newline, sizeof(char), 1, stream );
   if ( writeCount != 1) {
     return 1;
   } 
