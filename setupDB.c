@@ -60,24 +60,41 @@ setupDB( const struct argInfo *argInfo, struct errorInfo *errorInfo ) {
   /* Local Variables */
   struct anagram a;
   char buf[BUFSIZ];
-
+  
+  /* Set errno = 0. Open dictionary file, with given filename from argInfo.
+   * If there is error, use setErrorInfo() to set error accoridngly.
+   */
   errno = 0;
   FILE *dictionary = fopen( argInfo->dictFilename, READ_MODE );
   if( errno != 0 ) {
     setErrorInfo( errorInfo, ERR_ERRNO_M, argInfo->dictFilename );
   }
-
+  
+  /* Set errno = 0. Open database file, with given filename from argInfo.
+   * If there is error, use setErrorInfo() to set error accoridngly.
+   */
   errno = 0;
   FILE *database = fopen( argInfo->anagramDB, WRITE_MODE );
   if( errno != 0 ) {
     setErrorInfo( errorInfo, ERR_ERRNO_M, argInfo->anagramDB );
   }
  
+  /* If dictionary file isnt empty, then read line by line, from the
+   * dictionary. For each line, replace the the newline character with
+   * a null character, so we ee can strchr on the buf (string of line).
+   * Set errno = 0, create anagram of word read from line string (buf),
+   * if there is error then use setErrorInfo() to set errors accordingly.
+   * Then set errno = 0 again, so we can call writeAnagramToDB, using
+   * the anagram we just created before, so we can write it to the 
+   * database. If there is an error, use setErrorInfo() to set errors
+   * accordingly. 
+   */
   if( dictionary != NULL ) {
     while( fgets(buf, BUFSIZ, dictionary) ) {
       char *endOfWord = strchr(buf, NEWLINE);
       *endOfWord = NULLCHAR;
-      errno = 0;
+     
+     errno = 0;
       createAnagram( buf, &a );
       if( errno != 0 ) {
         setErrorInfo( errorInfo, ERR_CREATE_ANAGRAM, NULL );
@@ -93,6 +110,7 @@ setupDB( const struct argInfo *argInfo, struct errorInfo *errorInfo ) {
 
   }
   
+  // Close the database and dictionary files
   fclose( database );
   fclose( dictionary );
 
