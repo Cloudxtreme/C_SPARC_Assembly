@@ -26,6 +26,12 @@ static void testhashString( ) {
 
   word = "tops"; hashKey = 10030661;
   TEST(hashString(word) == hashKey);
+  
+  word = "stop"; hashKey = 10005641;
+  TEST(hashString(word) == hashKey);
+  
+  word = "post"; hashKey = 9911591;
+  TEST(hashString(word) == hashKey);
 
   word = "\0"; hashKey = 7;
   TEST(hashString(word) == hashKey);
