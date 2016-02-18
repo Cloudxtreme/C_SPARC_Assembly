@@ -49,16 +49,14 @@ lowerCaseSortString( const char *src, size_t n, char *dest ) {
   // Local Variables
   int i = 0;              // Used as counter for while-loop
 
-  char srcCopy[BUFSIZ];   // String we will copy source string into
-  
   // Copy src string into srcCopy
-  strncpy( srcCopy, src, n );
+  strncpy( dest, src, n );
   
   // Store lower case letters of srcCopy into dest string
-  while( srcCopy[i] ) {
-    dest[i] = tolower( srcCopy[i] );
-    i++;
+  for (i = 0; dest[i] ; i++) {
+    dest[i] = tolower( dest[i] );
   }
+
 
   // Sort dest string in alphabetical order
   qsort( dest, strlen( dest ), sizeof(char), charCompare );
