@@ -47,34 +47,50 @@ int
 writeAnagramToDB( const struct anagram *anagram, FILE *stream ) {
   
   /* Local Variable */
-  int returnCode = 0;
-  int writeCount = 0;
+  int returnCode = 0;     // Var to hold return value for this function
+  int writeCount = 0;     // Var to hold error for fwrite()
   
-  char newline = '\n';
-  char nullchar = '\0';
+  char newline = '\n';    // Var to hold newline char
+  char nullchar = '\0';   // Var to hold null char
 
-
+  /* Write the anagram's word to the file, and store return value into 
+   * writeCount, so we can check to see correct number of items were
+   * written to the file, if it isnt, then set returnCode
+   */
   writeCount = fwrite( anagram->word, sizeof(char), strlen(anagram->word), 
                        stream );
   if ( writeCount != strlen(anagram->word) ) {
     returnCode = 1;
   } 
-
+  
+  /* Write the null char to the file next, and store return value into 
+   * writeCount, so we can check to see correct number of items were
+   * written to the file, if it isnt, then set returnCode
+   */
   writeCount = fwrite( &nullchar, sizeof(char), 1, stream );
   if ( writeCount != 1) {
     returnCode = 1;
   } 
 
+  /* Write the anagram's hashKey to the file next, and store return value into 
+   * writeCount, so we can check to see correct number of items were
+   * written to the file, if it isnt, then set returnCode
+   */
   writeCount = fwrite( &(anagram->hashKey), sizeof(int), 1, stream );
   if ( writeCount != 1) {
     returnCode = 1;
   } 
-  
+
+  /* Write the newline char to the file, and store return value into 
+   * writeCount, so we can check to see correct number of items were
+   * written to the file, if it isnt, then set returnCode
+   */
   writeCount = fwrite( &newline, sizeof(char), 1, stream );
   if ( writeCount != 1) {
     returnCode = 1;
   } 
-
+  
+  // Return returnCode; may have been set if fwrite() had error
   return returnCode;
 }
 
