@@ -1,9 +1,9 @@
 /*
  * Filename: main.cpp
- * Author:
- * Userid:
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
  * Description:
- * Date:
+ * Date: 2/19/16
  */
 
 #include <thread>
