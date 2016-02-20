@@ -9,8 +9,8 @@
 /*
  * Function name: swapChars()
  * Function prototype: int swapChars(char* c1, char* c2)
- * Description: Takes two pointers to chars and swaps the values.  Then compares
- *              values and ptrs to determine if the characters were the same and,
+ * Description: Takes two pointers to chars and swaps the values. Then compares
+ *            values and ptrs to determine if the characters were the same and,
  *              if so, if the ptrs were pointing to the same place.
  * Parameters: %i0 - first char to swap
  *             %i1 - second char to swap
@@ -35,13 +35,14 @@ swapChars:
 	bne	notSame		! return 0
 	nop
 
-	cmp	%i0, %i1	! chars are same; if ptrs are the same, return 1
+	cmp	%i0, %i1	! chars are same; if ptrs are same, return 1
 	be	samePtr
 	nop
 
 	mov	2, %l3		! chars are same, ptrs different -- return 2
 
 	ba	notSame
+	nop
 
 samePtr:
 
