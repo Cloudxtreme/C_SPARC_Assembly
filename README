@@ -3,31 +3,50 @@
  * Author: Moiz Qureshi
  * Userid: cs30xix
  * Date: 02/19/16
- * Sources of help: CSE30 Tutors (Albert)
+ * Sources of help: PA3 Assignment Sheet, PA3 Discussion Slides pt. 1 
+ * 		    CSE30 LAB Tutors (Albert)
  */
 
 Description
 -----------
 
-
+The purpose of this program is to demonstrate the effectiveness of a
+multi-threaded functions and how they are faster than functions that are
+not multi-threaded, given a large sample size. The array, generally very large,
+is initialized with random values (within a range of -128 to 127). The 
+non-threaded function sequentially squares all the elements of the array and
+sums then up, while this operation is timed. The mult-threaded function,
+partitions the array into 8 partitions, calling the same square and sum 
+function as before, but on smaller array sizes. However, these 8 threads ares
+occuring simultaneously. Also the multi-threaded function is timed as well. The
+progrm prints out the running time of the sequential, non-threaded version and
+the running time of the multi-threaded version, aslo the factor of how much
+faster the multi-threaded applicaiton was. 
 
 
 How to compile
 --------------
 
-
-
-
+Navigate tot he program directory (pamt1), and through the use of the provided
+Makefile, type "make" to compile the program. For more instructions on what
+targets the Makefile can produce, please inspect the contents of the Makefile
+file. Use "make clean" to clean the directory of compiled files.
 
 How to run
 ----------	
 
+After successful compilation an executable "squaredSumMinMax" is created. Run
+the program by typing "./squaredSumMinMax" follwed by one integer argument,
+which is the size of the test array you wish to initialized and fill with
+random integers within the range of -128 to 127, which then all the elements of
+this array will be sqaured and added together in the non-threaded sequential
+way , and then in the multi-threaded way. 
 
-
-
+example terminal command:	./squaredSumMinMax 8675309
 
 Normal Output
 -------------
+
 
 
 
