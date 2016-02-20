@@ -4,11 +4,13 @@
  *              and determines whether the string was a palindrome.
  */ 
 
-	.section	".data"
+	.global	reverse
+
+	.section ".data"
 palStr:
 	.asciz	"PALINDROME!\n"
 
-	.global	reverse
+	.section ".text"	
 
 /*
  * Function name: reverse()
@@ -26,7 +28,7 @@ palStr:
  */
 
 reverse:
-	save	%sp, (92 + 4) & -8, %sp
+	save	%sp, -(92 + 4) & -8, %sp
 
 	/* Find length of str and ptr to last char */
 	mov	%i0, %o0	! ptr to string as first arg to findEnd
@@ -68,7 +70,7 @@ endSwapLoop:
 	bne	not_palindrome	! if strLength == 0, then all chars were matched
 	nop
 
-	mov	palStr, %o0
+	set	palStr, %o0
 	call	printf
 	nop
 
