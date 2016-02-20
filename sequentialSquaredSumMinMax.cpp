@@ -72,7 +72,6 @@ sequentialSquaredSumMinMax( char a[], int lo, int hi ) {
      * If value is less than result.min then set new min
      * If value is greater than result.max then set new max
      */
-
     if ( value < result.min ) {
       result.min = value;
     }
