@@ -3,7 +3,7 @@
  * Author: Moiz Qureshi
  * Userid: cs30xix
  * Date: 02/19/16
- * Sources of help: gdb --help, git --help
+ * Sources of help: gdb --help, git --help, CSE30 Useful Links (R_SPARC_13 err)
  */
 
 
@@ -109,9 +109,26 @@ Runtime & Functionality Errors (6):
 
 	ldub 	[%i0], %l0
 
-5)
+5) After fixing the fourth error, making again, and running the program with a 
+   test string, I was receiving a Seg-fault. Upon closer inspection with GDB,
+   I ran the program with gdb, and gdb reported that the Seg-fault was occuring
+   somewehere in swapChars().
 
+   Using VDB, I found a missing nop instruction after line 44 of swapChar.s,
+   where we are branching always to notSame.
 
+6) After fixing the fifth error, making again, and running the program with a
+   test string, I was receiving a Seg-fault. Upon close inspection with GDB
+   I noticed that the when I was stepping through the program, I was stuck in
+   an endless loop. The function with a for-loop is in reverse(). After
+   scanning through the code I noticed that on line 59 of reverse.s, that 
+   endptr was not being decremented properly. Instead of subtracting, the
+   instruction was using add. Line 59 of reverse.s now reads:
+
+	sub	%l2, 1, %l2
+   	
+After fixing these errors, the program runs successfully, and returns the
+correct output if a test string is a palindrome or not. 
 
 
 
