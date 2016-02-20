@@ -67,7 +67,7 @@ endSwapLoop:
 	mov	%g0, %i0	! tentatively set 0 as return value
 
 	cmp	%l0, %g0
-	bne	not_palindrome	! if strLength == 0, then all chars were matched
+	bne	not_palindrome	! if strLength == 0,then all chars were matched
 	nop
 
 	set	palStr, %o0
