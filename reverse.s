@@ -56,7 +56,7 @@ swapLoop:
 	sub	%l0, %l3, %l0	! subtract number of same chars from strLength
 
 	add	%l1, 1, %l1	! increment startPtr
-	add	%l2, 1, %l2	! decrement endPtr
+	sub	%l2, 1, %l2	! decrement endPtr
 
 	cmp	%l1, %l2	! while startPtr <= endPtr, swap chars
 	ble	swapLoop
