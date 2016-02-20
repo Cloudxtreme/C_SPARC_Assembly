@@ -23,7 +23,6 @@ progrm prints out the running time of the sequential, non-threaded version and
 the running time of the multi-threaded version, aslo the factor of how much
 faster the multi-threaded applicaiton was. 
 
-
 How to compile
 --------------
 
@@ -108,47 +107,37 @@ operations, whereas array sizes of a small magnitude, we would not notice a
 Questions:
 ----------
 
-1)
- 
+1) When I ran the program with an input array size of 500,000,000, the program
+   outputted a 5.300547 speed-up, when using 8 threads. The sequential runtime 
+   was 1.774199 seconds and the async-get parallel runtime was 0.334720 
+   seconds.
+
+   When I ran the prgram with an input array size of 500, the program outputted
+   a 0.000879 speed-up, when using 8 threads. The sequential runtime was 
+   0.00000 seconds and the async-get parallel runtime was 0.003413 seconds.
+
+   The sequential computing runtime was much for the small array size because 
+   there is an overhead time expenditure when setting up multiple threads, and
+   therefore 8 simultaneous stack frames (since the programs is calling the
+   sequentialSquaredSumMinMax() function 8 times simultaneously). The 
+   sequential computing runtime does not have this overhead time expenditure 
+   and only sets up 1 stack frame, since the program calls the 
+   sequentialSquaredSumMinMax function once. Therefore parallel processing is 
+   better for very large arrays, and sequential processing is better for small
+   arrays. 
 
 
+2) I noticed that the speedup was around ~1.00 (+/- 0.2) when the input array
+   size was within the range of 1,900,000. 
 
+   For five cosectuive runs of the program, with an input size array of
+   1,900,000 I got the following speed-up's:
 
+   	1) 0.911720
+	2) 1.158520
+	3) 1.013164
+	4) 1.042169
+	5) 0.847657
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2)
+   Taking the average of these speed-up values (of size 5 sample), I got a
+   speed-up of 0.994646. Pretty darn close to a speed-up of 1.0!!!
