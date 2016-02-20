@@ -37,7 +37,7 @@ checkChar:
 	add	%i0, 1, %i0	! increment strPtr to look at next char
 	add	%l1, 1, %l1	! increment strLength
 
-	ld	[%i0], %l0	! *strPtr
+	ldub	[%i0], %l0	! *strPtr
 
 	cmp	%l0, %g0	! if *strPtr == '\0', end loop
 	bne	checkChar
