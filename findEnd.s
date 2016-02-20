@@ -21,12 +21,12 @@
  */
 
 findEnd:
-
+	save	%sp, -96, %sp
 	mov	%g0, %l1	! strLength = 0
 
 	mov	%i0, %l4	! endChar = strPtr
 
-	ld	[%i0], %l0	! *strPtr
+	ldub	[%i0], %l0	! *strPtr
 
 	cmp	%l0, %g0	! if *strPtr == '\0', this is empty string
 	be	emptyStr	! skip loop to find last char
