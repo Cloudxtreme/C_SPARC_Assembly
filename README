@@ -109,15 +109,8 @@ Runtime & Functionality Errors (6):
 
 	ldub 	[%i0], %l0
 
-5) After fixing the fourth error, making again, and running the program with a 
-   test string, I was receiving a Seg-fault. Upon closer inspection with GDB,
-   I ran the program with gdb, and gdb reported that the Seg-fault was occuring
-   somewehere in swapChars().
 
-   Using VDB, I found a missing nop instruction after line 44 of swapChar.s,
-   where we are branching always to notSame.
-
-6) After fixing the fifth error, making again, and running the program with a
+5) After fixing the fifth error, making again, and running the program with a
    test string, I was receiving a Seg-fault. Upon close inspection with GDB
    I noticed that the when I was stepping through the program, I was stuck in
    an endless loop. The function with a for-loop is in reverse(). After
@@ -126,9 +119,25 @@ Runtime & Functionality Errors (6):
    instruction was using add. Line 59 of reverse.s now reads:
 
 	sub	%l2, 1, %l2
+
+6) After fixing the fifth error, making again, and running the program with a
+   test string, the program worked. However, when I ran the program with
+   multiple string input arguments, such as "abba was a band with some serious
+   wow factor", the program was repeatedly checking if abba was a palindrome 
+   the same number of times as there are arguments. After inspecting with GDB,
+   I found the error in main.c on line 42, where we are reading the argument
+   string from argv[]. After fixing this error, line 42 looks as follows:
+
+   	char* str = argv[i]  // Was incorrectly argv[1], hence abba was checked
+			     // several times.
+
+6a) Although this had no adverse affect on the program, I found that missing 
+    nop instruction after line 44 of swapChar.s, where we are branching always
+    to notSame.
    	
 After fixing these errors, the program runs successfully, and returns the
-correct output if a test string is a palindrome or not. 
+correct output if a test string is a palindrome or not, and works great with a 
+single string input or multiple string input.
 
 
 
