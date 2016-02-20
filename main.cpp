@@ -1,9 +1,9 @@
 /*
  * Filename: main.cpp
- * Author:
- * Userid:
- * Description:
- * Date:
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Description: Driver for PAMT1
+ * Date: 2/19/16
  */
 
 #include <thread>
