@@ -78,9 +78,9 @@ int main( int argc, char *argv[] )
 
   gettimeofday( &t0, NULL ); // start time
 
-  /* TODO Calculate size of each parallel partition */
+  /* Calculate size of each parallel partition */
+  int partitionSize = (size/numOfThreads);  
 
-  /* End Calculate size of parallel partitions */
 
   /*
    * Launch a thread to work on its part of the array. Each thread will
@@ -91,8 +91,10 @@ int main( int argc, char *argv[] )
   for ( i = 0; i < numOfThreads - 1; ++i )
   {
     results[i] = std::async( std::launch::async, sequentialSquaredSumMinMax,
-                             /*TODO Fill in the rest of this function call*/ );
+                             array, (partitionSize*i),
+                             (partitionSize*i)+partitionSize );
   }
+
 
   /*
    * Run the last partition in this current main thread.
@@ -100,7 +102,8 @@ int main( int argc, char *argv[] )
    * Initialize the overall reduced result to this last partition's result.
    */
 
-  result = sequentialSquaredSumMinMax( /*TODO Fill in this function call*/);
+  result = sequentialSquaredSumMinMax( array, ((numOfThreads-1)*partitionSize),
+                                       size );
 
   /*
    * Now cycle through the results array which holds the results from the
@@ -116,9 +119,19 @@ int main( int argc, char *argv[] )
     /* Wait for the async'ed thread (future) result and then get it. */
     struct result tmpResult = results[i].get();
 
-    /*TODO Using the results from each of the threads, calculate the sum of the
-     *     entire array, as well the the min and the max. You should not have
-     *     to make any changes outside of this loop to do this */
+    /* Using the results from each of the threads, calculate the sum of the
+     * entire array, as well the the min and the max. You should not have
+     * to make any changes outside of this loop to do this */
+
+    result.sum += tmpResult.sum;
+
+    if (tmpResult.min < result.min) {
+      result.min = tmpResult.min;
+    }
+
+    if (tmpResult.max > result.max) {
+      result.max = tmpResult.max;
+    }
 
   } 
 
