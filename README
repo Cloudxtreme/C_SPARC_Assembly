@@ -47,45 +47,63 @@ example terminal command:	./squaredSumMinMax 8675309
 Normal Output
 -------------
 
+Normal output is printed to stdout (therefore the tereminal). An example of a
+successfull output is:
 
+[cs30xix@ieng6-202]:pamt1$ ./squaredSumMinMax 500000000
+Initializing array (size = 500000000) with random values
 
+............. Done
 
+Sequential squared sum, min, max (be patient)
+Squared Sum is: 2722614736804
+Min value is: -128
+Max value is: 127
+Completed in 1.809914 sec
 
+Async-get parallel squared sum, min, max
+Number of threads = 8
+Squared Sum is: 2722614736804
+Min value is: -128
+Max value is: 127
+Completed in 0.335405 sec
 
-
-
+Speed-up: 5.396205
 
 Abnormal Output
 ---------------
 
+Abnormal output is printed to stderr. Unfortunately, there is no input argument
+validation for correct data type (since main was not fully coded by me, only
+the TODO areas). However, if no argument is passed in to the prgram then the
+usage error is printed to stderr, which can be seen below:
+
+cs30xix@ieng6-202]:pamt1$ ./squaredSumMinMax
+
+Usage: ./squaredSumMinMax array_size
+   array_size  (must be positive integer)
 
 
+If a negative integer is passed in as an argument, then the program crashes due
+to a segmentation fault, as seen below: (argument was -500000)
 
+[cs30xix@ieng6-202]:pamt1$ ./squaredSumMinMax -500000
+Initializing array (size = -500000) with random values
 
+ Done
 
-
-
-
-
-
-
-
-
-
+Sequential squared sum, min, max (be patient)
+Segmentation fault
 
 Testing
 -------
 
-
-
-
-
-
-
-
-
-
-
+The program was tested by running the program with various random non-negative
+array_size inputs. Upon successful running og the program, we expect to see
+Normal Output behavior, meaning that the sequential and mult-threaded function
+run times were printed out to the terminal. For array sizes that were of a 
+large magnitude, we expect to see a discernable speed-up on the multi-threaded 
+operations, whereas array sizes of a small magnitude, we would not notice a
 
 Questions:
 ----------
