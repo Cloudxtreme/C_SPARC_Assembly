@@ -39,7 +39,7 @@ int main( int argc, char* argv[] ) {
   for (i = 1; i < argc; ++i) {
 
     /* Get string and print it out */
-    char* str = argv[1];
+    char* str = argv[i];
     (void) printf("Before: %s\n", str);
 
     /* Reverse string and increment count if it's a palindrome */
