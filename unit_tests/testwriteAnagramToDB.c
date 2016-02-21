@@ -63,18 +63,9 @@ static void testwriteAnagramToDB( ) {
 
   word = "Hello"; hashKey = 123;
   runTest(word, hashKey, ofp);
-  
-  word = ""; hashKey = 123;
-  runTest(word, hashKey, ofp);
-
-  word = "Hello"; hashKey = 270013707;
-  runTest(word, hashKey, ofp);
 
   /* Delete temp file */
   unlink(TEMP_FILE);
-  
-  //fclose(ofp);
-  
 
   /* TODO Come up with more test cases */
 }
