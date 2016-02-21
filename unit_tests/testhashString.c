@@ -1,12 +1,12 @@
 /*
  * Filename: testhashString.c
- * Author: Moiz Qureshi
+ * Author: Moiz Qureshi 
  * Userid: cs30xix
  * Description: tester for hashString
  */
 
 #include <stdio.h>
-#include <string.h>
+
 #include "pa3.h"
 #include "test.h"
 
@@ -16,6 +16,7 @@
 static void testhashString( ) {
   char *word;
   int hashKey;
+
   /* 
    * Note that these hash values are different than those that will be written
    * to the database for the given word. The hashKeys stored in the database
@@ -26,17 +27,6 @@ static void testhashString( ) {
 
   word = "tops"; hashKey = 10030661;
   TEST(hashString(word) == hashKey);
-  
-  word = "stop"; hashKey = 10005641;
-  TEST(hashString(word) == hashKey);
-  
-  word = "post"; hashKey = 9911591;
-  TEST(hashString(word) == hashKey);
-
-  word = "\0"; hashKey = 7;
-  TEST(hashString(word) == hashKey);
-
-  printf("%d\n", hashString(word));
 
   /* TODO Come up with more test cases */
 }
