@@ -29,7 +29,7 @@ static int readFromDB(FILE *db, int isOpen, int printDB, char *buf, int *key);
 /*
  * TODO Function headers are always needed!
  */
-static void runTest(const char *srcDict, const char *destDB, const char *refDB, 
+static void runTest(const char *srcDict, const char *destDB, const char *refDB,
     const struct errorInfo *eiTest) {
   struct argInfo ai = {0};
   struct errorInfo ei;
