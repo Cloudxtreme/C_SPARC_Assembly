@@ -8,16 +8,27 @@ C_SRCS		= setupDB.c createAnagram.c lowerCaseSortString.c pa3.c parseArgs.c \
 						printErrors.c parseDB.c readAnagramFromDB.c userInterface.c \
 						pa3Globals.c
 
+C_SRCS_EC	= setupDB_ec.c createAnagram_ec.c lowerCaseSortString.c pa3.c \
+						parseArgs.c setErrorInfo.c writeAnagramToDB.c usage.c	\
+						findAnagrams.c printErrors.c parseDB.c readAnagramFromDB.c \
+						userInterface_ec.c pa3Globals.c
+
 ASM_SRCS	= charCompare.s hashString.s hashKeyMemberCompare.s\
 						anagramCompare.s
 
 C_OBJS		= $(C_SRCS:.c=.o)
 
+C_OBJS_EC	= $(C_SRCS_EC:.c=.o)
+
 ASM_OBJS	= $(ASM_SRCS:.s=.o)
 
 OBJS			= $(C_OBJS) $(ASM_OBJS)
 
+OBJS_EC 	= $(C_OBJS_EC) $(ASM_OBJS)
+
 EXE				= anagrams
+
+EXE_EC		= anagrams_ec
 
 TEST_SRCS = testcharCompare.c testhashString.c testlowerCaseSortString.c\
 						testcreateAnagram.c testsetupDB.c testwriteAnagramToDB.c
@@ -73,11 +84,20 @@ $(EXE):	$(OBJS)
 	@echo ""
 	@echo "Done."
 
+$(EXE_EC): $(OBJS_EC)
+	@echo "2nd phase lint on all C source files ..."
+	$(LINT) $(LINT_FLAGS2) *.ln
+	@echo ""
+	@echo "Linking all object modules ..."
+	$(GCC) -o $(EXE_EC) $(LD_FLAGS) $(OBJS_EC)
+	@echo ""
+	@echo "Done."
+
 ${C_OBJS}:      ${HEADERS}
 
 clean:
 	@echo "Cleaning up project directory ..."
-	/usr/bin/rm -f *.o $(EXE) $(TEST_EXE) anagram_database.db *.ln core
+	/usr/bin/rm -f *.o $(EXE) $(EXE_EC) $(TEST_EXE) anagram_database.db *.ln core
 	@echo ""
 	@echo "Clean."
 
