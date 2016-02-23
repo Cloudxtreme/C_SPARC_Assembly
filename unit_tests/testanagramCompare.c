@@ -14,7 +14,7 @@
 /*
  * TODO Function headers are always needed!
  */
-static void testhanagramCompare() {
+static void testanagramCompare() {
   
     struct anagram a;
     struct anagram b;
@@ -25,15 +25,23 @@ static void testhanagramCompare() {
     
     createAnagram("happy", &a);
     createAnagram("hello", &b);
-    TEST(hashKeyMemberCompare(&a, &b) == -1);
+    TEST(anagramCompare(&a, &b) == -1);
+
+    createAnagram("Today", &c);
+    createAnagram("today", &d);
+    TEST(anagramCompare(&c, &d) == -1);
 
     createAnagram("today", &c);
     createAnagram("Today", &d);
-    TEST(hashKeyMemberCompare(&c, &d) == -1);
+    TEST(anagramCompare(&c, &d) == 1);
 
+    createAnagram("today", &c);
+    createAnagram("today", &d);
+    TEST(anagramCompare(&c, &d) == 0);
+ 
     createAnagram("Zebra", &e);
     createAnagram("Apple", &d);
-    TEST(hashKeyMemberCompare(&e, &f) == 1);
+    TEST(anagramCompare(&e, &f) == 1);
 }
 
 /*
