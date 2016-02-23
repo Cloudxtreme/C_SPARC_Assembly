@@ -87,7 +87,7 @@ setupDB( const struct argInfo *argInfo, struct errorInfo *errorInfo ) {
    * Then set errno = 0 again, so we can call writeAnagramToDB, using
    * the anagram we just created before, so we can write it to the 
    * database. If there is an error, use setErrorInfo() to set errors
-   * accordingly. 
+   * accordingly, close file, and return;
    */
   if( dictionary != NULL ) {
     while( fgets(buf, BUFSIZ, dictionary) ) {
@@ -98,20 +98,26 @@ setupDB( const struct argInfo *argInfo, struct errorInfo *errorInfo ) {
       createAnagram( buf, &a );
       if( errno != 0 ) {
         setErrorInfo( errorInfo, ERR_CREATE_ANAGRAM, NULL );
+        fclose( dictionary );
+        fclose( database );
+        return;
       }
 
       errno = 0;
       writeAnagramToDB( &a, database );
       if( errno != 0 ) {
         setErrorInfo( errorInfo, ERR_DB_WRITE_M, a.word );
+        fclose( dictionary );
+        fclose( database );
+        return;
       }
     }
-
-
   }
   
   // Close the database and dictionary files
   fclose( database );
   fclose( dictionary );
-
+    
+  // Print db built messaage
+  printf( STR_DB_BUILT, argInfo->anagramDB );
 }
