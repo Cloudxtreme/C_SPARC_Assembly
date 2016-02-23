@@ -52,7 +52,10 @@ hashKeyMemberCompare:
 				! -96, then comment on how that value was 
 				! calculated.
 
+	/* Clear the local register */
 	clr 	%l0
+	clr	%l1
+	clr	%l2
 
 	/* Grab the value of hashKey member offset from
 	 * pa3Globals.c, store in %l0.
