@@ -31,7 +31,7 @@ EXE				= anagrams
 EXE_EC		= anagrams_ec
 
 TEST_SRCS = testcharCompare.c testhashString.c testlowerCaseSortString.c\
-						testcreateAnagram.c testsetupDB.c testwriteAnagramToDB.c
+						testcreateAnagram.c testsetupDB.c testwriteAnagramToDB.c testhashKeyMemberCompare.c
 
 TEST_EXE	= $(TEST_SRCS:.c=)  
 
