@@ -60,6 +60,41 @@ hashKeyMemberCompare:
 	set	AnagramStructHashKeyOffset, %l0
 	ld	[%l0], %l0
 
-	
+	add	%l0, %i0, %l1 	! Add offset to first anagram pointer, to get
+	ld	[%l1], %l1	! address of hashKey member, then load its 
+				! value into register %l1
+
+	add	%l0, %i1, %l2	! Add offset to seconds anagram pointer, to get
+	ld 	[%l2], %l2	! address of hashKey member, then load its 
+				! value into register %l2
+
+	cmp	%l1, %l2	! If first hashKey is less than second, then
+	bl	lessThan	! branch to lessThan
+	nop
+
+	cmp	%l1, %l2	! If both hashKeys are equal then branch to
+	be	equal		! equal
+	nop
+
+	mov	1, %i0		! Since first hashKey is not less than second,
+	ba	endif		! and not equal to second, then move 1 to 
+	nop			! to %i0, so we can return 1 from this 
+				! function. Then branch to endif always.
+
+lessThan:
+	mov	-1, %i0		! Since first hashKey is less than second, 
+	ba	endif		! move -1 to %i0, so we can return -1 from
+	nop			! this function. Then branch to endif always.
+
+equal:
+	mov	0, %i0		! Since both hash keys are equal, move 0 to %i0
+				! so we can return 0 from this functiom. Then	
+				! continue to endif below
+
+endif:
+	ret			! Return from subroutine
+	restore			! Restore caller's window; in ret's delay slot
+
+
 
 
