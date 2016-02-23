@@ -12,9 +12,9 @@
 #define STR_DEF_ANAGRAM_DB "anagram_database.db"
 #define STR_DB_BUILT "Anagram database file \"%s\" built.\n"
 #define STR_USER_PROMPT "\nEnter a word to search for anagrams [^D to exit]: "
-#define STR_NO_ANAGRAMS "No anagrams found.\n"
+#define STR_NO_ANAGRAMS "No anagrams found."
 #define STR_FOUND_ANAGRAMS "Anagram(s) are:"
-#define STR_ANAGRAM " %s"
+#define STR_ANAGRAM "%s "
 
 #define STR_USAGE_SHORT "Try '%s -h' for more information.\n"
 #define STR_USAGE_LONG "usage: %s [-d dict_name [-o db_dest]] | [-s db_src] "\
