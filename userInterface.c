@@ -14,11 +14,13 @@
  */
 #include <stdio.h>      // Needed for fegets()
 #include <stdlib.h>     // Needed for bsearch()
+#include <string.h>
 
 #include "pa3.h"
+#include "pa3Strings.h"
 
-#define NEWLINE = '\n'
-#define NULLCHAR = '\0'
+#define NEWLINE  '\n'
+#define NULLCHAR  '\0'
 
 /*
  * Function name: userInterface()
@@ -54,12 +56,12 @@
  */ 
 
 int  
-userInterface( const struct anagramInfo *anagranInfo ) {
+userInterface( const struct anagramInfo *anagramInfo ) {
   
   /* Local Variable */
-  struct anagram userAngram;
+  struct anagram userAnagram;
   struct anagram *bsearchPtr;
-
+  struct anagram *matchPtr = NULL;
 
   int error = 0;
 
@@ -67,39 +69,43 @@ userInterface( const struct anagramInfo *anagranInfo ) {
   char *charPtr = NULL;
 
   
+  printf("%s", STR_USER_PROMPT);
 
   while( fgets(userWord, BUFSIZ, stdin) != NULL ) {
-  
+    
+
     charPtr = strchr( userWord, NEWLINE );
     *charPtr = NULLCHAR;
 
     error = createAnagram( userWord, &userAnagram );
-    if ( error != 0 ) {
-      return EXIT_FAILURE;
+    if( error != 0 ) {
+      return 1;
     }
 
-    bsearchPtr = (struct *anagram) bsearch( &userAnagram, 
+    bsearchPtr = (struct anagram *)bsearch( &userAnagram, 
                                             anagramInfo->anagramPtr,
-                                            anagramInfo->numofAnagrams,
+                                            anagramInfo->numOfAnagrams,
                                             sizeof(struct anagram),
                                             hashKeyMemberCompare );
 
-    
+    if( bsearchPtr != NULL ) {
+      matchPtr = bsearchPtr;
+      while( (matchPtr->hashKey) == (bsearchPtr->hashKey) ) {
+       matchPtr--;
+      } 
+    } else {
+      break;
+    }
 
-
-
+    matchPtr++;
+    while( (matchPtr->hashKey) == (bsearchPtr->hashKey) ) {
+      printf( "%s\n", matchPtr->word );
+      matchPtr++;
+    }
   }
 
-
-
-
-
-
-
-
-
-
-
+  return 0;
 }
-
+  
+ 
 
