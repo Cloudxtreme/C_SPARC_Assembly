@@ -52,14 +52,21 @@ int
 readAnagramFromDB( FILE *stream, struct anagram *anagram) {
   
   /* Local Variables */
-  char buf[BUFSIZ];
-  char *hashKeyPtr;
+  char buf[BUFSIZ];       // string to hold line read from db
+  char *hashKeyPtr;       // pointer to hold location of haskKey member
   
+  // Check to see if we can read a line from db, if not return 0 (EOF)
   if( fgets(buf, BUFSIZ, stream) != NULL ) {
+    // use calloc to allocate space for word string
     anagram->word = (char *) calloc( strlen(buf)+1, sizeof(char) );
+    // if calloc failed, return -1, otherwise, copy the string from line to 
+    // the word member of anagram struct passed in
     if( anagram->word != NULL) {
       strncpy( anagram->word, buf, strlen(buf)+1);
+      // set hashKey pointer position at the hashKey location from line read in
       hashKeyPtr = strchr( buf, NULLCHAR ) + 1;
+      // Copy 4 bytes starting from hashKeyPtr location, and store that into 
+      // hashKey member of anagram struct
       memcpy( &(anagram->hashKey), hashKeyPtr, sizeof(int) );
     } else {
       return -1;
@@ -67,5 +74,6 @@ readAnagramFromDB( FILE *stream, struct anagram *anagram) {
   } else {
     return 0;
   }
-   return 1;
+  // since anagram was read correctly return 1   
+  return 1;
 }
