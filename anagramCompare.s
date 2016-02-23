@@ -46,8 +46,8 @@
  * 	%l1 - holds value for word member offset
  * 	%l2 - holds value of first anagram hashKey
  * 	%l3 - holds value of second anagram hashKey
- * 	%l4 - holds value of first anagram word
- * 	%l5 - holds value of second anagram word
+ * 	%l4 - holds pointer to first anagram word
+ * 	%l5 - holds pointer to second anagram word
  */
 
 hashKeyMemberCompare:
@@ -61,7 +61,7 @@ hashKeyMemberCompare:
 	clr 	%l2
 	clr 	%l3
 	clr 	%l4
-	clr 	%l5
+	clr	%l5
 
 	/* Grab the value of hashKey and word member offset from
 	 * pa3Globals.c, store in %l0 and %l1 respectively.
@@ -71,21 +71,20 @@ hashKeyMemberCompare:
 	
 	set	AnagramStructWordOffset, %l1
 	ld	[%l1], %l1
-	
 
-	add	%l0, %i0, %l1 	! Add offset to first anagram pointer, to get
-	ld	[%l1], %l1	! address of hashKey member, then load its 
+	add	%l0, %i0, %l2 	! Add offset to first anagram pointer, to get
+	ld	[%l2], %l2	! address of hashKey member, then load its 
 				! value into register %l1
 
-	add	%l0, %i1, %l2	! Add offset to seconds anagram pointer, to get
-	ld 	[%l2], %l2	! address of hashKey member, then load its 
+	add	%l0, %i1, %l3	! Add offset to second anagram pointer, to get
+	ld 	[%l3], %l3	! address of hashKey member, then load its 
 				! value into register %l2
 
-	cmp	%l1, %l2	! If first hashKey is less than second, then
+	cmp	%l2, %l3	! If first hashKey is less than second, then
 	bl	lessThan	! branch to lessThan
 	nop
 
-	cmp	%l1, %l2	! If both hashKeys are equal then branch to
+	cmp	%l2, %l3	! If both hashKeys are equal then branch to
 	be	equal		! equal
 	nop
 
@@ -100,9 +99,21 @@ lessThan:
 	nop			! this function. Then branch to endif always.
 
 equal:
-	mov	0, %i0		! Since both hash keys are equal, move 0 to %i0
-				! so we can return 0 from this functiom. Then	
-				! continue to endif below
+	add	%l1, %i0, %l4 	! Add word offset to 1st anagram pointer, to 
+	ld	[%l4], %o0	! get address of word member, then load its 
+				! value into %o0
+
+	add	%l1, %i1, %l5	! Add word offset to 2nd anagram pointer, to 
+	ld	[%l5], %o1	! get address of word member, then load its
+				! value into %o1
+
+	call 	strcmp		! Call strcmp on first and second word
+	nop
+
+	mov	%o0, %i0	! Store return value from strcmp() into 
+	ba 	endif		! %i0, so we can return that value from
+	nop			! this function. Then branch to endif
+				! always.
 
 endif:
 	ret			! Return from subroutine
