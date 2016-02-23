@@ -1,4 +1,4 @@
-/*
+ /*
  * Filename: testuserInterface.c
  * Author: Moiz Qureshi 
  * Userid: cs30xix
@@ -22,7 +22,7 @@ static void testuserInterface() {
   anagramInfo.numOfAnagrams = 5;
   
   arrayAnagram[0].word = "tops";
-  arrayAnagram[0].hashKey = 10030661;
+  arrayAnagram[0].hashKey = 9882761;
 
   arrayAnagram[1].word = "hello";
   arrayAnagram[1].hashKey = 296885189;
