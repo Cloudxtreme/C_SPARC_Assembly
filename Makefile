@@ -155,3 +155,8 @@ testsetupDB: setupDB.c $(TEST_DIR)/testsetupDB.c createAnagram.c\
 testwriteAnagramToDB: writeAnagramToDB.c $(TEST_DIR)/testwriteAnagramToDB.c
 	$(MAKE) -s compileTest DEPEND="$^" TEST_NAME=testwriteAnagramToDB 
 
+# --- testwriteAnagramToDB ---
+testhashKeyMemberCompare: hashKeyMemberCompare.s $(TEST_DIR)/testhashKeyMemberCompare.c createAnagram.c hashString.s charCompare.s pa3Globals.c lowerCaseSortString.c
+	$(MAKE) -s compileTest DEPEND="$^" TEST_NAME=testhashKeyMemberCompare
+
+
