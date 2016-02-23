@@ -50,7 +50,7 @@
  * 	%l5 - holds pointer to second anagram word
  */
 
-hashKeyMemberCompare:
+anagramCompare:
 	save	%sp, -96, %sp	! Save the caller's window; if different than
 				! -96, then comment on how that value was 
 				! calculated.
@@ -88,6 +88,7 @@ hashKeyMemberCompare:
 	be	equal		! equal
 	nop
 
+greaterThan:
 	mov	1, %i0		! Since first hashKey is not less than second,
 	ba	endif		! and not equal to second, then move 1 to 
 	nop			! to %i0, so we can return 1 from this 
@@ -110,10 +111,18 @@ equal:
 	call 	strcmp		! Call strcmp on first and second word
 	nop
 
-	mov	%o0, %i0	! Store return value from strcmp() into 
-	ba 	endif		! %i0, so we can return that value from
-	nop			! this function. Then branch to endif
-				! always.
+	cmp	%o0, %g0	! Compare return from strcmp(), if less
+	bl	lessThan	! than 0, then branch to lessThan
+	nop	
+
+	cmp	%o0, %g0	! Compare return from strcmp(), if greater
+	bg	greaterThan	! than 0, then brach to greaterThan
+	nop
+
+	mov	0, %i0		! Store return value from strcmp() into 
+				! %i0, so we can return that value from
+				! this function. Then continue to endif
+				! below.
 
 endif:
 	ret			! Return from subroutine
