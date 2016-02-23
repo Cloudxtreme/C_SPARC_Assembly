@@ -16,8 +16,8 @@
 #include <stdlib.h>     // Needed for bsearch()
 #include <string.h>
 
-#include "pa3.h"
-#include "pa3Strings.h"
+#include "pa3.h"        // Needed for lots of program prototypes and defines
+#include "pa3Strings.h" // Needed for string constants
 
 #define NEWLINE  '\n'
 #define NULLCHAR  '\0'
@@ -59,51 +59,81 @@ int
 userInterface( const struct anagramInfo *anagramInfo ) {
   
   /* Local Variable */
-  struct anagram userAnagram;
+
+  // Local anagram struct to hold search word
+  struct anagram userAnagram;         
+
+  // anagream struct pointer used in bsearch()
   struct anagram *bsearchPtr;
+
+  // anagram struct used as postion holder in struct array
   struct anagram *matchPtr = NULL;
 
+  // Holds any error values returned from createAnagram()
   int error = 0;
 
+  // Holds word that user will enter
   char userWord [BUFSIZ];
+
+  // char pointer needed to remove newline character from string
   char *charPtr = NULL;
 
-  
-  printf("%s", STR_USER_PROMPT);
+  // First print user prompt message
+  printf(STR_ANAGRAM, STR_USER_PROMPT);
 
+  // Continue getting new words until EOF character is typed
   while( fgets(userWord, BUFSIZ, stdin) != NULL ) {
     
-
+    // Replace newline character in read in word with null character
     charPtr = strchr( userWord, NEWLINE );
     *charPtr = NULLCHAR;
 
+    // Create anagram of word read in from user, keep track of any error.
+    // If there is an error return 1 immediately.
     error = createAnagram( userWord, &userAnagram );
     if( error != 0 ) {
       return 1;
     }
 
+    // Use bsearch to find matching occurrence of our anagrams strucut, that
+    // we created, in the array anagram struct
     bsearchPtr = (struct anagram *)bsearch( &userAnagram, 
                                             anagramInfo->anagramPtr,
                                             anagramInfo->numOfAnagrams,
                                             sizeof(struct anagram),
                                             hashKeyMemberCompare );
 
+    // If bsearch found somethimg then continue inside
     if( bsearchPtr != NULL ) {
+      /* Set matchPtr equal to bsearchPtr.
+       * Move to each previous anagram struct in the array as long as the 
+       * previous anagram has the same hashKey as the local anagram.
+       */
       matchPtr = bsearchPtr;
       while( (matchPtr->hashKey) == (bsearchPtr->hashKey) ) {
        matchPtr--;
       } 
-    } else {
-      break;
-    }
-
-    matchPtr++;
-    while( (matchPtr->hashKey) == (bsearchPtr->hashKey) ) {
-      printf( "%s\n", matchPtr->word );
+      // Move forward one anagram in array so we are at a matching anagram
       matchPtr++;
+      // Print found anagrams message string
+      printf(STR_ANAGRAM, STR_FOUND_ANAGRAMS);
+      // For each consectuive anagram with matching hashKeys, print their word
+      while( (matchPtr->hashKey) == (bsearchPtr->hashKey) ) {
+        printf(STR_ANAGRAM, matchPtr->word);
+        matchPtr++;
+      }
+      // Print a newline character
+      putchar(NEWLINE);
+    } else {
+      // Since no anagrams were found in bsearch(), print no anagram string
+      // message, then print a newline character
+      printf(STR_ANAGRAM, STR_NO_ANAGRAMS);
+      putchar(NEWLINE);
     }
+    // Print the user prompt user again, before we loop back
+    printf(STR_ANAGRAM, STR_USER_PROMPT);
   }
-
+  // Since we had success and user has hit ctrl+D, return 0 for success!
   return 0;
 }
   
