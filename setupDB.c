@@ -12,7 +12,7 @@
  * Header files included here.
  * Standard C library header first, then local headers.
  */
-#include <stdio.h>
+
 #include <stdlib.h>     // Needed for file functions
 #include <errno.h>      // Needed for errno
 #include <string.h>     // Needed for strchr()
