@@ -75,7 +75,7 @@ parseDB( FILE *stream, struct anagramInfo *anagramInfo ) {
     // If no error, then grow array, put temp anagram into array, grow the size
     if( readErr == 1 ) {
       anagramTmpPtr = (struct anagram *) realloc( anagramTmpPtr,
-                                                 sizeof(anagramTmpPtr)+1 );
+                                                 sizeof(struct anagram)*(size+1));
       // If alloc didnt fail continue, otherwise return 1 immediately.         
       if( anagramTmpPtr != NULL) {
         anagramArrPtr = anagramTmpPtr;
@@ -92,7 +92,7 @@ parseDB( FILE *stream, struct anagramInfo *anagramInfo ) {
   }
   
   // Sort the array of anagrsm
-  qsort( anagramArrPtr, size, sizeof(struct anagram), hashKeyMemberCompare );  
+  qsort( anagramArrPtr, size, sizeof(struct anagram), anagramCompare );  
 
   // populate anagramInfo
   anagramInfo->anagramPtr = anagramArrPtr;
