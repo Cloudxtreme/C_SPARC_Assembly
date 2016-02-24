@@ -1,0 +1,36 @@
+/*
+ * Filename: README (pa3)
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 2/23/16
+ * Sources of help: None for this one
+ */
+
+Description
+-----------
+
+
+How to compile
+--------------
+
+
+How to run
+----------	
+
+example terminal command: 	./BCDIntervalClock 23:59:48 17 2
+
+Normal Output
+-------------
+
+
+Abnormal Output
+---------------
+
+
+Testing
+-------
+
+
+Questions:
+----------
+
