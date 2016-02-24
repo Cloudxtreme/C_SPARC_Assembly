@@ -74,8 +74,8 @@ parseDB( FILE *stream, struct anagramInfo *anagramInfo ) {
     }
     // If no error, then grow array, put temp anagram into array, grow the size
     if( readErr == 1 ) {
-      anagramTmpPtr = (struct anagram *) realloc( anagramTmpPtr,
-                                                 sizeof(struct anagram)*(size+1));
+      anagramTmpPtr = (struct anagram*)realloc(anagramTmpPtr,
+                                              sizeof(struct anagram)*(size+1));
       // If alloc didnt fail continue, otherwise return 1 immediately.         
       if( anagramTmpPtr != NULL) {
         anagramArrPtr = anagramTmpPtr;
