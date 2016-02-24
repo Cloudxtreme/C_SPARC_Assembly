@@ -43,6 +43,7 @@
 
 void
 printErrors( const struct errorInfo *errorInfo, const char *progName ) {
+  int errorPresent = 0;
   switch(errorInfo->errorCode) { 
     
     /* For all errorCodes, except for ERR_NONE, print error to stderr, with
@@ -57,55 +58,59 @@ printErrors( const struct errorInfo *errorInfo, const char *progName ) {
     // Errno Error
     case ERR_ERRNO_M:
       perror(errorInfo->errorMsg);
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;
 
     // DB Write Error
     case ERR_DB_WRITE_M:
       fprintf(stderr, STR_ERR_DB_WRITE, errorInfo->errorMsg);
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;
   
     // Invalid Flag or Arg Error
     case ERR_INV_FLAG_OR_ARG:
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;
     
     // Mutual Exclusivity Flag Error
     case ERR_MUTUAL_EXCL:
       fprintf(stderr, STR_ERR_MUTUAL_EXCL);
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;
 
     // parseDB() Error
     case ERR_DB_PARSE:
       fprintf(stderr, STR_ERR_DB_PARSE);
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;
   
     // Databsse Destination Flag Error
     case ERR_DB_DEST_FLAG_DEPENDENCE:
       fprintf(stderr, STR_ERR_DB_DEST_FLAG_DEPENDENCE);
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;
 
       // Too many args Error
     case ERR_EXTRA_ARGS_M:
       fprintf(stderr, STR_ERR_EXTRA_ARGS, errorInfo->errorMsg);
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;
 
     // userInterface() Error
     case ERR_USER_INTERFACE:
       fprintf(stderr, STR_ERR_USER_INTERFACE);
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;
 
     // createAnagram() Error
     case ERR_CREATE_ANAGRAM:
       fprintf(stderr, STR_ERR_CREATE_ANAGRAM);
-      usage(stderr, USAGE_SHORT, progName);
+      errorPresent = 1;
       break;    
+  }
+  // If errorPresent was set then print the usage short message
+  if( errorPresent == 1 ) {
+      usage(stderr, USAGE_SHORT, progName);
   }
 }
 
