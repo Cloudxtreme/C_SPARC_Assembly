@@ -12,7 +12,7 @@
  * Standard C library header first, then local headers.
  */
 
-#include <stdlib.h>     // Needed for file functions
+#include <stdio.h>
 #include "pa3.h"        // Needed for function prototypes, and stuff
 #include "pa3Strings.h" // Needed for string messages
 
@@ -43,42 +43,69 @@
 
 void
 printErrors( const struct errorInfo *errorInfo, const char *progName ) {
-  switch(errorInfo->errorCode) {
-  
-    case ERR_NONE:
+  switch(errorInfo->errorCode) { 
     
+    /* For all errorCodes, except for ERR_NONE, print error to stderr, with
+     * appropriate error string. For _M errors also pass in errorMsg.
+     * For errno error use perror()
+     */
 
-    case ERR_ERRNO_M
+    // No Errors
+    case ERR_NONE:
+      return;
+    
+    // Errno Error
+    case ERR_ERRNO_M:
+      perror(errorInfo->errorMsg);
+      usage(stderr, USAGE_SHORT, progName);
+      break;
 
-
-
-    case ERR_DB_WRITE_M
-
-
-    case ERR_INV_FLAG_OR_ARG
-
-
-    case ERR_MUTUAL_EXCL
-
-
-    case ERR_DB_PARSE
-
-
-    case ERR_DB_DEST_FLAG_DEPENDENCE
-
-    case ERR_EXTRA_ARGS_M
-
-
-    case ERR_USER_INTERFACE
-
-
-    case ERR_CREATE_ANAGRAM
-
+    // DB Write Error
+    case ERR_DB_WRITE_M:
+      fprintf(stderr, STR_ERR_DB_WRITE, errorInfo->errorMsg);
+      usage(stderr, USAGE_SHORT, progName);
+      break;
   
+    // Invalid Flag or Arg Error
+    case ERR_INV_FLAG_OR_ARG:
+      usage(stderr, USAGE_SHORT, progName);
+      break;
+    
+    // Mutual Exclusivity Flag Error
+    case ERR_MUTUAL_EXCL:
+      fprintf(stderr, STR_ERR_MUTUAL_EXCL);
+      usage(stderr, USAGE_SHORT, progName);
+      break;
+
+    // parseDB() Error
+    case ERR_DB_PARSE:
+      fprintf(stderr, STR_ERR_DB_PARSE);
+      usage(stderr, USAGE_SHORT, progName);
+      break;
+  
+    // Databsse Destination Flag Error
+    case ERR_DB_DEST_FLAG_DEPENDENCE:
+      fprintf(stderr, STR_ERR_DB_DEST_FLAG_DEPENDENCE);
+      usage(stderr, USAGE_SHORT, progName);
+      break;
+
+      // Too many args Error
+    case ERR_EXTRA_ARGS_M:
+      fprintf(stderr, STR_ERR_EXTRA_ARGS, errorInfo->errorMsg);
+      usage(stderr, USAGE_SHORT, progName);
+      break;
+
+    // userInterface() Error
+    case ERR_USER_INTERFACE:
+      fprintf(stderr, STR_ERR_USER_INTERFACE);
+      usage(stderr, USAGE_SHORT, progName);
+      break;
+
+    // createAnagram() Error
+    case ERR_CREATE_ANAGRAM:
+      fprintf(stderr, STR_ERR_CREATE_ANAGRAM);
+      usage(stderr, USAGE_SHORT, progName);
+      break;    
   }
-  
-
-
-
 }
 
