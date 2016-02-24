@@ -59,39 +59,44 @@ int
 parseDB( FILE *stream, struct anagramInfo *anagramInfo ) {
    
   /* Local Variables */
-
-  struct anagram *anagramArrPtr = NULL;
-  struct anagram *anagramTmpPtr = NULL;
-  struct anagram tmpAnagram;
+  struct anagram *anagramArrPtr = NULL;  // anagram struct array
+  struct anagram *anagramTmpPtr = NULL;  // temp anagram struct array
+  struct anagram tmpAnagram;             // temp anagram to hold 
   
-  int size = 0;
-  int readErr = 0;
+  int size = 0;       // Holds the size of the array and count
+  int readErr = 0;    // integer for checking anagram DB read errors
 
+  // Read an Anagram from the DB
   while( (readErr = readAnagramFromDB(stream, &tmpAnagram)) )  {
+    // If error reading anagram from DB, return 1 immediately
     if( readErr == -1) {
       return 1;
     }
+    // If no error, then grow array, put temp anagram into array, grow the size
     if( readErr == 1 ) {
       anagramTmpPtr = (struct anagram *) realloc( anagramTmpPtr,
-                                                 sizeof(struct anagram) );
+                                                 sizeof(anagramTmpPtr)+1 );
+      // If alloc didnt fail continue, otherwise return 1 immediately.         
       if( anagramTmpPtr != NULL) {
         anagramArrPtr = anagramTmpPtr;
-        *anagramArrPtr = tmpAnagram;
-
-      } else {
+        anagramArrPtr[size] = tmpAnagram;
+        size++;
+      } else {        
         return 1; 
       }
     }
+    // if readAnagramFromDB got Null, then break
     if( readErr == 0 ) {
       break;
     }
   }
   
-  size = (sizeof(anagramArrPtr)/sizeof(struct anagram));
-  qsort( anagramArrPtr, size, sizeof(struct anagram), anagramCompare );  
+  // Sort the array of anagrsm
+  qsort( anagramArrPtr, size, sizeof(struct anagram), hashKeyMemberCompare );  
 
+  // populate anagramInfo
   anagramInfo->anagramPtr = anagramArrPtr;
-  anagramInfo->numOfAnagrams = size;=
+  anagramInfo->numOfAnagrams = size;
 
   return 0;
 }
