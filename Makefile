@@ -31,7 +31,7 @@ EXE				= anagrams
 EXE_EC		= anagrams_ec
 
 TEST_SRCS = testcharCompare.c testhashString.c testlowerCaseSortString.c\
-						testcreateAnagram.c testsetupDB.c testwriteAnagramToDB.c testhashKeyMemberCompare.c testanagramCompare.c testuserInterface.c testreadAnagramFromDB.c
+						testcreateAnagram.c testsetupDB.c testwriteAnagramToDB.c testhashKeyMemberCompare.c testanagramCompare.c testuserInterface.c testreadAnagramFromDB.c testparseDB.c
 
 TEST_EXE	= $(TEST_SRCS:.c=)  
 
@@ -170,4 +170,8 @@ testuserInterface: userInterface.c $(TEST_DIR)/testuserInterface.c createAnagram
 # --- testreadAnagramFromDB ---
 testreadAnagramFromDB: readAnagramFromDB.c $(TEST_DIR)/testreadAnagramFromDB.c
 	$(MAKE) -s compileTest DEPEND="$^" TEST_NAME=testreadAnagramFromDB
+
+# --- testparseDB ---
+testparseDB: parseDB.c $(TEST_DIR)/testparseDB.c anagramCompare.s readAnagramFromDB.c pa3Globals.c hashKeyMemberCompare.s
+	$(MAKE) -s compileTest DEPEND="$^" TEST_NAME=testparseDB
 
