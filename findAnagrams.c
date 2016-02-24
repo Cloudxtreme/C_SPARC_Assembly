@@ -63,8 +63,7 @@ findAnagrams( const struct argInfo * argInfo, struct errorInfo *errorInfo ) {
   errno = 0;
   FILE *db = fopen(argInfo->anagramDB, READ);
   if( errno != 0 ) {
-    errorInfo->errorCode = ERR_ERRNO_M;
-    errorInfo.errorMsg = argInfo.anagramDB;
+    setErrorInfo(errorInfo, ERR_ERRNO_M, argInfo->anagramDB);
     return;
   } else {
     // Call parseDB, store return value for errors
@@ -72,8 +71,7 @@ findAnagrams( const struct argInfo * argInfo, struct errorInfo *errorInfo ) {
     // If return from parseDB was not 0, then set error flags in errorInfo
     // struct appropriately and return, otherwise continue.
     if( errParseDB != 0) {
-      errorInfo->errorCode = ERR_DB_PARSE;
-      errorInfo->errorMsg = NULL;
+      setErrorInfo(errorInfo, ERR_DB_PARSE, NULL);
       return;
     }
     // Call userInterface, and store return value in errUserInt
@@ -81,8 +79,7 @@ findAnagrams( const struct argInfo * argInfo, struct errorInfo *errorInfo ) {
     // If return value from userInterface was not 0, then set error flags 
     // appropriately and return, otherwise continue. 
     if( errUserInt != 0 ) {
-      errorInfo->errorCode = ERR_USER_INTERFACE;
-      errorInfo->errorMsg = NULL;
+      setErrorInfo(errorInfo, ERR_USER_INTERFACE, NULL);
       return;
     }
     // free the memory from calloc of words and realloc of array of anagrams
