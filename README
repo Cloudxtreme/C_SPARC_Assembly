@@ -9,28 +9,125 @@
 Description
 -----------
 
+This is an interactive program that allows the user to build anagram databases
+specified upon their dictionary file input, and allows users to search for
+anagrams within the anagram database that was previously built. The program
+will continuously ask the user to search for a new anagram in the database, 
+until the user enters ctrl-D (^D).
 
 How to compile
 --------------
 
+Navigate to the program directory (pa3), and through the use of the provided
+Makefile, type "make" to compile the program. For more instructions on 
+what the Makefile can do please view "Makefile" file (other targets).
+Use "make clean" to clean the directory of compiled files.
 
 How to run
 ----------	
 
-example terminal command: 	./BCDIntervalClock 23:59:48 17 2
+First compile the the program, resulting in the compilation of the
+"anagrams" executable. 
+
+The easiest way to see how this program works, since it there are a several
+command line arguments is to run the program with the "-h" flag to show
+usage instruction of the program (as seen below).
+
+example terminal command: 	
+
+	./anagrams -h
+	./anagrams -d /usr/dict/words
 
 Normal Output
 -------------
 
+Normal output is printed to stdout (therefore the terminal screen). An example
+of a successfull normal output is:
+
+
+[cs30xyz@ieng9]:pa3$ ./anagrams ­d /usr/dict/words
+Anagram database file "anagram_database.db" built.
+
+[cs30xix@ieng9]:pa3$ ./anagrams
+Enter a word to search for anagrams [^D to exit]: spot
+Anagram(s) are: post spot stop
+Enter a word to search for anagrams [^D to exit]: ^D
+
+[cs30xix@ieng9]:pa3$ ./anagrams
+Enter a word to search for anagrams [^D to exit]: minced
+No anagrams found.
+Enter a word to search for anagrams [^D to exit]: ^D
+
+[cs30xix@ieng9]:pa3$ ./anagrams ­h
+usage: ./anagrams [­d dict_name [­o db_dest]] | [­s db_src] | [­h]
+Interactive anagram search.
+Startup:
+­h print long usage.
+Build Database:
+­d <dict_name> source dictionary for database creation.
+­o <db_dest> custom database file name.
+Find Anagrams:
+­s <db_src> path to custom source database file.
 
 Abnormal Output
 ---------------
 
+Abnormal output is expected when the command line flags for the program 
+are invalid, meaning there are too few, too many, or mutually exclusive 
+flags, or when the flags do not have any arguments that go with them.
+
+Some example of abnormal output can be seen below:
+
+[cs30xix@ieng9]:pa3$ ./anagrams extra
+Extra operand 'extra'.
+Try './anagrams ­h' for more information.
+
+[cs30xix@ieng9]:pa3$ ./anagrams ­d /usr/dict/words extra1 extra2
+Extra operand 'extra1'.
+Try './anagrams ­h' for more information.
+
+[cs30xix@ieng9]:pa3$ ./anagrams ­d /usr/dict/words ­s custom
+Build flags (­d, ­o) and find anagrams flags (­s) are mutually exclusive.
+Try './anagrams ­h' for more information.
+
+[cs30xyz@ieng9]:pa3$ ./anagrams ­d fake_file
+fake_file: No such file or directory
+Try './anagrams ­h' for more information.
+
+[cs30xyz@ieng9]:pa3$ ./anagrams ­d no_perm
+no_perm: Permission denied
+Try './anagrams ­h' for more information.
+
+There are many more errors, some of the others are listed in PA3 Assignment
+PDF at the following URL:
+
+http://ieng9.ucsd.edu/~cs30x/pa3.pdf
 
 Testing
 -------
 
+The program was tested by writing many unit tests for the majority of the 
+functions. Furthermore, the program was tested by visually checking the
+difference between this program and the sample program. 
+
+NOTE: This program compiles and works with SOME errors. The parseArgs()
+function is hurting very much. However, on the bright side, the program
+can build an angram database from a supplied dictionary, and the program
+can successfully search for anagrams (with one minor error with an erroneous
+help string printed on occasion).
 
 Questions:
 ----------
 
+1) I maintain my integrity when pushed to my mental and physical limits by not
+   giving in to th easy method of cheating or copying. For me the journey and
+   knowledge attained on the way is the reward. Even though I am very
+   agitated and livid that my program is not working as it should 100%, I
+   never gave in to taking the easy way out and sacrificing my integrity.
+   This program has been the bane of my existence for the last week and a
+   half, however, I have learned immensely from this program and experience.
+
+   Even when the going gets really really tough, it is in everyone's best 
+   interest to maintain their integrity, even when they are facing inevitable
+   doom. Learn from the journey and the mistakes you made, and do better
+   next time by never repeating them. 
