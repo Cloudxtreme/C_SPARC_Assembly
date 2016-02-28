@@ -1,8 +1,9 @@
 /* Filename: numOfFactors.cpp
- * Author: TODO
- * Userid: TODO
- * Description: TODO
- * Date: TODO
+ * Author: Moiz Qurehsi 
+ * Userid: cs30xix
+ * Description: Calculates the number of factors of the number n passed in,
+ *              within the given range from lo to hi.
+ * Date: 2/27/16
  */
 
 /*
@@ -43,8 +44,22 @@
 long long numOfFactors( long long n, long long lo, long long hi ) {
 
   /* TODO: Complete the numOfFactors() function as specified above. */
+  long long factorCount = 0;
+  
+  if (n <= 1) {
+    return 0;
+  }
 
+  if (lo <= 1) {
+    lo = 2;
+  }
 
+  for (long long i = lo; i < hi; i++) {
+    if( (n % i)  == 0 ) {
+      factorCount +=1;
+    }
+  }
 
+  return factorCount;
 }
 
