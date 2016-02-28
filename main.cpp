@@ -1,9 +1,11 @@
 /*
  * Filename: main.cpp 
- * Author: TODO
- * Userid: TODO
- * Description: TODO
- * Date: TODO
+ * Author: Moiz Qureshi 
+ * Userid: cs30xix
+ * Description: Driver for pamt2, which calls numOfFactors() in order to 
+ *              determine if number is prime or not, if not, then how many
+ *              factors does it have
+ * Date: 2/27/16
  */
 
 #include <math.h>
@@ -107,7 +109,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Async-get parallel numOfFactors for " << num << std::endl;  
 
     /* TODO: Calculate size of each parallel partition (range of factors) */
-
+    int partitionSize = num/numOfThreads;
 
 
     /*
@@ -124,15 +126,12 @@ int main(int argc, char* argv[]) {
      * Map each of the partitions (range of factors) to a separate thread
      * with async() (except the last partition (range of factors)).
      */
+                       /* TODO: Fill in the rest of this function call*/
 
     int j;
     for ( j = 0; j < numOfThreads - 1; ++j ) {
-      results[j] = std::async( std::launch::async, numOfFactors,
-
-                       /* TODO: Fill in the rest of this function call*/
-
-
-                              );
+      results[j] = std::async( std::launch::async,  numOfFactors,
+                               num, j*partitionSize, (j+1)*partitionSize );
     }
 
     /*
@@ -144,8 +143,8 @@ int main(int argc, char* argv[]) {
      * Hi (exclusive) factor value needs to be (num + 1) so we use the number
      * itself as a factor.
      */
-
-    factors = numOfFactors( /* TODO: Fill in this function call*/ );
+    /* TODO: Fill in this function call*/
+    factors = numOfFactors( num, j*partitionSize, (num+1) );
 
     /*
      * We have to join/wait on all the other (n - 1) thread results with
@@ -160,8 +159,10 @@ int main(int argc, char* argv[]) {
      * TODO: Similar to pamt1, reduce on all the separate thread results
      * summing them into a single total number of factors.
      */
-
-
+    
+    for (j = 0; j < numOfThreads-1; ++j) {
+      factors = factors + results[j].get();     
+    }
 
 
     gettimeofday( &t1, NULL ); // finish - have to include reduction work
