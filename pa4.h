@@ -1,7 +1,7 @@
 /*
  * Filename: pa4.h
- * author: TODO
- * userid: TODO
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
  * Description: Header file for pa4 assignment
  */
 
