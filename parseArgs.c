@@ -53,6 +53,7 @@ void
 parseArgs( int argc, char *const argv[], struct argInfo *argInfo, 
            struct errorInfo *errorInfo ) {
   /* Local Variable */
+  // necessary struct for long options, used in getopt_long()
   static struct option long_options [] = {
     { STR_LONG_OPT_COUNT, 0, NULL, FLAG_COUNT },
     { STR_LONG_OPT_IGNORE_CASE, 0, NULL, FLAG_IGNORE_CASE },
@@ -65,20 +66,78 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
     { STR_LONG_OPT_UNIQUE, 0, NULL, FLAG_UNIQUE }
   }
 
-  int long_index = 0;
-  int option;
+  int opt_ind = 0;    // counts number of option flags
+  int opt;            // hold value of option flags, use in swtich-case
   
-
-
+  // Set default argInfo parameters
   argInfo->options = 0;
   argInfo->outputMode = Regular;
   argInfo->inFile = NULL;
   argInfo->outFile = NULL;
 
+  // Set default errorInfo parameters
   errorInfo->errorCode = ErrNone;
   errorInfo->errorMsg = NULL;
   
+  // while loop to parse arguments using getopt_long()
+  while( (opt = getopt_long(argc, argv, ARG_STRING_NON_EC, long_options,
+          &opt_ind) != -1) ) {
+    // use switch-case to see what flags were present in option
+    switch(opt) {
+      // option had -c flag
+      case FLAG_COUNT:
+        argInfo->options |= OPT_COUNT;
+        break;
+
+      // option had -i flag
+      case FLAG_IGNORE_CASE:
+        argInfo->options |= OPT_IGNORE_CASE;
+        break;
+
+      // option had -s flag
+      case FLAG_SORT_OUTPUT:
+        argInfo->options |= OPT_SORT_OUTPUT;
+        break;
+
+      // option had -S flag
+      case FLAG_SORT_INPUT:
+        argInfo->options |= OPT_SORT_INPUT;
+        break;
+
+      // option had -x flag
+      case FLAG_SUMMARY:
+        argInfo->options |= OPT_SUMMARY;
+        break;
+
+      // option had -h flag
+      case FLAG_HELP:
+        argInfo->options |= OPT_HELP
+        break;
+
+      // option had -d flag
+      case FLAG_DUP_ONLY:
+        argInfo->outputMode = DuplicateOnly;
+        break;
+
+      // option had -D flag
+      case FLAG_DUP_ALL:
+        argInfo->outputMode = DuplicateAll;
+        break;
+
+      // option had -u flag
+      case FLAG_UNIQUE:
+        argInfo->outputMode = Unique;
+        break;
+      
+      // required default case - don't do anything
+      default:
+      
+    }               
+  }
 
 
 
+
+  
+ 
 }
