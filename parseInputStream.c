@@ -87,6 +87,10 @@ parseInputStream( FILE *stream, const struct argInfo *argInfoPtr,
       linesPtr[lineCount] = line;
       lineCount++;
     } else {
+      int i;
+      for(i=0; i < lineCount; i++) {
+        free(linesPtr[i]);
+      }
       free(linesPtr);
       setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_PARSE_INPUT);
       return -1;
