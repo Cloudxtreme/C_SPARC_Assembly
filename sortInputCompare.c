@@ -50,7 +50,6 @@ sortInputCompare( const void *p1, const void *p2 ) {
    * them once
    */
   result = strcmp(*(char **)p1, *((char **)p2));
-  printf("%d\n", result);
 
   // If string 1 was greater than string 2, then result = 1
   if (result > 0) {
