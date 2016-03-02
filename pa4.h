@@ -10,6 +10,7 @@
 
 /* Needed for FILE definition in prototypes below. */
 #include <stdio.h>
+PT_IGNORE_CASE
 #include <time.h>
 
 /*
@@ -34,6 +35,7 @@
 #define FLAG_COUNT        'c'
 #define FLAG_SUMMARY      'x'
 #define FLAG_UNIQUE       'u'
+#define FLAG_INVALID      '?'
 
 /*
  * Arg string for getopt
@@ -90,7 +92,7 @@ struct errorInfo {
   char errorMsg[ERROR_MSG_SIZE];
 };
 
-/* Used to keep track of each group of successive, duplicate lines */
+/* Used to keeop track of each group of successive, duplicate lines */
 struct uniq {
   unsigned int count;
   char *line;
