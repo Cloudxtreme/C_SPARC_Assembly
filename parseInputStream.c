@@ -69,24 +69,45 @@ parseInputStream( FILE *stream, const struct argInfo *argInfoPtr,
 
   int lineCount = 0;      // int to hold value of line count
   //int i;                  // int to hold for-loop counter used to free mem
-  
+ 
+  // read a line in from the stream and store into buf string
   while(fgets(buf, BUFSIZ, stream) != NULL)  {
+    // dynamically grow the linesTmpPtr array by 4 bytes (sizeof ptr) each time
     linesTmpPtr = (char **)realloc(linesTmpPtr, (sizeof(char *)*(lineCount+1)));
     
+    /* Check to see if realloc() failed (returns NULL ptr), if it did then
+     * free all the elements in the array first, then free the array. If it 
+     * didn't then continue.
+     */
     if(linesTmpPtr != NULL) {
+      // allocate enough memory for the string read in
       line = (char *)calloc(strlen(buf)+1, sizeof(char));
-
+      /* Check to see if calloc() failed (returns NULL ptr), if it did then 
+       * free the memory allocated thus far for the string. If it didn't, then
+       * continue
+       */
       if(line != NULL) {
+        /* copy the string read in (buf) into the properly size allocated 
+         * string line, add one to length of copy to account for the null 
+         * character
+         */
         strncpy(line, buf, strlen(buf)+1);
       } else {
+        // Since calloc() failed, free line and set errorInfo, then return -1
         free(line);
         setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_PARSE_INPUT);
         return -1;
       } 
+      // Assign the realloc()'ed temp line array ptr to linesPtr
       linesPtr = linesTmpPtr;
+      // Store the copied read in line from buf+'\0' into the line ptr array
+      // at the correct index (lineCount)
       linesPtr[lineCount] = line;
+      // Increase the line count (# of lines read in)
       lineCount++;
     } else {
+      // Since realloc() failed, free all the lines in the line array first
+      // then free the line array, then finally set errorInfo and return -1
       int i;
       for(i=0; i < lineCount; i++) {
         free(linesPtr[i]);
@@ -97,22 +118,16 @@ parseInputStream( FILE *stream, const struct argInfo *argInfoPtr,
     }
   }
   
-
-
+  //  Check to see if the Sort Input flag was set in argInfo, if it was
+  //  then qsort the line array using sortInputCompare as the comparator
   if((argInfoPtr->options & OPT_SORT_INPUT) == OPT_SORT_INPUT) {
     qsort(linesPtr, lineCount, sizeof(char *), sortInputCompare); 
   }
   
+  // Since no errors by now, set the parsedInputInfo struct parameters
+  // and then return 0 for success
   parsedInputInfoPtr->parsedInputPtr = linesPtr;
   parsedInputInfoPtr->numOfEntries = lineCount;
 
   return 0;
-
-
-
-
-
-
-
-
 }
