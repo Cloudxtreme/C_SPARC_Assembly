@@ -69,6 +69,9 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
   int opt_ind = 0;    // counts number of option flags
   int opt;            // hold value of option flags, use in swtich-case
   
+  // holds count if mutually exclusive flag is parsed more than once
+  int mutualExclCount = 0;    
+                          
   // Set default argInfo parameters
   argInfo->options = 0;
   argInfo->outputMode = Regular;
@@ -76,68 +79,84 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
   argInfo->outFile = NULL;
 
   // Set default errorInfo parameters
-  errorInfo->errorCode = ErrNone;
-  errorInfo->errorMsg = NULL;
+  setErrorInfo(errorInfo, ErrNone, NULL);
   
   // while loop to parse arguments using getopt_long()
   while( (opt = getopt_long(argc, argv, ARG_STRING_NON_EC, long_options,
           &opt_ind) != -1) ) {
     // use switch-case to see what flags were present in option
     switch(opt) {
-      // option had -c flag
+      // option had -c flag, so set argInfo->options flag
       case FLAG_COUNT:
         argInfo->options |= OPT_COUNT;
         break;
 
-      // option had -i flag
+      // option had -i flag, so set argInfo->options flag
       case FLAG_IGNORE_CASE:
         argInfo->options |= OPT_IGNORE_CASE;
         break;
 
-      // option had -s flag
+      // option had -s flag, so set argInfo->options flag
       case FLAG_SORT_OUTPUT:
         argInfo->options |= OPT_SORT_OUTPUT;
         break;
 
-      // option had -S flag
+      // option had -S flag, so set argInfo->options flag
       case FLAG_SORT_INPUT:
         argInfo->options |= OPT_SORT_INPUT;
         break;
 
-      // option had -x flag
+      // option had -x flag, so set argInfo->options flag
       case FLAG_SUMMARY:
         argInfo->options |= OPT_SUMMARY;
         break;
 
-      // option had -h flag
+      // option had -h flag, so set argInfo->options flag
       case FLAG_HELP:
         argInfo->options |= OPT_HELP
         break;
 
-      // option had -d flag
+      // option had -d flag, so set outputMode accordigly
       case FLAG_DUP_ONLY:
         argInfo->outputMode = DuplicateOnly;
+        mutualExclCount++;
         break;
 
-      // option had -D flag
+      // option had -D flag, so set outputMode accordingly
       case FLAG_DUP_ALL:
         argInfo->outputMode = DuplicateAll;
+        mutualExclCount++;
         break;
 
-      // option had -u flag
+      // option had -u flag, so set outputOde accordingly
       case FLAG_UNIQUE:
         argInfo->outputMode = Unique;
+        mutualExclCount++;
         break;
-      
+  
+      // option had invalid flag, so set error
+      case FLAG_INVALID:
+        setErrorInfo(errorInfo, ErrInvFlag, NULL);
+        return;
+
       // required default case - don't do anything
       default:
       
     }               
   }
 
+  if(mutuallyExclCount > 1) {
+    setErrorInfo(errorInfo, ErrMutualExcl, NULL);
+  }
 
+  if(optind < argc) {
+    argInfo->inFile = argv[opt_ind++];
+    if(optind < argc) {
+      argInfo->outFile = argv[opt_ind++];
+    }
+  }
 
-
-  
- 
+  if(optind <= argc) {
+    setErrorInfo(errorInfo, ErrExtraArgs, argv[opt_ind]);
+  } 
 }
