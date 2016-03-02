@@ -10,7 +10,6 @@
 
 /* Needed for FILE definition in prototypes below. */
 #include <stdio.h>
-PT_IGNORE_CASE
 #include <time.h>
 
 /*
