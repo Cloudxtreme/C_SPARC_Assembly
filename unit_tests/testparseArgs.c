@@ -1,8 +1,8 @@
 /*
- * filename: testparseArgs.c
- * author: TODO: enter your name
- * userid: TODO: enter your cs30x login id
- * description: tester for parseArgs
+ * Filename: testparseArgs.c
+ * Author: Moiz Qureshi 
+ * Userid: cs30xix
+ * Description: tester for parseArgs
  */
 
 #include <stdio.h>
@@ -76,6 +76,30 @@ static void testparseArgs() {
       &ArgInfoMutualExclusion,
       &ErrorInfoMutualExclusion
       );
+
+   /*
+   * Test: Many Flags No Files
+   * Description: Using numerous flags without in/out file.
+   */
+  char *TestTitleInvalidFlagNoFiles = "Invalid Flag";
+  char *ArgvInvalidFlagsNoFiles[] = {"./myuniq", "-dcisSxT"};
+  int ArgcInvalidFlagsNoFiles = 2;
+  struct argInfo ArgInfoInvalidFlagsNoFiles = {
+    OPT_COUNT | OPT_IGNORE_CASE | OPT_SORT_OUTPUT | OPT_SORT_INPUT | OPT_SUMMARY,
+    DuplicateOnly, 
+    NULL, 
+    NULL
+  };
+  struct errorInfo ErrorInfoInvalidFlagsNoFiles = {ErrInvFlag, ""};
+
+  runTest(
+      TestTitleInvalidFlagNoFiles,
+      ArgcInvalidFlagsNoFiles,
+      ArgvInvalidFlagsNoFiles,
+      &ArgInfoInvalidFlagsNoFiles,
+      &ErrorInfoInvalidFlagsNoFiles
+      );
+
 }
 
 /*
