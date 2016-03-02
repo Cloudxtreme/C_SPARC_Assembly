@@ -16,6 +16,7 @@
  */
 #include <stdio.h>
 #include <unistd.h>
+#include <getopt.h>
 
 #include "pa4.h"
 #include "pa4Strings.h"
@@ -55,24 +56,24 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
   /* Local Variable */
   // necessary struct for long options, used in getopt_long()
   static struct option long_options [] = {
-    { STR_LONG_OPT_COUNT, 0, NULL, FLAG_COUNT },
-    { STR_LONG_OPT_IGNORE_CASE, 0, NULL, FLAG_IGNORE_CASE },
-    { STR_LONG_OPT_SORT_OUTPUT, 0, NULL, FLAG_SORT_OUTPUT },
-    { STR_LONG_OPT_SORT_INPUT, 0, NULL, FLAG_SORT_INPUT },
-    { STR_LONG_OPT_SUMMARY, 0, NULL, FLAG_SUMMARY },
-    { STR_LONG_OPT_HELP, 0, NULL, FLAG_HELP },
-    { STR_LONG_OPT_DUP_ONLY, 0, NULL, FLAG_DUP_ONLY },
-    { STR_LONG_OPT_DUP_ALL, 0, NULL, FLAG_DUP_ALL },
-    { STR_LONG_OPT_UNIQUE, 0, NULL, FLAG_UNIQUE }
-  }
+    { STR_LONG_OPT_COUNT, 0, 0, FLAG_COUNT },
+    { STR_LONG_OPT_IGNORE_CASE, 0, 0, FLAG_IGNORE_CASE },
+    { STR_LONG_OPT_SORT_OUTPUT, 0, 0, FLAG_SORT_OUTPUT },
+    { STR_LONG_OPT_SORT_INPUT, 0, 0, FLAG_SORT_INPUT },
+    { STR_LONG_OPT_SUMMARY, 0, 0, FLAG_SUMMARY },
+    { STR_LONG_OPT_HELP, 0, 0, FLAG_HELP },
+    { STR_LONG_OPT_DUP_ONLY, 0, 0, FLAG_DUP_ONLY },
+    { STR_LONG_OPT_DUP_ALL, 0, 0, FLAG_DUP_ALL },
+    { STR_LONG_OPT_UNIQUE, 0, 0, FLAG_UNIQUE }
+  };
 
   int opt_ind = 0;    // counts number of option flags
   int opt;            // hold value of option flags, use in swtich-case
   
   // holds count if mutually exclusive flag is parsed more than once
   int mutualExclCount = 0;    
-                          
-  // Set default argInfo parameters
+                       
+  // set default argInfo options                     
   argInfo->options = 0;
   argInfo->outputMode = Regular;
   argInfo->inFile = NULL;
@@ -83,7 +84,7 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
   
   // while loop to parse arguments using getopt_long()
   while( (opt = getopt_long(argc, argv, ARG_STRING_NON_EC, long_options,
-          &opt_ind) != -1) ) {
+          &opt_ind)) != -1 ) {
     // use switch-case to see what flags were present in option
     switch(opt) {
       // option had -c flag, so set argInfo->options flag
@@ -113,7 +114,7 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
 
       // option had -h flag, so set argInfo->options flag
       case FLAG_HELP:
-        argInfo->options |= OPT_HELP
+        argInfo->options |= OPT_HELP;
         break;
 
       // option had -d flag, so set outputMode accordigly
@@ -139,24 +140,34 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
         setErrorInfo(errorInfo, ErrInvFlag, NULL);
         return;
 
-      // required default case - don't do anything
+      // default case - do nothing
       default:
-      
+        break; 
     }               
   }
-
-  if(mutuallyExclCount > 1) {
+  
+  // if mutual exclusion var count is more than 1 then set ErrMutalExcl code in
+  // errorInfo struct
+  if(mutualExclCount > 1) {
     setErrorInfo(errorInfo, ErrMutualExcl, NULL);
   }
 
+  /* If option index is still less than argc after getopt_long(), then set 
+   * infile name. If option index still is less than argc then set the output
+   * filename. After each setting of input and output filename, increae option
+   * index by 1
+   */
   if(optind < argc) {
-    argInfo->inFile = argv[opt_ind++];
+    argInfo->inFile = argv[optind++];
     if(optind < argc) {
-      argInfo->outFile = argv[opt_ind++];
+      argInfo->outFile = argv[optind++];
     }
   }
-
-  if(optind <= argc) {
-    setErrorInfo(errorInfo, ErrExtraArgs, argv[opt_ind]);
+  
+  /* If option idex is still less than argc, this means we have extra arguments
+   * so set the ErrExtraArgs_M error code in errorInfo
+   */
+  if(optind < argc) {
+    setErrorInfo(errorInfo, ErrExtraArgs_M, argv[opt_ind]);
   } 
 }
