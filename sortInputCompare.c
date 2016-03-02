@@ -43,11 +43,15 @@
 int
 sortInputCompare( const void *p1, const void *p2 ) {
   /* Local Variables */
-  int result = 0;   // holds result from strcmp() functionc call
+  int result;   // holds result from strcmp() functionc call
 
-  // Call strcmp function and store return value in result var
-  result = strcmp(p1, p2);
-  
+  /* Call strcmp function and store return value in result var
+   * For p1 and p2, cast them pointer to pointer to char, then dereference 
+   * them once
+   */
+  result = strcmp(*(char **)p1, *((char **)p2));
+  printf("%d\n", result);
+
   // If string 1 was greater than string 2, then result = 1
   if (result > 0) {
     result = 1;
