@@ -54,7 +54,15 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
            struct errorInfo *errorInfo ) {
   /* Local Variable */
   static struct option long_options [] = {
-    {  }
+    { STR_LONG_OPT_COUNT, 0, NULL, FLAG_COUNT },
+    { STR_LONG_OPT_IGNORE_CASE, 0, NULL, FLAG_IGNORE_CASE },
+    { STR_LONG_OPT_SORT_OUTPUT, 0, NULL, FLAG_SORT_OUTPUT },
+    { STR_LONG_OPT_SORT_INPUT, 0, NULL, FLAG_SORT_INPUT },
+    { STR_LONG_OPT_SUMMARY, 0, NULL, FLAG_SUMMARY },
+    { STR_LONG_OPT_HELP, 0, NULL, FLAG_HELP },
+    { STR_LONG_OPT_DUP_ONLY, 0, NULL, FLAG_DUP_ONLY },
+    { STR_LONG_OPT_DUP_ALL, 0, NULL, FLAG_DUP_ALL },
+    { STR_LONG_OPT_UNIQUE, 0, NULL, FLAG_UNIQUE }
   }
 
   int long_index = 0;
