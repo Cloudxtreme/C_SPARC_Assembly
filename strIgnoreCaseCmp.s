@@ -58,73 +58,92 @@ strIgnoreCaseCmp:
 				! -96, then comment on how that value was 
 				! calculated.
 	
-	mov	%i0, %l1
-	mov 	%i1, %l2
-	mov	%i2, %l0
+	mov	%i0, %l1	! Copy ptr to string 1 to %l1
+	mov 	%i1, %l2	! Copy ptr to string 2 to %l2
+	mov	%i2, %l0	! Copy length n to %l0
 	
-	cmp 	%l0, 0
-	be	endloop
-	nop
+	cmp 	%l0, 0		! Check to see if n is not zero, otherwise
+	be	equal		! go to equal. Value of 0 for n, should 
+	nop			! never be passed in to this function since it
+			 	! doesn't make any sense to do so, however this
+				! mimics strncmp function
 
 loop:
-	dec 	%l0
-	
-	ldub	[%l1], %l3
-	mov	%l3, %o0
+	dec 	%l0		! Decrement n, need this to keep track up to 
+				! what character index in string we will check
+				! upto
+
+	ldub	[%l1], %l3	! Load the first character of string 1 into %l3	
+	mov	%l3, %o0	! then make it lowercase by calling tolower()
 	call 	tolower
 	nop
 	mov	%o0, %l3
 
-	ldub	[%l2], %l4
-	mov	%l4, %o0
+	ldub	[%l2], %l4	! Load the first character of string 2 into %l4
+	mov	%l4, %o0	! then make it lowercase by calling tolower()
 	call	tolower
 	nop
 	mov	%o0, %l4
 
-	cmp	%l3, %l4
-	be	endif
+	cmp	%l3, %l4	! If both the chars from string 1 and 2 are
+	be	endif		! equal then branch to endif always
 	nop
 
-endif:
-	inc	%l1
-	inc	%l2
+	cmp	%l0, 0		! Check to see if n = 0, if so then branch to
+	be	checkChars	! checkChars always
+	nop
 
-	cmp	%l0, 0
-	bne	loop
+	cmp	%l3, 0		! Check to see if char from string 1 isn't a 
+	be	checkChars	! null char, if it is then branch to checkChars
+	nop			! always
+
+	cmp	%l4, 0		! Check to see if char from string 2 isn't a 
+	be	checkChars	! null char, if it is then branch to checkChars
+	nop			! always
+
+	ba	checkChars	! Always brach to checkChars here; just to not
+	nop			! continue to endif (not like it would happen)
+
+endif:
+	inc	%l1		! Increment the ptr to next char in string 1
+	inc	%l2		! Increment the ptr to next char in string 2
+
+	cmp	%l0, 0		! Check to see the n != 0, if it isnt, then
+	bne	loop		! continue looping
 	nop
 
 checkChars:
-	sub	%l3, %l4, %l5
-	
-	cmp	%l5, 0
-	bg	positive 
+	sub	%l3, %l4, %l5	! Subtract the char value of string 2 from char
+				! value of string 1, store that value into %l5
+
+	cmp	%l5, 0		! Check to see is subtraction value is greater
+	bg	positive 	! than zero, if so then branch to positive
 	nop
 	
-	cmp	%l5, 0
-	bl	negative
+	cmp	%l5, 0		! Check to see if subtraction values is less
+	bl	negative	! than zero, if so then branch to negative
 	nop
 
-	ba	equal
-	nop
+	ba	equal		! Since it is not greater or less than zero, it
+	nop			! must be equal to zero, so branch to equal
 
 positive:
-	mov 	1, %i0
-	ba	endloop
-	nop
+	mov 	1, %i0		! Since string 1 char was greater than string 2
+	ba	endloop		! char, move 1 to %i0 so we can return this 
+	nop			! value, then branch to endloop
 
 negative:
-	mov	-1, %i0
-	ba 	endloop
-	nop
+	mov	-1, %i0		! Since string 1 char was less than string 2	
+	ba 	endloop		! char, move -1 to %i0 so we can return this 
+	nop			! value, then branch to endloop
 	
 equal:
-	mov	0, %i0
-	ba 	endloop
-	nop
-
+	mov	0, %i0		! Since nth char of string 1 and 2  is equal, 
+				! move 0 to %i0 so we can return this value
+				! then continue to endloop
 
 endloop:
-	ret	
-	restore
+	ret			! Return from subroutine
+	restore			! Restore caller's window; in ret's delay slot
 
 
