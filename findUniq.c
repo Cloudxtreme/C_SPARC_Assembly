@@ -77,7 +77,18 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
       if( (argInfo->options & OPT_IGNORE_CASE) == OPT_IGNORE_CASE) {
         if((strIgnoreCaseCmp(entries[i-1].line, tmp[i], strlen(tmp[i]))) == 0) {
           entries[i-1].count++;
-          
+          if(argInfo->outputMode == DuplicateAll) {
+            char *dup = NULL;
+            dup = (char *)realloc(dup, strlen(tmp[i]));
+            if(dup != NULL) {
+              strcpy(dup, tmp[i]);
+              entries[i-1].dups = dup;
+            } else {
+              free(dup);
+              setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ);
+              return -1;
+            }
+          }
         } else {
           entriesTmp = (struct uniq *)realloc(entriesTmp, 
                                               sizeof(struct uniq)*(size+1));
@@ -95,6 +106,18 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
       } else {
         if((strcmp(entries[i-1].line, tmp[i])) == 0) {
           entries[i-1].count++;
+          if(argInfo->outputMode == DuplicateAll) {
+            char *dup = NULL;
+            dup = (char *)realloc(dup, strlen(tmp[i]));
+            if(dup != NULL) {
+              strcpy(dup, tmp[i]);
+              entries[i-1].dups = dup;
+            } else {
+              free(dup);
+              setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ);
+              return -1;
+            }
+          }
         } else {
           entriesTmp = (struct uniq *)realloc(entriesTmp, 
                                               sizeof(struct uniq)*(size+1));
@@ -102,21 +125,6 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           if(entriesTmp != NULL) {
             entries = entriesTmp;
             entries[i].line = tmp[i];
-            if(argInfo->outputMode == DuplicateAll) {
-              char *dup = NULL;
-              char *joined = NULL;
-              int x = strlen(entries[i-1].line) + strlen(tmp[i]) + 1;
-              dup = (char *)realloc(dup, x);
-              if(dup != NULL) {
-                strcpy(dup, joined); 
-              } else {
-                free(dup);
-                setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ);
-                return -1;
-              }
-
-            }
-
           } else {
             free(entries);
             free(entriesTmp);
