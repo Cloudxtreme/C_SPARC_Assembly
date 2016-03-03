@@ -38,6 +38,25 @@ static void teststrIgnoreCaseCmp() {
   n = strlen(lhs);
   TEST( strIgnoreCaseCmp( lhs, rhs, n ) == 0 );
   
+  lhs = "zebra";
+  rhs = "a";
+  n = strlen(lhs);
+  TEST( strIgnoreCaseCmp( lhs, rhs, n ) == 1 );
+  
+  lhs = "ze\0bra";
+  rhs = "zebra";
+  n = strlen(rhs);
+  TEST( strIgnoreCaseCmp( lhs, rhs, n ) == -1 );
+  
+  lhs = "abcd";
+  rhs = "abc";
+  n = strlen(lhs);
+  TEST( strIgnoreCaseCmp( lhs, rhs, n ) == 1 );
+  
+  lhs = "";
+  rhs = "";
+  n = strlen(lhs);
+  TEST( strIgnoreCaseCmp( lhs, rhs, 0 ) == 0 );
 
 }
 
