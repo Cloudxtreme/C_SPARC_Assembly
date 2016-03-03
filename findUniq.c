@@ -13,6 +13,11 @@
  * Standard C library header first, then local headers.
  */
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "pa4.h"
+#include "pa4Strings.h"
 
 /*
  * Function name: findUnit()
@@ -51,13 +56,96 @@
  */
 
 int
-find uniq( const struct parsedInputInfoPtr *parsed,
-           const struct argInfo *argInfo,
-           struct uniqInfo *uniqInfoPtr,
-           struct errorInfo *errorInfo ) {
+findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
+          const struct argInfo *argInfo,
+          struct uniqInfo *uniqInfoPtr,
+          struct errorInfo *errorInfo ) {
+  /* Local Variables */
+  uniq_t *entries = malloc(sizeof(entries));
+  uniq_t *entriesTmp = NULL;
   
+  int i; 
+  int size = 1;
+
+  if(parsedInputInfoPtr->parsedInputPtr != NULL) {
+    entries[0].count = 1;
+    entries[0].dups = NULL;
+    entries[0].line = parsedInputInfoPtr->parsedInputPtr[0];
+    
+    for(i = 1; i < parsedInputInfoPtr->numOfEntries; i++) {
+      char **tmp = parsedInputInfoPtr->parsedInputPtr;
+      if( (argInfo->options & OPT_IGNORE_CASE) == OPT_IGNORE_CASE) {
+        if((strIgnoreCaseCmp(entries[i-1].line, tmp[i], strlen(tmp[i]))) == 0){
+          entries[i-1].count++;
+          if(argInfo->outputMode == DuplicateAll) {
+            char *dup = NULL;
+            dup = (char *)realloc(dup, strlen(tmp[i]));
+            if(dup != NULL) {
+              strcpy(dup, tmp[i]);
+              entries[i-1].dups = dup;
+            } else {
+              free(dup);
+              setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ);
+              return -1;
+            }
+          }
+        } else {
+          entriesTmp = (struct uniq *)realloc(entriesTmp, 
+                                              sizeof(struct uniq)*(size+1));
+          size++;
+          if(entriesTmp != NULL) {
+            entries = entriesTmp;
+            entries[i].line = tmp[i];
+          } else {
+            free(entries);
+            free(entriesTmp);
+            setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ); 
+            return -1;
+          }
+        }
+      } else {
+        if((strcmp(entries[i-1].line, tmp[i])) == 0) {
+          entries[i-1].count++;
+          if(argInfo->outputMode == DuplicateAll) {
+            char *dup = NULL;
+            dup = (char *)realloc(dup, strlen(tmp[i]));
+            if(dup != NULL) {
+              strcpy(dup, tmp[i]);
+              entries[i-1].dups = dup;
+            } else {
+              free(dup);
+              setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ);
+              return -1;
+            }
+          }
+        } else {
+          entriesTmp = (struct uniq *)realloc(entriesTmp, 
+                                              sizeof(struct uniq)*(size+1));
+          size++;
+          if(entriesTmp != NULL) {
+            entries = entriesTmp;
+            entries[i].line = tmp[i];
+
+          } else {
+            free(entries);
+            free(entriesTmp);
+            setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ); 
+            return -1;
+          }
+        }
+      }
+      
+    }
+
+  } else {
+    uniqInfoPtr->uniqPtr = NULL;
+    uniqInfoPtr->numOfEntries = 0;
+    return 0;
+  }
 
 
+  uniqInfoPtr->uniqPtr = entries;
+  uniqInfoPtr->numOfEntries = size;
 
 
 
