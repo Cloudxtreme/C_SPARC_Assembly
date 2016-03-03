@@ -142,7 +142,7 @@ static int compareFiles(char * filename1, char * filename2)
   char diffStr[BUFSIZ];
   (void) snprintf( diffStr, 
                    BUFSIZ, 
-                   "diff %s %s &> /dev/null",
+                   "diff %s %s",
                    filename1, 
                    filename2);
   return system(diffStr);
