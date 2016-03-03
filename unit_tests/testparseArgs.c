@@ -78,8 +78,8 @@ static void testparseArgs() {
       );
 
    /*
-   * Test: Many Flags No Files
-   * Description: Using numerous flags without in/out file.
+   * Test: Many Invalid No Files
+   * Description: Using numerous flags with invalid flag  without in/out file.
    */
   char *TestTitleInvalidFlagNoFiles = "Invalid Flag";
   char *ArgvInvalidFlagsNoFiles[] = {"./myuniq", "-dcisSxT"};
@@ -99,6 +99,31 @@ static void testparseArgs() {
       &ArgInfoInvalidFlagsNoFiles,
       &ErrorInfoInvalidFlagsNoFiles
       );
+  
+   /*
+   * Test: Many Valid with Files
+   * Description: Using numerous flags with invalid flag  without in/out file.
+   */
+  char *TestTitleValidFlagsWithFiles = "Valid Flags with Files";
+  char *ArgvFlagsWithFiles[] = {"./myuniq", "-dcisSx","ref/In1", "ref/Out1" };
+  int ArgcValidFlagsWithFiles = 4;
+  struct argInfo ArgInfoValidFlagsWithFiles = {
+    OPT_COUNT | OPT_IGNORE_CASE | OPT_SORT_OUTPUT | OPT_SORT_INPUT | OPT_SUMMARY,
+    DuplicateOnly, 
+    "ref/In1", 
+    "ref/Out1"
+  };
+  struct errorInfo ErrorInfoValidFlagsWithFiles = {ErrNone, ""};
+
+  runTest(
+      TestTitleValidFlagsWithFiles,
+      ArgcValidFlagsWithFiles,
+      ArgvFlagsWithFiles,
+      &ArgInfoValidFlagsWithFiles,
+      &ErrorInfoValidFlagsWithFiles
+      );
+
+
 
 }
 
