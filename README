@@ -1,0 +1,192 @@
+/*
+ * Filename: README (debug2)
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 02/19/16
+ * Sources of help: gdb --help, git --help, CSE30 Useful Links (R_SPARC_13 err)
+ */
+
+
+Compilation Errors (3):
+-----------------------
+
+1)  The first compilation error was found when running make for the first time.
+    The output of this make command can be seen below:
+    __________________________________________________________________________
+   
+    cs30xix@ieng9]:debug2:501$ make
+    Linting each C source file separately ...
+    lint -c -err=warn main.c
+    (60) error: undefined symbol: numOfChars
+    (60) error: variable may be used before set: numOfChars
+    lint: errors in main.c; no output created
+    *** Error code 2
+    make: Fatal error: Command failed for target `main.o'
+    __________________________________________________________________________
+
+    The integer variable numOfChars is defined in the file count.c outside of 
+    the count() function. However, it is being used in main.c, there was no 
+    external declaration given to the numOfChars variable. To fix this, the 
+    following code was added on line 28 of main.c outside of main():
+
+    	extern int numOfChars;
+
+    This tells the compiler to find the declaration of numOfchars outside of 
+    main.c.
+   
+  
+
+
+2) After fixing the first compilation error, the second compilation error was
+   found when running the make command again. The output of this make command
+   can be seen below:
+   __________________________________________________________________________
+   
+   [cs30xix@ieng9]:debug2:503$ make
+   Linting each C source file separately ...
+   lint -c -err=warn main.c
+   
+   Compiling each C source file separately ...
+   gcc -c -g -Wall -D__EXTENSIONS__ -std=c99 main.c
+   
+   Linting each C source file separately ...
+   lint -c -err=warn count.c
+   (28) error: implicit function declaration: strlen
+   (35) error: function returns pointer to automatic
+   lint: errors in count.c; no output created
+   *** Error code 2
+   make: Fatal error: Command failed for target `count.o'_
+   ___________________________________________________________________________
+
+   The second error noted is on line 28 of count.c where there is an implicit
+   fucntion declaration for strlen. This means that the the proper header file
+   was not included using the preprocessor directive. This problem was fixed by
+   adding the following code to line 7 of count.c:
+
+   	#include <string.h>
+
+   By including the string.h header file, we now have the proper function
+   decalration for the strlen() function and it can be used. 
+
+3) After fixing the second compilation error, the third compilation error was
+   found when running the make command again. The output of this make command 
+   can be seen below:
+   __________________________________________________________________________
+
+   [cs30xix@ieng9]:debug2:505$ make
+   Linting each C source file separately ...
+   lint -c -err=warn count.c
+   (36) error: function returns pointer to automatic
+   lint: errors in count.c; no output created
+   *** Error code 2
+   make: Fatal error: Command failed for target `count.o'
+   __________________________________________________________________________
+   
+   The third error is noted on line 25 of count.c. We are defining the variable
+   int asctb[] inside of the count() function, therefore it only has local 
+   scope limited to this function only. So this variable is placed on the stack
+   whenver the function is called and is automatically destroyed at the end of 
+   the function. To fix the compilation error, I modified line 25 of count.c to
+   be the following:
+
+   	static int asctb[ASCII] = {0};
+
+   By adding the static modifier to this variable, it will no longer be 
+   allocated on the stack (as it was originally), but rather the Data section 
+   since it is an initialized static variable. This will allow this variable to
+   retain its value after each function call and not be destroyed at the end of 
+   each count() function call. 
+   
+ 
+Runtime & Functionality Errors (6):
+-----------------------------------
+
+1) The first error I found quickly using VDB was in reverse.s, where the save
+   instruction is not implemented correctly. There is a missing minus sign,
+   after correcting this error, line 31 is as follows:
+
+   	save	%sp, -(92+4) & -8, %sp
+
+2) After fixing the first error, making again, then running the program with a
+   test string, I received a bus error (core dumped). So I ran the current
+   program with gdb, ran it with the same test argument, the program crashed 
+   gdb reported a Seg-fault in the findEnd() function. 
+
+   Opening findEnd.s, the first thing I noticed is a missing save call at the
+   beginning of the function. This was remedied by add the line below on line 
+   24, right after where "findEnd:" is.
+
+   	save	%sp, -96, %sp
+
+3) After fixing the second error, making again, and running the program with a
+   test string, I still received a Seg-fault somewhere in findEnd instruction
+   area. Upon closer inspection with GDB, I noticed that on line 29 of 
+   findEnd.s, we are trying to load a byte into a register using the ld 
+   instruction, where we should be using the ldub  instruction. So line 29 is 
+   as follows now:
+
+   	ldub	[%i0], %l0
+
+4) After fixing the third error, making again, and running the program with a
+   test string, I was receiving a bus error (core dumped). Upon closer
+   inspection with GDB, I set a breakpoint in the findEnd() function and 
+   ran the program with GDB and stepped through. Unlike with the third error
+   previously, I was able to step through until I hit some instruction that
+   caused a Seg-fault somewhere in the checkChar instructions. 
+
+   Same as before, on line 40 of findEnd.s, we are using ld instruction to load
+   a char, when we should be using the ldub instruction. Line 40 is as follows
+   now:
+
+	ldub 	[%i0], %l0
+
+
+5) After fixing the fifth error, making again, and running the program with a
+   test string, I was receiving a Seg-fault. Upon close inspection with GDB
+   I noticed that the when I was stepping through the program, I was stuck in
+   an endless loop. The function with a for-loop is in reverse(). After
+   scanning through the code I noticed that on line 59 of reverse.s, that 
+   endptr was not being decremented properly. Instead of subtracting, the
+   instruction was using add. Line 59 of reverse.s now reads:
+
+	sub	%l2, 1, %l2
+
+6) After fixing the fifth error, making again, and running the program with a
+   test string, the program worked. However, when I ran the program with
+   multiple string input arguments, such as "abba was a band with some serious
+   wow factor", the program was repeatedly checking if abba was a palindrome 
+   the same number of times as there are arguments. After inspecting with GDB,
+   I found the error in main.c on line 42, where we are reading the argument
+   string from argv[]. After fixing this error, line 42 looks as follows:
+
+   	char* str = argv[i]  // Was incorrectly argv[1], hence abba was checked
+			     // several times.
+
+6a) Although this had no adverse affect on the program, I found that missing 
+    nop instruction after line 44 of swapChar.s, where we are branching always
+    to notSame.
+   	
+After fixing these errors, the program runs successfully, and returns the
+correct output if a test string is a palindrome or not, and works great with a 
+single string input or multiple string input.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
