@@ -167,6 +167,22 @@ passed this test with the comparison of the reference program version.
 Questions:
 ----------
 
-1) 
+1) For this program it does not matter if the entered number is prime or not
+   because the function numOfFactors() determines the number of factors of the
+   entered number by iteratively looping through a range and checking if the
+   the number is divisble by the loop-counter or not, and if it is it 
+   incrementes the loop-counter. So if a number is prime or not, the loop will
+   still iterate through the whole range and check if the numbers within the
+   range are a factor of the entered number or not. 
+
+   Furthermore this hypothesis is supported by empirically checking two example
+   runs of the program entering a very large prime number and a very large 
+   non-prime number. So the program was ran with a the large prime number of
+   4294967291 and a very large non-prime number of 4294967296. Both of these
+   numbers produced near identical single threaded and multi-threaded runtimes.
+   This was also tested with a smaller prime number of 8081 and a smaller 
+   non-prime number of 8888. Similarly, when the program was ran with these
+   numbers, both the single threaded and multi-threaded times were very 
+   similar. 
 
 2) 
