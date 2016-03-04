@@ -14,7 +14,7 @@
  *                                             long long hi );
  *
  * Params: n is the value we are checking to determine how many factors
- *           evenly divide into it.
+ *         evenly divide into it.
  *         lo is the low (inclusive) range of possible factors to check.
  *         hi is the high (exclusive) range of possible factors to check.
  *
@@ -42,24 +42,30 @@
  */
 
 long long numOfFactors( long long n, long long lo, long long hi ) {
-
-  /* TODO: Complete the numOfFactors() function as specified above. */
-  long long factorCount = 0;
+  /* Local Variables */
+  long long factorCount = 0;    // holds value for # of factors for long long n
   
+  // If n is <= 1, then return 0; not dealing with values less than 2
   if (n <= 1) {
     return 0;
   }
-
+  
+  // If lo is <= 1, then set lo = 2; wont deal with factors less than 2
   if (lo <= 1) {
     lo = 2;
   }
 
+  /* Loop thru range of lo to hi, see if num is divisible by loop counter.
+   * If it is then increase factorCount by 1, if not, then increase loop 
+   * counter and repeat.
+   */
   for (long long i = lo; i < hi; i++) {
     if( (n % i)  == 0 ) {
       factorCount +=1;
     }
   }
-
+  
+  // Return the value of # of factors of long long n
   return factorCount;
 }
 
