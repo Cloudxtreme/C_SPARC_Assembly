@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Async-get parallel numOfFactors for " << num << std::endl;  
 
-    /* TODO: Calculate size of each parallel partition (range of factors) */
+    /* Calculate size of each parallel partition (range of factors) */
     long long partitionSize = num/numOfThreads;
 
 
@@ -126,8 +126,8 @@ int main(int argc, char* argv[]) {
      * Map each of the partitions (range of factors) to a separate thread
      * with async() (except the last partition (range of factors)).
      */
-                       /* TODO: Fill in the rest of this function call*/
 
+    /* Fill in the rest of this function call*/
     int j;
     for ( j = 0; j < numOfThreads - 1; ++j ) {
       results[j] = std::async( std::launch::async,  numOfFactors,
@@ -143,7 +143,8 @@ int main(int argc, char* argv[]) {
      * Hi (exclusive) factor value needs to be (num + 1) so we use the number
      * itself as a factor.
      */
-    /* TODO: Fill in this function call*/
+
+    /* Fill in this function call*/
     factors = numOfFactors( num, j*partitionSize, (num+1) );
 
     /*
@@ -156,7 +157,7 @@ int main(int argc, char* argv[]) {
      */
 
     /*
-     * TODO: Similar to pamt1, reduce on all the separate thread results
+     * Similar to pamt1, reduce on all the separate thread results
      * summing them into a single total number of factors.
      */
     int x; 
