@@ -185,4 +185,6 @@ Questions:
    numbers, both the single threaded and multi-threaded times were very 
    similar. 
 
-2) 
+2) After running many samples, I found that a value of 75000 was my breakpoint.
+   However there was a large variance between my samples witin range of 50k-90k
+   while running the program on the workstation in CSEB240. 
