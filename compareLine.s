@@ -57,6 +57,7 @@ compareLine:
 	clr 	%l0
 	clr 	%l1
 	clr	%l2
+	clr	%l3
 
 	/* Grab the value of the line member offset of struct uniq from
 	 * pa4Globals.c, and store in %l0
