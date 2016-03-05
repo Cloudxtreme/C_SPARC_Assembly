@@ -6,7 +6,6 @@
  * Sources of help: gdb --help, git --help, CSE30 Useful Links (R_SPARC_13 err)
  */
 
-
 Compilation Errors (3):
 -----------------------
 
@@ -34,9 +33,6 @@ Compilation Errors (3):
     This tells the compiler to find the declaration of numOfchars outside of 
     main.c.
    
-  
-
-
 2) After fixing the first compilation error, the second compilation error was
    found when running the make command again. The output of this make command
    can be seen below:
@@ -103,7 +99,7 @@ Runtime & Functionality Errors (6):
 
 1) After fixing the compilation errors, compiling, and running the program,
    I noticed that the program was not printing any of the characters of the 
-   string I inputted as the argument into the program "doge". So after 
+   string "doge" I inputted as the argument into the program. So after 
    inspecting main.c with VDB, I noticed that the for loop starting at line 
    52 of main.c had an incorrect condition only iterating four times, which is 
    the size, in number of bytes, of a pointer (counts variable). This is 
@@ -119,4 +115,26 @@ Runtime & Functionality Errors (6):
    representing an ASCII character, and each element holding the value of the 
    count of each ASCII character (of the string the user inputted).
 
-2) 
+2) After fixing the previous functionality error described above, I recompiled
+   the program, and ran it again with the same string input of "doge". The 
+   program is now working, however, the output is not identical to the 
+   reference output as showin in PAMT2/Debug 2 Assignment sheet. The program is
+   currently printing how many times each ASCII character appears in the string
+   "doge" for all 256 ASCII characters, where as the refernece only prints how
+   many times a character appears in input string, only for the characters in
+   the input string. Upon further inspection with VDB, I noticed that the if
+   condition on line 53 of main.c is missing brackets (which are required 
+   because the next two lines must execute if and only if the if conditional is
+   met). So the program is is always executing the two print calls on line 54
+   and line 55. This was easily fixed by adding brackets so now the code from
+   lines 53 to 57 looks like the following:
+
+   	if (counts[j]) {
+	  (void) printf("Character %c ", j);
+	  (void) printf("appeared %d times\n", counts[j]);
+	  numOfUniqueChars++;
+	}
+
+   Now the program will only print how many times a character appeared only for
+   the ASCII characters present in the user-inputted string.
+
