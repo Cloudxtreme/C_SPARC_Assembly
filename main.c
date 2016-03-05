@@ -50,12 +50,12 @@ int main( int argc, char* argv[] ) {
   /* Print the counts */
   int j;
   for (j = 0; j < ASCII; j++) {
-    if (counts[j]) 
+    if (counts[j]) { 
       (void) printf("Character %c ", j);
       (void) printf("appeared %d times\n", counts[j]);
 
       numOfUniqueChars++;
-    
+    }
   }
 
   (void) printf("\n");
