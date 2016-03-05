@@ -45,8 +45,39 @@
  * 	%l0 - holds the value for line member offset in struct uniq
  * 	%l1 - holds the value of first uniq struct line member
  * 	%l2 - holds the value of the second uniq struct line member
+ * 	%l3 - holds the return value from strcmp() on the two lines
  */
 
+compareLine:
+	save	%sp, -96, %sp	! Save the caller's window; if different than
+				! -96, then comment on how that value was
+				! calculated
 
+	/* Clear the local registers */
+	clr 	%l0
+	clr 	%l1
+	clr	%l2
+
+	/* Grab the value of the line member offset of struct uniq from
+	 * pa4Globals.c, and store in %l0
+	 */
+	set	UniqLineOffset, %l0
+	ld	[%l0], %l0
+
+	add	%l0, %i0, %l1	! Add line offset to first uniq struct to get
+	ld	[%l1], %l1	! the correct address, then load the value into
+				! %l1
+
+	add	%l0, %i1, %l2	! Add kube iffset ti second uniq struct to get
+	ld	[%l2], %l2	! the correct addressm then load the value into
+				! %l2
+
+	mov	%l1, %o0	! Copy the line of 1st struct to %o0
+	mov	%l2, %o1	! Copy the line of 2nd struct to %o1
+
+	call	strcmp		! Compare the two lines by calling the strcmp()
+	nop			! function
+
+	mov 	%o0, %l3	! Copy the return value from strcmp() into %l3
 
 
