@@ -80,4 +80,31 @@ compareLine:
 
 	mov 	%o0, %l3	! Copy the return value from strcmp() into %l3
 
+	cmp 	%l3, 0		! If return value from strcmp() is equal to 0, 
+	be	equal		! then branch to equal
+	nop
 
+	cmp 	%l3, 0		! If return value from strcmp() is less than 0,
+	bl	negative	! then branch to negative
+	nop
+
+	mov	1, %i0		! Since return value from strcmp() is not equal 
+	ba	endif		! to 0 or less than 0, then it must be greater
+	nop			! than 0. So move 1 to %i0, so we can return 1
+				! from this function and branch to endif always
+
+equal:
+	mov	0, %i0		! Since return value from strcmp() was 0, then
+	ba 	endif		! lines are equal. Move 0 to %i0, so we can 
+	nop			! return 0 from this function and branch to 	
+				! endif always
+
+negative:
+	mov 	-1, %i0		! Since return value from strcmp() is less than
+				! 0, then move -1 to %i0, so we can return -1 
+				! from this function and continue below to 
+				! endif
+
+endif:	
+	ret			! Return from subroutine	
+	restore			! Restore caller's window; in ret's delay slot
