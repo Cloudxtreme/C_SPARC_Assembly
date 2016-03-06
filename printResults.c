@@ -50,16 +50,76 @@ void
 printResults( FILE *outstream, const struct argInfo *argInfoPtr,
               const struct uniqInfo *uniqInfoPtr ) {
 
+  /* Local Variables */
+  int countFlag = 0;
+  int i;
+
+
   if((argInfoPtr->options & FLAG_SORT_OUTPUT) == FLAG_SORT_OUTPUT) {
     if((argInfoPtr->options & FLAG_COUNT) == FLAG_COUNT) {
-      qsort
+      qsort(uniqInfoPtr->uniqPtr, uniqInforPtr->numOfEntries, 
+            sizeof(struct uniq), compareCount);
+      countFlag = 1;
     } else {
-
+      qsort(uniqInfoPtr->uniqPtr, uniqInforPtr->numOfEntries, 
+            sizeof(struct uniq), compareLine);
     }
+  }
   
+  switch(argInfoPtr->outputeMode) {
+    case DuplicateAll:
+      if(uniqInfoPtr->uniqPtr->count != 0) {
+        for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
+          printf("%s", uniqInforPtr->uniqPtr->dups);
+        }
+      }
+      break;
+
+    case DuplicateOnly:
+      if(uniqInfoPtr->uniqPtr->count != 0) {
+        for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
+          if(countFlag == 1) {
+            printf("%d ", uniqInfoPtr->uniqPtr->count); 
+            printf("%s", uniqInforPtr->uniqPtr->line);
+          } else {
+            printf("%s", uniqInforPtr->uniqPtr->line);
+          }
+        }
+      }
+    break;
+
+    case Unique:
+      if(uniqInfoPtr->uniqPtr->count == 0) {
+        for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
+          if(countFlag == 1) {
+            printf("%d ", uniqInfoPtr->uniqPtr->count); 
+            printf("%s", uniqInforPtr->uniqPtr->line);
+          } else {
+            printf("%s", uniqInforPtr->uniqPtr->line);
+          }
+        }
+      
+      }
+      break;
+
+    case Regular:
+      break;
+
+
+
+
+
+
+
   }
 
 
+
+
+
+
+
+  
   
 }
 
