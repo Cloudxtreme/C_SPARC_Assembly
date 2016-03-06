@@ -21,10 +21,6 @@ FILE *StandardOut = stdout;
 int ErrorInfoErrorCodeOffset = offsetof(struct errorInfo, errorCode);
 int ArgInfoOptionsOffset = offsetof(struct argInfo, options);
 
-// Offsets required for pa
-size_t UniqCountOffset = offsetof(struct uniq, count);
-size_t UniqLineOffset = offsetof(struct uniq, line);
-
 /*
  * Needed for compareCount.s
  */
