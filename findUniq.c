@@ -96,6 +96,8 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           if(entriesTmp != NULL) {
             entries = entriesTmp;
             entries[i].line = tmp[i];
+            entries[i].count = 1;
+            entries[i].dups = NULL;
           } else {
             free(entries);
             free(entriesTmp);
@@ -125,6 +127,8 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           if(entriesTmp != NULL) {
             entries = entriesTmp;
             entries[i].line = tmp[i];
+            entries[i].count = 1;
+            entries[i].dups = NULL;
           } else {
             free(entries);
             free(entriesTmp);
