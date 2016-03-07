@@ -51,6 +51,10 @@ printResults( FILE *outstream, const struct argInfo *argInfoPtr,
               const struct uniqInfo *uniqInfoPtr ) {
 
   /* Local Variables */
+  struct timeval tm;
+
+  char time[BUFSIZ];
+  
   int countFlag = 0;
 
   int duplicateEntries = 0;
@@ -127,11 +131,11 @@ printResults( FILE *outstream, const struct argInfo *argInfoPtr,
    
     totalEntries = uniqueEntries + duplicateEntries;
     totalLines = uniqueLines + duplicateLines;
-
-
-
-
   }
+
+  pa4gettimeofday(&tm, NULL);
+  strftime(time, BUFSIZ, STR_TIME_FORMATER, localtime(&tm.tv_sec)); 
+  
 
 
 
