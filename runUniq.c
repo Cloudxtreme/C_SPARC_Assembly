@@ -80,7 +80,6 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
 
   if(argInfoPtr->inFile == NULL) {
     input = stdin;
-    //input = fopen(stdin, FILE_READ_MODE);
   } else {
     errno = 0;
     input = fopen(argInfoPtr->inFile, FILE_READ_MODE);
