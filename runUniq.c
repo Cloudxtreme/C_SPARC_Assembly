@@ -65,13 +65,13 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
   /* Local Variables */
   
   // struct to hold parsedInputInfo, will be passed to parseInputStream()
-  struct parsedInputInfo *parsedInputInfoPtr;
+  struct parsedInputInfo parsedInputInfoPtr;
 
   // struct to hold uniqInfo, will be passed to findUniq()
-  struct uniqInfo *uniqInfoPtr;
+  struct uniqInfo uniqInfoPtr;
   
-  FILE *input;                // input file stream
-  FILE *output                // output file stream
+  FILE *input = NULL;         // input file stream
+  FILE *output = NULL;        // output file stream
 
   int errParseInput = 0;      // Holds return value from parseInputStream()
   int errFindUniq = 0;        // Holds return value from findUniq()
@@ -79,7 +79,8 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
   int i;                      // loop-counter variable for free() in loops
 
   if(argInfoPtr->inFile == NULL) {
-    input = fopen(stdin, FILE_READ_MODE);
+    input = stdin;
+    //input = fopen(stdin, FILE_READ_MODE);
   } else {
     errno = 0;
     input = fopen(argInfoPtr->inFile, FILE_READ_MODE);
@@ -90,47 +91,43 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
   }
 
   if(argInfoPtr->outFile == NULL) {
-    input = fopen(stdout, FILE_WRITE_MODE);
+    output = stdout;
   } else {
     errno = 0;
-    input = fopen(argInfoPtr->inFile, FILE_WRITE_MODE);
+    output = fopen(argInfoPtr->inFile, FILE_WRITE_MODE);
     if(errno != 0) {
       setErrorInfo(errorInfoPtr, ErrErrno_M, argInfoPtr->inFile);
       return;
     }
   }
 
-  errParseInput = parseInputStream(input, argInfoPtr, parsedInputInfoPtr,
-                                   errorInputInfo );
+  errParseInput = parseInputStream(input, argInfoPtr, &parsedInputInfoPtr,
+                                   errorInfoPtr );
   if(errParseInput != 0) {
-    for(i = 0; i < parsedInputInfoPtr->numOfEntries; i++) {
-      free(parsedInputInfoPtr->parsedInputPtr[i]);
+    for(i = 0; i < parsedInputInfoPtr.numOfEntries; i++) {
+      free(&parsedInputInfoPtr.parsedInputPtr[i]);
     }
-    free(parsedInputInfoPtr);
     return;
   }
 
-  errFindUniq = findUniq(parsedInputInfoPtr, argInfoPtr, uniqInfoPtr, 
+  errFindUniq = findUniq(&parsedInputInfoPtr, argInfoPtr, &uniqInfoPtr, 
                          errorInfoPtr);
   if(errFindUniq != 0) {
-    for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
-      free(uniqInfoPtr->uniqPtr[i]);
+    for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
+      free(&uniqInfoPtr.uniqPtr[i]);
     }
-    free(uniqInfoPtr);
     return;
   }
 
-  printResults(output, argInfoPtr, uniqInfoPtr);
+  printResults(output, argInfoPtr, &uniqInfoPtr);
   
-  for(i = 0; i < parsedInputInfoPtr->numOfEntries; i++) {
-    free(parsedInputInfoPtr->parsedInputPtr[i]);
+  for(i = 0; i < parsedInputInfoPtr.numOfEntries; i++) {
+    free(&parsedInputInfoPtr.parsedInputPtr[i]);
   }
-  free(parsedInputInfoPtr);
 
-  for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
-    free(uniqInfoPtr->uniqPtr[i]);
+  for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
+    free(&uniqInfoPtr.uniqPtr[i]);
   }
-  free(uniqInfoPtr);
     
   fclose(input);
   fclose(output);
