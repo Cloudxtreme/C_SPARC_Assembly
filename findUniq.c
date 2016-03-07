@@ -76,7 +76,7 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
       char **tmp = parsedInputInfoPtr->parsedInputPtr;
       if( (argInfo->options & OPT_IGNORE_CASE) == OPT_IGNORE_CASE) {
         if((strIgnoreCaseCmp(entries[i-1].line, tmp[i], strlen(tmp[i]))) == 0) {
-          entries[i-1].count++;
+          entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
             char *dup = NULL;
             dup = (char *)realloc(dup, strlen(tmp[i]));
@@ -107,7 +107,7 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
         }
       } else {
         if((strcmp(entries[i-1].line, tmp[i])) == 0) {
-          entries[i-1].count++;
+          entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
             char *dup = NULL;
             dup = (char *)realloc(dup, strlen(tmp[i]));
