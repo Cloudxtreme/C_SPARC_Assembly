@@ -47,7 +47,7 @@
  */
 
 void 
-printResults( FILE *outstream, const struct argInfo *argInfoPtr,
+printResults( FILE *outFile, const struct argInfo *argInfoPtr,
               const struct uniqInfo *uniqInfoPtr ) {
 
   /* Local Variables */
@@ -83,17 +83,17 @@ printResults( FILE *outstream, const struct argInfo *argInfoPtr,
     switch(argInfoPtr->outputMode) {
       case DuplicateAll:
         if(uniqInfoPtr->uniqPtr[i].dups != NULL) {
-          printf("%s", uniqInfoPtr->uniqPtr[i].dups);
+          (void) fprintf(outFile,"%s", uniqInfoPtr->uniqPtr[i].dups);
         }
         break;
 
       case DuplicateOnly:
         if(uniqInfoPtr->uniqPtr[i].count > 1) {
           if(countFlag == 1) {
-            printf("%d ", uniqInfoPtr->uniqPtr[i].count); 
-            printf("%s", uniqInfoPtr->uniqPtr[i].line);
+            (void) fprintf(outFile, "%d ", uniqInfoPtr->uniqPtr[i].count); 
+            (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
           } else {
-            printf("%s", uniqInfoPtr->uniqPtr[i].line);
+            (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
           }
         }
       break;
@@ -101,20 +101,20 @@ printResults( FILE *outstream, const struct argInfo *argInfoPtr,
       case Unique:
         if(uniqInfoPtr->uniqPtr[i].count == 1) {
           if(countFlag == 1) {
-            printf("%d ", uniqInfoPtr->uniqPtr[i].count); 
-            printf("%s", uniqInfoPtr->uniqPtr[i].line);
+            (void) fprintf(outFile, "%d ", uniqInfoPtr->uniqPtr[i].count); 
+            (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
           } else {
-            printf("%s", uniqInfoPtr->uniqPtr[i].line);
+            (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
           }
         }
         break;
 
       case Regular:
         if(countFlag == 1) {
-          printf("%d ", uniqInfoPtr->uniqPtr[i].count); 
-          printf("%s", uniqInfoPtr->uniqPtr[i].line);
+          (void) fprintf(outFile, "%d ", uniqInfoPtr->uniqPtr[i].count); 
+          (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
         } else {
-          printf("%s", uniqInfoPtr->uniqPtr[i].line);
+          (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
         }
         break;
     }
@@ -136,7 +136,8 @@ printResults( FILE *outstream, const struct argInfo *argInfoPtr,
   pa4gettimeofday(&tm, NULL);
   strftime(time, BUFSIZ, STR_TIME_FORMATER, localtime(&tm.tv_sec)); 
   
-
+  (void) fprintf(outFile, STR_PRINT_SUMMARY, duplicateEntries, uniqueEntries,
+                 totalEntries, duplicateLines, uniqueLines, totalLines, time);
 
 
 }
