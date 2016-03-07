@@ -52,6 +52,15 @@ printResults( FILE *outstream, const struct argInfo *argInfoPtr,
 
   /* Local Variables */
   int countFlag = 0;
+
+  int entryDuplicate = 0;
+  int entryUnique = 0;
+  int entryTotal = 0;
+
+  int lineDuplicate = 0;
+  int lineUnique = 0;
+  int lineTotal = 0;
+
   int i;
 
 
@@ -66,60 +75,48 @@ printResults( FILE *outstream, const struct argInfo *argInfoPtr,
     }
   }
   
-  switch(argInfoPtr->outputeMode) {
-    case DuplicateAll:
-      if(uniqInfoPtr->uniqPtr->count != 0) {
-        for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
-          printf("%s", uniqInforPtr->uniqPtr->dups);
+  for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
+    switch(argInfoPtr->outputeMode) {
+      case DuplicateAll:
+        if(uniqInfoPtr->uniqPtr[i]->dups != NULL) {
+          printf("%s", uniqInforPtr->uniqPtr[i]->dups);
         }
-      }
-      break;
+        break;
 
-    case DuplicateOnly:
-      if(uniqInfoPtr->uniqPtr->count != 0) {
-        for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
+      case DuplicateOnly:
+        if(uniqInfoPtr->uniqPtr[i]->count > 1) {
           if(countFlag == 1) {
-            printf("%d ", uniqInfoPtr->uniqPtr->count); 
-            printf("%s", uniqInforPtr->uniqPtr->line);
+            printf("%d ", uniqInfoPtr->uniqPtr[i]->count); 
+            printf("%s", uniqInforPtr->uniqPtr[i]->line);
           } else {
-            printf("%s", uniqInforPtr->uniqPtr->line);
+            printf("%s", uniqInforPtr->uniqPtr[i]->line);
           }
         }
-      }
-    break;
+      break;
 
-    case Unique:
-      if(uniqInfoPtr->uniqPtr->count == 0) {
-        for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
+      case Unique:
+        if(uniqInfoPtr->uniqPtr[i]->count == 0) {
           if(countFlag == 1) {
-            printf("%d ", uniqInfoPtr->uniqPtr->count); 
-            printf("%s", uniqInforPtr->uniqPtr->line);
+            printf("%d ", uniqInfoPtr->uniqPtr[i]->count); 
+            printf("%s", uniqInforPtr->uniqPtr[i]->line);
           } else {
-            printf("%s", uniqInforPtr->uniqPtr->line);
+            printf("%s", uniqInforPtr->uniqPtr[i]->line);
           }
         }
-      
-      }
-      break;
+        break;
 
-    case Regular:
-      break;
-
-
-
-
-
-
-
+      case Regular:
+        if(countFlag == 1) {
+          printf("%d ", uniqInfoPtr->uniqPtr[i]->count); 
+          printf("%s", uniqInforPtr->uniqPtr[i]->line);
+        } else {
+          printf("%s", uniqInforPtr->uniqPtr[i]->line);
+        }
+        break;
+    }
   }
 
 
 
-
-
-
-
-  
-  
 }
 
