@@ -77,7 +77,12 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
   int errFindUniq = 0;        // Holds return value from findUniq()
 
   int i;                      // loop-counter variable for free() in loops
-
+  
+  /* Check to see that inFile in argInfo is not NULL, if it is then set input
+   * to be stdin, otherwise open inFile with FILE_READ_MODE and set the input
+   * stream equal to it. If there is an error opening the file, then set 
+   * errorInfo and return immediately. 
+   */
   if(argInfoPtr->inFile == NULL) {
     input = stdin;
   } else {
@@ -89,6 +94,11 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
     }
   }
 
+  /* Check to see that OutFile in argInfo is not NULL, if it is then set output
+   * to be stdout, otherwise open outFile with FILE_WRITE_MODE and set the 
+   * output stream equal to it. If there is an error opening the file, then set 
+   * errorInfo and return immediately. 
+   */
   if(argInfoPtr->outFile == NULL) {
     output = stdout;
   } else {
@@ -100,17 +110,26 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
     }
   }
 
+  // Call parseInputStream() and set errParseInput equal to its return value
   errParseInput = parseInputStream(input, argInfoPtr, &parsedInputInfoPtr,
                                    errorInfoPtr );
+  /* If errParseInput is nonzero, then free all the lines read in and return
+   * immediately; errorInfo is already set in parseInputStream(). 
+   */
   if(errParseInput != 0) {
     for(i = 0; i < parsedInputInfoPtr.numOfEntries; i++) {
       free(&parsedInputInfoPtr.parsedInputPtr[i]);
     }
     return;
   }
-
+  
+  // Call findUniq() and set errFindUniq equal to its return value
   errFindUniq = findUniq(&parsedInputInfoPtr, argInfoPtr, &uniqInfoPtr, 
                          errorInfoPtr);
+  /* If errFindUniq is nonzero, then free all uniq struct elements in the 
+   * uniqPtr array and return immediately; errorInfo is already set in 
+   * parseInputStream(). 
+   */
   if(errFindUniq != 0) {
     for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
       free(&uniqInfoPtr.uniqPtr[i]);
@@ -118,16 +137,20 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
     return;
   }
 
+  // Call printResults() passing in output stream, argInfoptr, and uniqInfoPtr
   printResults(output, argInfoPtr, &uniqInfoPtr);
   
+  // Free all the lines read in by parsedInputStream()
   for(i = 0; i < parsedInputInfoPtr.numOfEntries; i++) {
     free(&parsedInputInfoPtr.parsedInputPtr[i]);
   }
 
+  // Free all the uniq struct elements created by findUniq()
   for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
     free(&uniqInfoPtr.uniqPtr[i]);
   }
-    
+   
+  // Close the input and output stream 
   fclose(input);
   fclose(output);
 }
