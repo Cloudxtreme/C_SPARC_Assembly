@@ -83,9 +83,23 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
     entries[0].dups = NULL;
     entries[0].line = parsedInputInfoPtr->parsedInputPtr[0];
     
+    /* For each line read parsed in, compare it with last element in struct
+     * uniq array.
+     */
     for(i = 1; i < parsedInputInfoPtr->numOfEntries; i++) {
       char **tmp = parsedInputInfoPtr->parsedInputPtr;
+      /* If ignore case option is set in argInfo, then use strIgnoreCaseCmp to
+       * compare the line at ith element in parsedInputPtr with the last
+       * elemnt in struct uniq array entries. Otherwise use strcmp to do 
+       * comparison of lines.
+       */
       if( (argInfo->options & OPT_IGNORE_CASE) == OPT_IGNORE_CASE) {
+        /* Since lines were equal using strIgnoreCaseCmp(), we will add the 
+         * line read in at the ith element of parsedInputPtr to the dups string
+         * by first growing dups to accomodate size of new string plus 
+         * whatever size was originally there. If realloc fails, then free all
+         * the allocated memory, set errorInfo, and return -1 for failure
+         */
         if((strIgnoreCaseCmp(entries[size-1].line, tmp[i], 
             strlen(tmp[i]))) == 0) {
           entries[size-1].count++;
@@ -102,14 +116,24 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
             }
           }
         } else {
+          /* Since lines were not equal (when checking with strIgnoreCaseCmp())
+           * grow the entriesTmp array, increase size, set entries equal to 
+           * entriesTmp, then set newest element in struct uniq array (at 
+           * element "size") so its line member is the ith line read in, its
+           * count equal to 1 and dups equal to NULL.
+           */
           entriesTmp = (struct uniq *)realloc(entriesTmp, 
                                               sizeof(struct uniq)*(size+1));
           size++;
+          /* Check to see that realloc did not return NULL ptr, if it did then
+           * free entries and entriesTmp, set errorInfo, and return -1 for 
+           * failure
+           */
           if(entriesTmp != NULL) {
             entries = entriesTmp;
-            entries[i].line = tmp[i];
-            entries[i].count = 1;
-            entries[i].dups = NULL;
+            entries[size].line = tmp[i];
+            entries[size].count = 1;
+            entries[size].dups = NULL;
           } else {
             free(entries);
             free(entriesTmp);
@@ -118,6 +142,12 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           }
         }
       } else {
+        /* Since lines were equal using strcmp(), we will add the 
+         * line read in at the ith element of parsedInputPtr to the dups string
+         * by first growing dups to accomodate size of new string plus 
+         * whatever size was originally there. If realloc fails, then free all
+         * the allocated memory, set errorInfo, and return -1 for failure
+         */
         if((strcmp(entries[size-1].line, tmp[i])) == 0) {
           entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
@@ -133,14 +163,24 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
             }
           }
         } else {
+          /* Since lines were not equal (when checking with strcmp())
+           * grow the entriesTmp array, increase size, set entries equal to 
+           * entriesTmp, then set newest element in struct uniq array (at 
+           * element "size") so its line member is the ith line read in, its
+           * count equal to 1 and dups equal to NULL.
+           */
           entriesTmp = (struct uniq *)realloc(entriesTmp, 
                                               sizeof(struct uniq)*(size+1));
           size++;
+          /* Check to see that realloc did not return NULL ptr, if it did then
+           * free entries and entriesTmp, set errorInfo, and return -1 for 
+           * failure
+           */
           if(entriesTmp != NULL) {
             entries = entriesTmp;
-            entries[i].line = tmp[i];
-            entries[i].count = 1;
-            entries[i].dups = NULL;
+            entries[size].line = tmp[i];
+            entries[size].count = 1;
+            entries[size].dups = NULL;
           } else {
             free(entries);
             free(entriesTmp);
@@ -149,23 +189,27 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           }
         }
       }
-      
     }
 
   } else {
+    /* If nothing was parsed in from parseInputStream(), then set uniqPtr to be 
+     * NULL, and numOfEntries to 0 of uniqInfoPtr struct.
+     */
     uniqInfoPtr->uniqPtr = NULL;
     uniqInfoPtr->numOfEntries = 0;
     return -1;
   }
 
-
+  /* Since we had no errors this far, set uniqPtr equal to entries and
+   * numOfEntries to size of the uniqInfoPtr struct
+   */
   uniqInfoPtr->uniqPtr = entries;
   uniqInfoPtr->numOfEntries = size;
+  
+  // Free the entries uniq struct array
+  free(entries);
 
-
-
-
-
+  // Return 0 for success
   return 0;
 }
 
