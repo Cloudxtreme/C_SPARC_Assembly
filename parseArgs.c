@@ -168,6 +168,6 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
    * so set the ErrExtraArgs_M error code in errorInfo
    */
   if(optind < argc) {
-    setErrorInfo(errorInfo, ErrExtraArgs_M, argv[opt_ind]);
+    setErrorInfo(errorInfo, ErrExtraArgs_M, argv[optind]);
   } 
 }
