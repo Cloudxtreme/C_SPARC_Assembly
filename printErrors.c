@@ -80,7 +80,7 @@ printErrors( const struct errorInfo *errorInfo, const char *progName ) {
   }
   // If errorPresent was set then print the usage short message
   if( errorPresent == 1 ) {
-      usage(stderr, USAGE_SHORT, progName);
+      usage(stderr, UsageShort, progName);
   }
 }
 
