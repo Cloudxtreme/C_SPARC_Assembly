@@ -1,7 +1,7 @@
 /*
  * File: pa4gettimeofday.c
- * Author: TODO
- * UserId: TODO
+ * Author: Moiz Qureshi 
+ * UserId: cs30xix
  * Description: Get time of day. Needed for grading purposes.
  */
 
