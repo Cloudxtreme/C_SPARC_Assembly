@@ -60,14 +60,25 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           const struct argInfo *argInfo,
           struct uniqInfo *uniqInfoPtr,
           struct errorInfo *errorInfo ) {
+  
   /* Local Variables */
+
+  // array of struct uniq, malloc so # of elements is 1 initally
   uniq_t *entries = malloc(sizeof(entries));
+
+  // temp array of struct uniq, will use this one to expand
   uniq_t *entriesTmp = NULL;
   
-  int i; 
-  int size = 1;
+  int i;          // for-loop counter variable 
+  int size = 1;   // holds the val for size of array of struct uniq
 
+  /* Check to see that parsedInputPtr is not NULL and we actally parsed stuff,
+   * if not, then set uniqPtr to NULL and numOfEntries to 0, and return -1 for
+   * failure. Othrwise continue.
+   */
   if(parsedInputInfoPtr->parsedInputPtr != NULL) {
+    // Initially set first struct uniq array element so its count is 1, dups is
+    // NULL, and line is firest line parsed in 
     entries[0].count = 1;
     entries[0].dups = NULL;
     entries[0].line = parsedInputInfoPtr->parsedInputPtr[0];
@@ -75,14 +86,15 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
     for(i = 1; i < parsedInputInfoPtr->numOfEntries; i++) {
       char **tmp = parsedInputInfoPtr->parsedInputPtr;
       if( (argInfo->options & OPT_IGNORE_CASE) == OPT_IGNORE_CASE) {
-        if((strIgnoreCaseCmp(entries[i-1].line, tmp[i], strlen(tmp[i]))) == 0) {
+        if((strIgnoreCaseCmp(entries[size-1].line, tmp[i], 
+            strlen(tmp[i]))) == 0) {
           entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
             char *dup = NULL;
             dup = (char *)realloc(dup, strlen(tmp[i]));
             if(dup != NULL) {
               strcpy(dup, tmp[i]);
-              entries[i-1].dups = dup;
+              entries[size-1].dups = dup;
             } else {
               free(dup);
               setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ);
@@ -106,14 +118,14 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           }
         }
       } else {
-        if((strcmp(entries[i-1].line, tmp[i])) == 0) {
+        if((strcmp(entries[size-1].line, tmp[i])) == 0) {
           entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
             char *dup = NULL;
             dup = (char *)realloc(dup, strlen(tmp[i]));
             if(dup != NULL) {
               strcpy(dup, tmp[i]);
-              entries[i-1].dups = dup;
+              entries[size-1].dups = dup;
             } else {
               free(dup);
               setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ);
@@ -143,7 +155,7 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
   } else {
     uniqInfoPtr->uniqPtr = NULL;
     uniqInfoPtr->numOfEntries = 0;
-    return 0;
+    return -1;
   }
 
 
