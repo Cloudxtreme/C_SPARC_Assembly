@@ -82,7 +82,7 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
     input = fopen(stdin, FILE_READ_MODE);
   } else {
     errno = 0;
-    input = fopen(argInfoPtr->inFile);
+    input = fopen(argInfoPtr->inFile, FILE_READ_MODE);
     if(errno != 0) {
       setErrorInfo(errorInfoPtr, ErrErrno_M, argInfoPtr->inFile);
       return;
@@ -90,10 +90,10 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
   }
 
   if(argInfoPtr->outFile == NULL) {
-    input = fopen(stdout, FILE_READ_MODE);
+    input = fopen(stdout, FILE_WRITE_MODE);
   } else {
     errno = 0;
-    input = fopen(argInfoPtr->inFile);
+    input = fopen(argInfoPtr->inFile, FILE_WRITE_MODE);
     if(errno != 0) {
       setErrorInfo(errorInfoPtr, ErrErrno_M, argInfoPtr->inFile);
       return;
@@ -118,24 +118,20 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
     }
     free(uniqInfoPtr);
     return;
-    
   }
 
   printResults(output, argInfoPtr, uniqInfoPtr);
+  
+  for(i = 0; i < parsedInputInfoPtr->numOfEntries; i++) {
+    free(parsedInputInfoPtr->parsedInputPtr[i]);
+  }
+  free(parsedInputInfoPtr);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  for(i = 0; i < uniqInfoPtr->numOfEntries; i++) {
+    free(uniqInfoPtr->uniqPtr[i]);
+  }
+  free(uniqInfoPtr);
+    
+  fclose(input);
+  fclose(output);
 }
