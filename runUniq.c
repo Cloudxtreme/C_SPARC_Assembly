@@ -133,9 +133,9 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
    * parseInputStream(). 
    */
   if(errFindUniq != 0) {
-    for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
-      free(&uniqInfoPtr.uniqPtr[i]);
-    }
+    //for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
+      //free(&uniqInfoPtr.uniqPtr[i]);
+    //}
     fclose(input);
     fclose(output);
     return;
