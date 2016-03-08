@@ -64,10 +64,10 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
   /* Local Variables */
 
   // array of struct uniq, malloc so # of elements is 1 initally
-  uniq_t *entries = malloc(sizeof(entries));
+  uniq_t *entries = calloc(1, sizeof(struct uniq));
 
   // temp array of struct uniq, will use this one to expand
-  uniq_t *entriesTmp = NULL;
+ // uniq_t *entriesTmp = NULL;
   
   int i;          // for-loop counter variable 
   int size = 1;   // holds the val for size of array of struct uniq
@@ -122,21 +122,21 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
            * element "size") so its line member is the ith line read in, its
            * count equal to 1 and dups equal to NULL.
            */
-          entriesTmp = (struct uniq *)realloc(entriesTmp, 
+          entries = (struct uniq *)realloc(entries, 
                                               sizeof(struct uniq)*(size+1));
           size++;
           /* Check to see that realloc did not return NULL ptr, if it did then
            * free entries and entriesTmp, set errorInfo, and return -1 for 
            * failure
            */
-          if(entriesTmp != NULL) {
-            entries = entriesTmp;
-            entries[size].line = tmp[i];
-            entries[size].count = 1;
-            entries[size].dups = NULL;
+          if(entries != NULL) {
+            //entries = entriesTmp;
+            entries[size-1].line = tmp[i];
+            entries[size-1].count = 1;
+            entries[size-1].dups = NULL;
           } else {
             free(entries);
-            free(entriesTmp);
+            //free(entriesTmp);
             setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ); 
             return -1;
           }
@@ -169,21 +169,21 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
            * element "size") so its line member is the ith line read in, its
            * count equal to 1 and dups equal to NULL.
            */
-          entriesTmp = (struct uniq *)realloc(entriesTmp, 
+          entries = (struct uniq *)realloc(entries, 
                                               sizeof(struct uniq)*(size+1));
           size++;
           /* Check to see that realloc did not return NULL ptr, if it did then
            * free entries and entriesTmp, set errorInfo, and return -1 for 
            * failure
            */
-          if(entriesTmp != NULL) {
-            entries = entriesTmp;
-            entries[size].line = tmp[i];
-            entries[size].count = 1;
-            entries[size].dups = NULL;
+          if(entries != NULL) {
+            //entries = entriesTmp;
+            entries[size-1].line = tmp[i];
+            entries[size-1].count = 1;
+            entries[size-1].dups = NULL;
           } else {
             free(entries);
-            free(entriesTmp);
+            //free(entriesTmp);
             setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ); 
             return -1;
           }
