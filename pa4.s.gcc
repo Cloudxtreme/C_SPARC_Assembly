@@ -1,0 +1,63 @@
+	.file	"pa4.c"
+	.section	".text"
+	.align 4
+	.global main
+	.type	main, #function
+	.proc	04
+main:
+	save	%sp, -1144, %sp
+	st	%i0, [%fp+68]
+	st	%i1, [%fp+72]
+	add	%fp, -1044, %g2
+	add	%fp, -1028, %g1
+	ld	[%fp+68], %o0
+	ld	[%fp+72], %o1
+	mov	%g2, %o2
+	mov	%g1, %o3
+	call	parseArgs, 0
+	 nop
+	ld	[%fp-1028], %g1
+	cmp	%g1, 0
+	bne	%icc, .LL2
+	 nop
+	ld	[%fp-1044], %g1
+	and	%g1, 16, %g1
+	cmp	%g1, 0
+	be	%icc, .LL3
+	 nop
+	ld	[%fp+72], %g1
+	ld	[%g1], %g1
+	sethi	%hi(__iob+16), %g2
+	or	%g2, %lo(__iob+16), %o0
+	mov	1, %o1
+	mov	%g1, %o2
+	call	usage, 0
+	 nop
+	mov	0, %g1
+	ba,pt	%xcc, .LL6
+	 nop
+.LL3:
+	add	%fp, -1044, %g2
+	add	%fp, -1028, %g1
+	mov	%g2, %o0
+	mov	%g1, %o1
+	call	runUniq, 0
+	 nop
+	mov	0, %g1
+	ba,pt	%xcc, .LL6
+	 nop
+.LL2:
+	ld	[%fp+72], %g1
+	ld	[%g1], %g1
+	add	%fp, -1028, %g2
+	mov	%g2, %o0
+	mov	%g1, %o1
+	call	printErrors, 0
+	 nop
+	mov	1, %g1
+.LL6:
+	mov	%g1, %i0
+	return	%i7+8
+	 nop
+	.size	main, .-main
+	.ident	"GCC: (GNU) 4.8.2"
