@@ -1,7 +1,7 @@
 /*
  * filename: testparseInputStream.c
- * author: TODO: enter your name
- * userid: TODO: enter your cs30x login id
+ * author: Moiz Qureshi 
+ * userid: cs30xix
  * description: tester for parseInputStream
  */
 
