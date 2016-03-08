@@ -95,6 +95,7 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
       // member in array, where dups member is != NULL
       case DuplicateAll:
         if(uniqInfoPtr->uniqPtr[i].dups != NULL) {
+          (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
           (void) fprintf(outFile,"%s", uniqInfoPtr->uniqPtr[i].dups);
         }
         break;
