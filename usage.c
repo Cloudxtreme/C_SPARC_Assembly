@@ -42,11 +42,11 @@ usage( FILE *stream, enum usageMode u, const char *progName ) {
 
   // If usage mode is short, then print short usage string
   if( u == UsageShort ) {
-    fprintf(stream, STR_USAGE_SHORT, progName); 
+    (void) fprintf(stream, STR_USAGE_SHORT, progName); 
   }
   // If usage mode is long, then pirnt long usage string
   else if( u == UsageLong ) {
-    fprintf(stream, STR_USAGE_LONG, progName); 
+    (void) fprintf(stream, STR_USAGE_LONG, progName); 
   }
 }
 
