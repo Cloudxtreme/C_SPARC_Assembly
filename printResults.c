@@ -67,11 +67,16 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
 
   int i;                      // for-loop counter
 
-  // Check to see if sort output flag has ben set
-  if((argInfoPtr->options & FLAG_SORT_OUTPUT) == FLAG_SORT_OUTPUT) {
-    // If coutn flag has been set then qsort using compareCount, and set
+  // Check to see if the count flag has been set, if so then set count flag
+  if((argInfoPtr->options & OPT_COUNT) == OPT_COUNT) {
+    countFlag = 1;
+  }
+
+  // Check to see if sort output flag has bewn set
+  if((argInfoPtr->options & OPT_SORT_OUTPUT) == OPT_SORT_OUTPUT) {
+    // If count flag has been set then qsort using compareCount, and set
     // count flag boolean
-    if((argInfoPtr->options & FLAG_COUNT) == FLAG_COUNT) {
+    if((argInfoPtr->options & OPT_COUNT) == OPT_COUNT) {
       qsort(uniqInfoPtr->uniqPtr, uniqInfoPtr->numOfEntries, 
             sizeof(struct uniq), compareCount);
       countFlag = 1;
@@ -170,7 +175,7 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
   strftime(time, BUFSIZ, STR_TIME_FORMATER, localtime(&tm.tv_sec)); 
   
   // If the summary flag has been set in argInfoPtr, then print summary
-  if((argInfoPtr->options & FLAG_SUMMARY) == FLAG_SUMMARY) {
+  if((argInfoPtr->options & OPT_SUMMARY) == OPT_SUMMARY) {
     (void) fprintf(outFile, STR_PRINT_SUMMARY, duplicateEntries, uniqueEntries,
                    totalEntries, duplicateLines, uniqueLines, totalLines, 
                    time);
