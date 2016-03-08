@@ -22,8 +22,8 @@ FILE *StandardOut = stdout;
 int ErrorInfoErrorCodeOffset = offsetof(struct errorInfo, errorCode);
 int ArgInfoOptionsOffset = offsetof(struct argInfo, options);
 
-int errorSuccess = EXIT_SUCCESS;
-int errorFailure = EXIT_FAILURE;
+int exitSuccess = EXIT_SUCCESS;
+int exitFailure = EXIT_FAILURE;
 
 /*
  * Needed for compareCount.s
