@@ -105,7 +105,12 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
             char *dup = entries[size-1].dups;
-            dup = (char *)realloc(dup, strlen(tmp[i]));
+            if(dup != NULL) {
+              dup = (char *)realloc(dup, strlen(tmp[i])+strlen(dup));
+            } else {
+              dup = (char *)realloc(dup, strlen(tmp[i]));
+            }
+
             if(dup != NULL) {
               strcat(dup, tmp[i]);
               entries[size-1].dups = dup;
@@ -150,7 +155,11 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
           entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
             char *dup = entries[size-1].dups;
-            dup = (char *)realloc(dup, strlen(tmp[i]));
+            if(dup != NULL) {
+              dup = (char *)realloc(dup, strlen(tmp[i])+strlen(dup));
+            } else {
+              dup = (char *)realloc(dup, strlen(tmp[i]));
+            }
             if(dup != NULL) {
               strcat(dup, tmp[i]);
               entries[size-1].dups = dup;
