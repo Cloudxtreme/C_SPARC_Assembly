@@ -104,10 +104,10 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
             strlen(tmp[i]))) == 0) {
           entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
-            char *dup = NULL;
+            char *dup = entries[size-1].dups;
             dup = (char *)realloc(dup, strlen(tmp[i]));
             if(dup != NULL) {
-              strcpy(dup, tmp[i]);
+              strcat(dup, tmp[i]);
               entries[size-1].dups = dup;
             } else {
               free(dup);
@@ -130,13 +130,11 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
            * failure
            */
           if(entries != NULL) {
-            //entries = entriesTmp;
             entries[size-1].line = tmp[i];
             entries[size-1].count = 1;
             entries[size-1].dups = NULL;
           } else {
             free(entries);
-            //free(entriesTmp);
             setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ); 
             return -1;
           }
@@ -151,10 +149,10 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
         if((strcmp(entries[size-1].line, tmp[i])) == 0) {
           entries[size-1].count++;
           if(argInfo->outputMode == DuplicateAll) {
-            char *dup = NULL;
+            char *dup = entries[size-1].dups;
             dup = (char *)realloc(dup, strlen(tmp[i]));
             if(dup != NULL) {
-              strcpy(dup, tmp[i]);
+              strcat(dup, tmp[i]);
               entries[size-1].dups = dup;
             } else {
               free(dup);
@@ -177,13 +175,11 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
            * failure
            */
           if(entries != NULL) {
-            //entries = entriesTmp;
             entries[size-1].line = tmp[i];
             entries[size-1].count = 1;
             entries[size-1].dups = NULL;
           } else {
             free(entries);
-            //free(entriesTmp);
             setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_FIND_UNIQ); 
             return -1;
           }
