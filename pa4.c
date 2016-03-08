@@ -52,7 +52,7 @@ main( int argc, char *argv[] ) {
   parseArgs(argc, argv, &argInfoPtr, &errorInfoPtr);
 
   if(errorInfoPtr.errorCode == ErrNone) {
-    if((argInfoPtr.options & FLAG_HELP) == FLAG_HELP) {
+    if((argInfoPtr.options & OPT_HELP) == OPT_HELP) {
       usage(stdout, UsageLong, argv[0]);
       return EXIT_SUCCESS;
     } else {
