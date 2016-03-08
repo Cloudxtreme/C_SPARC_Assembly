@@ -170,10 +170,10 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
   totalLines = uniqueLines + duplicateLines;
 
   // get epoch time by calling pa4gettimeofday and passing in a struct timeval
-  pa4gettimeofday(&tm, NULL);
+  (void) pa4gettimeofday(&tm, NULL);
 
   // format the time using localtime(), use strftime to store into string time
-  strftime(time, BUFSIZ, STR_TIME_FORMATER, localtime(&tm.tv_sec)); 
+  (void) strftime(time, BUFSIZ, STR_TIME_FORMATER, localtime(&tm.tv_sec)); 
   
   // If the summary flag has been set in argInfoPtr, then print summary
   if((argInfoPtr->options & OPT_SUMMARY) == OPT_SUMMARY) {
