@@ -58,9 +58,7 @@ main( int argc, char *argv[] ) {
     } else {
       runUniq(&argInfoPtr, &errorInfoPtr);
     }
-  }
-  
-  if(errorInfoPtr.errorCode != ErrNone) {
+  } else {
     printErrors(&errorInfoPtr, argv[0]);
     return EXIT_FAILURE;
   }
