@@ -107,7 +107,7 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
       case DuplicateOnly:
         if(uniqInfoPtr->uniqPtr[i].count > 1) {
           if(countFlag == 1) {
-            (void) fprintf(outFile, "%d ", uniqInfoPtr->uniqPtr[i].count); 
+            (void) fprintf(outFile, "   %d ", uniqInfoPtr->uniqPtr[i].count); 
             (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
           } else {
             (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
@@ -122,7 +122,7 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
       case Unique:
         if(uniqInfoPtr->uniqPtr[i].count == 1) {
           if(countFlag == 1) {
-            (void) fprintf(outFile, "%d ", uniqInfoPtr->uniqPtr[i].count); 
+            (void) fprintf(outFile, "   %d ", uniqInfoPtr->uniqPtr[i].count); 
             (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
           } else {
             (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
@@ -136,7 +136,7 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
        */
       case Regular:
         if(countFlag == 1) {
-          (void) fprintf(outFile, "%d ", uniqInfoPtr->uniqPtr[i].count); 
+          (void) fprintf(outFile, "   %d ", uniqInfoPtr->uniqPtr[i].count); 
           (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
         } else {
           (void) fprintf(outFile, "%s", uniqInfoPtr->uniqPtr[i].line);
