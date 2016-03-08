@@ -68,7 +68,6 @@ parseInputStream( FILE *stream, const struct argInfo *argInfoPtr,
   char **linesTmpPtr = NULL; // temp array of char pointers to hold each line
 
   int lineCount = 0;      // int to hold value of line count
-  //int i;                  // int to hold for-loop counter used to free mem
  
   // read a line in from the stream and store into buf string
   while(fgets(buf, BUFSIZ, stream) != NULL)  {
@@ -95,6 +94,11 @@ parseInputStream( FILE *stream, const struct argInfo *argInfoPtr,
       } else {
         // Since calloc() failed, free line and set errorInfo, then return -1
         free(line);
+        int j;
+        for(j=0; j < lineCount; j++) {
+          free(linesPtr[j]);
+        }
+        free(linesPtr);
         setErrorInfo(errorInfo, ErrErrno_M, STR_ERR_PARSE_INPUT);
         return -1;
       } 
@@ -108,6 +112,7 @@ parseInputStream( FILE *stream, const struct argInfo *argInfoPtr,
     } else {
       // Since realloc() failed, free all the lines in the line array first
       // then free the line array, then finally set errorInfo and return -1
+      free(linesTmpPtr);
       int i;
       for(i=0; i < lineCount; i++) {
         free(linesPtr[i]);
