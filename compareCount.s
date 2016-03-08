@@ -70,11 +70,11 @@ compareCount:
 	ld	[%l2], %l2	! the correct address, then load value back 
 				! into %l2
 
-	cmp	%l2, %l3	! If count of both uniq struct's are equal, if
+	cmp	%l1, %l2	! If count of both uniq struct's are equal, if
 	be	equal		! so then branch to equal otherwise continue
 	nop
 
-	cmp	%l2, %l3	! If count of 1st uniq struct is less than 2nd,
+	cmp	%l1, %l2	! If count of 1st uniq struct is less than 2nd,
 	bl	negative	! branch to negaitive, otherwise continue
 	nop
 
