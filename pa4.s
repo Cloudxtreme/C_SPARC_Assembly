@@ -11,7 +11,7 @@
 				! more importantly, compiler will be able to 
 				! see main() function for this program
 
-	.section ".textt"	! The text segment begins here
+	.section ".text"	! The text segment begins here
 
 LOCAL_VAR_BYTES = 1044
 ERROR_INFO_OFFSET = 1028
@@ -55,7 +55,8 @@ ARG_INFO_OFFSET = 1044
  * 	%l3 - int ErrorCodeErrNone (ErrNone check)
  *	%l4 - struct argInfo options member value
  *	%l5 - int FlagHelp (OPT_HELP check)
- *
+ *	%l6 - int UsageModeUsageLong (UsageLong)
+ *	%l7 - FILE *StandardOut (stdout)
  */
 
 main:
@@ -68,7 +69,7 @@ main:
 	save	%sp, -(92 + LOCAL_VAR_BYTES) & -8, %sp	 
 	
 	mov	%i0, %o0
-	mov	&i1, %o1
+	mov	%i1, %o1
 
 	sub	%fp, ERROR_INFO_OFFSET, %l0
 	sub	%fp, ARG_INFO_OFFSET, %l1
@@ -80,11 +81,11 @@ main:
 	nop
 
 	ld	[%l0], %l2
-	set	ErrCodeErrNone, %l3
+	set	ErrorCodeErrNone, %l3
 	ld	[%l3], %l3
 
 	cmp	%l2, %l3
-	bne	parseArgErr
+	bne	ErrorExit
 	nop
 
 	set 	ArgInfoOptionsOffset, %l4
@@ -96,16 +97,54 @@ main:
 	ld	[%l5], %l5
 
 	cmp	%l4, %l5
+	bne	RunUniq
+	nop
+
+	set	UsageModeUsageLong, %l6
+	ld	[%l6], %o1
+
+	set	StandardOut, %l7
+	ld	[%l7], %o0
+
+	mov	%i1, %o2
+
+	call 	usage
+	nop
+
+	ba	SuccessExit
+	nop
 
 
-parseArgErr:
+
+
+ErrorExit:
 	mov 	%l0, %o0
 	mov	%i1, %o1
 
 	call 	printErrors
 	nop
 
-	set	ErrorFailure, %i0
+	set	exitFailure, %i0
 	ld	[%i0], %i0
 	ret
 	restore
+
+RunUniq:
+	mov	%l0, %o0
+	mov	%l1, %o1
+
+	call 	runUniq
+	nop	
+
+	ld	[%l0], %l2
+	cmp 	%l2, %l3
+	bne	ErrorExit
+	nop
+
+SuccessExit:
+	set	exitSuccess, %i0
+	ld	[%i0], %i0
+	ret	
+	restore
+
+
