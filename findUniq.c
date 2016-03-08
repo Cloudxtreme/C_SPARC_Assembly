@@ -112,7 +112,7 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
             }
 
             if(dup != NULL) {
-              strcat(dup, tmp[i]);
+              (void) strcat(dup, tmp[i]);
               entries[size-1].dups = dup;
             } else {
               free(dup);
@@ -161,7 +161,7 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
               dup = (char *)realloc(dup, strlen(tmp[i]));
             }
             if(dup != NULL) {
-              strcat(dup, tmp[i]);
+              (void) strcat(dup, tmp[i]);
               entries[size-1].dups = dup;
             } else {
               free(dup);
