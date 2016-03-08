@@ -90,7 +90,7 @@ parseInputStream( FILE *stream, const struct argInfo *argInfoPtr,
          * string line, add one to length of copy to account for the null 
          * character
          */
-        strncpy(line, buf, strlen(buf)+1);
+        (void) strncpy(line, buf, strlen(buf)+1);
       } else {
         // Since calloc() failed, free line and set errorInfo, then return -1
         free(line);
