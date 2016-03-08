@@ -68,13 +68,13 @@ printErrors( const struct errorInfo *errorInfo, const char *progName ) {
     
     // Mutual Exclusivity Flag Error
     case ErrMutualExcl:
-      fprintf(stderr, STR_ERR_MUTUAL_EXCL);
+      (void) fprintf(stderr, STR_ERR_MUTUAL_EXCL);
       errorPresent = 1;
       break;
 
       // Too many args Error
     case ErrExtraArgs_M:
-      fprintf(stderr, STR_ERR_EXTRA_ARGS, errorInfo->errorMsg);
+      (void) fprintf(stderr, STR_ERR_EXTRA_ARGS, errorInfo->errorMsg);
       errorPresent = 1;
       break;
   }
