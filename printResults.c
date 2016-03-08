@@ -150,7 +150,7 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
      */
     if(uniqInfoPtr->uniqPtr[i].count > 1) {
       duplicateEntries += 1;
-      duplicateLines += uniqInfoPtr->uniqPtr[i].count;
+      duplicateLines += uniqInfoPtr->uniqPtr[i].count-1;
     }
     
     /* uniqueLines is just equal to numOfEntries in uniqInfoPtr. For each uniq
