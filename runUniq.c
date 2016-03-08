@@ -120,6 +120,8 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
     for(i = 0; i < parsedInputInfoPtr.numOfEntries; i++) {
       free(&parsedInputInfoPtr.parsedInputPtr[i]);
     }
+    fclose(input);
+    fclose(output);
     return;
   }
   
@@ -134,6 +136,8 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
     for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
       free(&uniqInfoPtr.uniqPtr[i]);
     }
+    fclose(input);
+    fclose(output);
     return;
   }
 
