@@ -131,6 +131,9 @@ main:
 	set	FlagHelp, %l5
 	ld	[%l5], %l5
 
+	/* Bitwise AND struct argInfo options with Flag_Help */
+	and	%l4, %l5, %l4
+
 	/* Compare the options member of struct argInfo with OPT_FLAG. If they
 	 * are not equal then branch to RunUniq. Otherwise continue, and call
 	 * usage(), passing correct parameters. 
@@ -138,7 +141,7 @@ main:
 	cmp	%l4, %l5
 	bne	RunUniq
 	nop
-
+	
 	/* Get the value of StandardOut (stdout), and store it into %o0	*/
 	set	StandardOut, %l7
 	ld	[%l7], %o0
