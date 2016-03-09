@@ -10,12 +10,12 @@
 	.global main		! Declare the symbol to be globally visible,
 				! more importantly, compiler will be able to 
 				! see main() function for this program
-
+	
 	.section ".text"	! The text segment begins here
 
 LOCAL_VAR_BYTES = 1044
-ERROR_INFO_OFFSET = 1028
-ARG_INFO_OFFSET = 1044
+ERROR_INFO_OFFSET = -1028
+ARG_INFO_OFFSET = -1044
 
 /*
  * Function name: main()
@@ -67,20 +67,34 @@ main:
 	 * for struct argInfo, which we are allocating on the stack.
 	 */
 	save	%sp, -(92 + LOCAL_VAR_BYTES) & -8, %sp	 
-	
+
+	clr	%l0
+	clr	%l1
+	clr	%l2
+	clr	%l3
+	clr	%l4
+	clr	%l5
+	clr 	%l6
+	clr	%l7
+			
 	mov	%i0, %o0
 	mov	%i1, %o1
 
-	sub	%fp, ERROR_INFO_OFFSET, %l0
-	sub	%fp, ARG_INFO_OFFSET, %l1
+	add	%fp, ERROR_INFO_OFFSET, %l0
+	add	%fp, ARG_INFO_OFFSET, %l1
 
-	mov	%l0, %o2
-	mov 	%l1, %o3
+	mov	%l0, %o3
+	mov 	%l1, %o2
 
 	call 	parseArgs
 	nop
+	
+	set	ErrorInfoErrorCodeOffset, %l2
+	ld	[%l2], %l2
 
-	ld	[%l0], %l2
+	add	%l0, %l2, %l2
+	ld	[%l2], %l2
+
 	set	ErrorCodeErrNone, %l3
 	ld	[%l3], %l3
 
@@ -90,7 +104,7 @@ main:
 
 	set 	ArgInfoOptionsOffset, %l4
 	ld	[%l4], %l4
-	add	%l0, %l4, %l4
+	add	%l1, %l4, %l4
 	ld	[%l4], %l4
 
 	set	FlagHelp, %l5
@@ -100,22 +114,20 @@ main:
 	bne	RunUniq
 	nop
 
-	set	UsageModeUsageLong, %l6
-	ld	[%l6], %o1
-
 	set	StandardOut, %l7
 	ld	[%l7], %o0
 
-	mov	%i1, %o2
+	set	UsageModeUsageLong, %l6
+	ld	[%l6], %o1
+
+	ld	[%i1], %i1
+	mov	%i1, %o2	
 
 	call 	usage
 	nop
 
 	ba	SuccessExit
 	nop
-
-
-
 
 ErrorExit:
 	mov 	%l0, %o0
@@ -130,8 +142,8 @@ ErrorExit:
 	restore
 
 RunUniq:
-	mov	%l0, %o0
-	mov	%l1, %o1
+	mov	%l0, %o1
+	mov	%l1, %o0
 
 	call 	runUniq
 	nop	
