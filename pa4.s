@@ -68,6 +68,7 @@ main:
 	 */
 	save	%sp, -(92 + LOCAL_VAR_BYTES) & -8, %sp	 
 
+	/* Clear the local registers used */
 	clr	%l0
 	clr	%l1
 	clr	%l2
@@ -76,88 +77,139 @@ main:
 	clr	%l5
 	clr 	%l6
 	clr	%l7
-			
-	mov	%i0, %o0
-	mov	%i1, %o1
+	
+	mov	%i0, %o0 	! Copy argc to %o0
+	mov	%i1, %o1	! Copy argv to %o1
 
+	/* Get the address of struct errorInfo and store in %l0 */
 	add	%fp, ERROR_INFO_OFFSET, %l0
+
+	/* Get the address of struct argInfo and store in %l1 */
 	add	%fp, ARG_INFO_OFFSET, %l1
 
-	mov	%l0, %o3
-	mov 	%l1, %o2
+	mov	%l0, %o3	! Copy struct errorInfo pointer to %o3
+	mov 	%l1, %o2	! Copy struct argInfo pointer to %o2
 
-	call 	parseArgs
-	nop
+	call 	parseArgs	! Call parseArgs, passing in args stored that
+	nop			! were stored in out registers
 	
+	/* Get the struct errorInfo errorCode offset, load into %l2 */
 	set	ErrorInfoErrorCodeOffset, %l2
 	ld	[%l2], %l2
-
+	
+	/* Add errorCode offset to struct errorInfo pointer, then load value
+	 * of errorCode into %l2
+	 */
 	add	%l0, %l2, %l2
 	ld	[%l2], %l2
-
+	
+	/* Get the value of ErrNone, and store into %l3 */
 	set	ErrorCodeErrNone, %l3
 	ld	[%l3], %l3
-
-	cmp	%l2, %l3
+	
+	/* Compare the errorCode member of struct errorInfo with ErrNone.
+	 * If they are not equal, then branch to ErrorExit, otehrwise
+	 * continue.
+	 */
+	cmp	%l2, %l3	
 	bne	ErrorExit
 	nop
-
+	
+	/* Get the struct argInfo option offset, then load value of options 
+	 * offset into %l4.
+	 */
 	set 	ArgInfoOptionsOffset, %l4
 	ld	[%l4], %l4
+
+	/* Add the options offset to struct argInfo pointer, then load value 
+	 * of options back into %l4
+	 */
 	add	%l1, %l4, %l4
 	ld	[%l4], %l4
 
+	/* Get the value of FlagHelp (OPT_HELP), and store into %l5 */
 	set	FlagHelp, %l5
 	ld	[%l5], %l5
 
+	/* Compare the options member of struct argInfo with OPT_FLAG. If they
+	 * are not equal then branch to RunUniq. Otherwise continue, and call
+	 * usage(), passing correct parameters. 
+	 */
 	cmp	%l4, %l5
 	bne	RunUniq
 	nop
 
+	/* Get the value of StandardOut (stdout), and store it into %o0	*/
 	set	StandardOut, %l7
 	ld	[%l7], %o0
 
+	/* Get the value of UsageModeUsageLong (UsageLong), and store it into
+	 * %o1
+	 */
 	set	UsageModeUsageLong, %l6
 	ld	[%l6], %o1
 
+	/* Get the progName string from argv[0], and store into %o2 */
 	ld	[%i1], %i1
 	mov	%i1, %o2	
 
+	/* Call usage() */
 	call 	usage
 	nop
 
+	/* Branch to SuccessExit */
 	ba	SuccessExit
 	nop
 
 ErrorExit:
+	/* Copy pointer to struct errorInfo to %o0 */
 	mov 	%l0, %o0
+
+	/* Get the progName string from argv[0], and store into %o1 */
 	ld	[%i1], %i1
 	mov	%i1, %o1
-
+	
+	/* Call printErrors() */
 	call 	printErrors
 	nop
 
+	/* Since there were errors, get value of exitFailure (EXIT_FAILURE), 
+	 * and store into %i0, which we will return from this function
+	 */
 	set	exitFailure, %i0
 	ld	[%i0], %i0
-	ret
-	restore
+	
+	ret			! Return from subroutine
+	restore			! Return caller's window; in ret's delay slot
 
 RunUniq:
+	/* Copy struct errorInfo pointer to %o1 */
 	mov	%l0, %o1
+
+	/* Copy struct argInfo pointer to %o0 */
 	mov	%l1, %o0
 
+	/* Call runUniq() */
 	call 	runUniq
 	nop	
-
+	
+	/* Check to see errorCode member of struct errorInfo is equal to
+	 * errNone, if it isnt branch to ErrorExit, otherwise continue below
+	 * to SuccessExit
+	 */
 	ld	[%l0], %l2
 	cmp 	%l2, %l3
 	bne	ErrorExit
 	nop
 
 SuccessExit:
+	/* Get value of exitSuccess (EXIT_SUCCESS), and store value into
+	 * %i0, so we can return that value from this function.
+	 */
 	set	exitSuccess, %i0
 	ld	[%i0], %i0
-	ret	
-	restore
+	
+	ret			! Return from subroutine	
+	restore			! Return caller's window; in ret's delay slot
 
 
