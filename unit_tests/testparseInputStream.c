@@ -96,7 +96,6 @@ static void testparseInputStream() {
   struct argInfo myArgInfo2 = {OPT_SORT_INPUT, Regular, filename1, NULL};
   runTest(&myArgInfo2);
 
-  /* TODO Come up with more test cases */
 }
 
 int main() 
