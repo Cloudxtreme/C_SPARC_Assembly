@@ -74,9 +74,10 @@ printResults( FILE *outFile, const struct argInfo *argInfoPtr,
 
   // Check to see if sort output flag has bewn set
   if((argInfoPtr->options & OPT_SORT_OUTPUT) == OPT_SORT_OUTPUT) {
-    // If count flag has been set then qsort using compareCount, and set
-    // count flag boolean
-    if((argInfoPtr->options & OPT_COUNT) == OPT_COUNT) {
+    // If count flag, and mode is not Duplicate all has been set then qsort 
+    // using compareCount, and set count flag boolean
+    if((argInfoPtr->options & OPT_COUNT) == OPT_COUNT &&
+        argInfoPtr->outputMode != DuplicateAll) {
       qsort(uniqInfoPtr->uniqPtr, uniqInfoPtr->numOfEntries, 
             sizeof(struct uniq), compareCount);
       countFlag = 1;
