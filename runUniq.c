@@ -96,7 +96,7 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
 
   /* Check to see that OutFile in argInfo is not NULL, if it is then set output
    * to be stdout, otherwise open outFile with FILE_WRITE_MODE and set the 
-   * output stream equal to it. If there is an error opening the file, then set 
+   * output stream equal to it. If there is an error opening the file, then set
    * errorInfo and return immediately. 
    */
   if(argInfoPtr->outFile == NULL) {
