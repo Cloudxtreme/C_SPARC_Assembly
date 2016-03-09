@@ -28,7 +28,11 @@ static void runTest(
 static void strnullcmp(const char *s1, const char *s2);
 
 /*
- * TODO Function headers are always needed!
+ * Name: testparseArgs()
+ * Description: Sets up several struct argInfo's and errorInfo's. Then calls 
+ *              runTest() passing the structs in as arguments, to check to see
+ *              if args were parsed correctly. 
+ * Return Value: None
  */
 static void testparseArgs() {
   /*
@@ -128,7 +132,10 @@ static void testparseArgs() {
 }
 
 /*
- * TODO Function headers are always needed!
+ * Name: main()
+ * Description: Driver for the testparseArgs unit test which test the 
+ *              parseArgs() function
+ * Return Value: 0
  */
 int main() {
   (void) fprintf( stderr, "Starting testparseArgs\n" );
