@@ -131,6 +131,7 @@ main:
 
 ErrorExit:
 	mov 	%l0, %o0
+	ld	[%i1], %i1
 	mov	%i1, %o1
 
 	call 	printErrors
