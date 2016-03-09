@@ -19,7 +19,9 @@ static void testsortInputCompare() {
   TEST( sortInputCompare( &lhs, &rhs ) < 0 );
   TEST( sortInputCompare( &rhs, &lhs ) > 0 );
 
-  /* TODO Come up with more test cases */
+  lhs = "ZZZ";
+  TEST( sortInputCompare( &lhs, &rhs ) < 0 );
+
 }
 
 int main() {
