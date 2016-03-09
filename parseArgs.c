@@ -64,7 +64,8 @@ parseArgs( int argc, char *const argv[], struct argInfo *argInfo,
     { STR_LONG_OPT_HELP, 0, 0, FLAG_HELP },
     { STR_LONG_OPT_DUP_ONLY, 0, 0, FLAG_DUP_ONLY },
     { STR_LONG_OPT_DUP_ALL, 0, 0, FLAG_DUP_ALL },
-    { STR_LONG_OPT_UNIQUE, 0, 0, FLAG_UNIQUE }
+    { STR_LONG_OPT_UNIQUE, 0, 0, FLAG_UNIQUE },
+    { 0, 0, 0, 0}
   };
 
   int opt_ind = 0;    // counts number of option flags
