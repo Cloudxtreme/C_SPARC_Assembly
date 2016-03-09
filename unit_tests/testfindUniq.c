@@ -42,7 +42,10 @@ static void freeTestInput(const struct parsedInputInfo *testInputInfoPtr);
 static void strnullcmp(const char *s1, const char *s2);
 
 /*
- * TODO Function headers are always needed!
+ * Name: testfindUniq()
+ * Description: Sets up several examples of uniq structs and then calls
+ *              runTest on them
+ * Return: None
  */
 static void testfindUniq( ) {
   /*
@@ -83,13 +86,13 @@ static void testfindUniq( ) {
       &UniqInfoEmptyInput, 
       &ErrorInfoEmptyInput
       );
-
-
-  /* TODO Come up with more test cases */
 }
 
 /*
- * TODO Function headers are always needed!
+ * Name: main()
+ * Description: Driver for the testfindUniq unit test program, that tests the
+ *              function findUniq()
+ * Returns: 0
  */
 int main( ) {
   (void) fprintf( stderr, "Starting testfindUniq\n" );
