@@ -197,8 +197,8 @@ findUniq( const struct parsedInputInfo *parsedInputInfoPtr,
     }
 
   } else {
-    /* If nothing was parsed in from parseInputStream(), then set uniqPtr to be 
-     * NULL, and numOfEntries to 0 of uniqInfoPtr struct.
+    /* If nothing was parsed in from parseInputStream(), then set uniqPtr to be
+     * * NULL, and numOfEntries to 0 of uniqInfoPtr struct.
      */
     uniqInfoPtr->uniqPtr = NULL;
     uniqInfoPtr->numOfEntries = 0;
