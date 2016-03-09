@@ -1,7 +1,7 @@
 /*
  * Filename: setErrorInfo.c
- * Author: TODO: Enter your name
- * Userid: TODO: Enter your cs30x login id
+ * Author: Moiz Qureshi 
+ * Userid: cs30xix
  * Description: Sets members of sturct errorInfo.
  */
 
@@ -10,7 +10,25 @@
 #include "pa4.h" // ERROR_MSG_SIZE, struct errorInfo
 
 /*
- * TODO Function headers are always needed!
+ * Function Name: setErrorInfo()
+ *
+ * Function Prototype:
+ *  setErrorInfo( struct errorInfo *errorInfo, enum errorCode e, 
+ *                const char *errorMsg );
+ *
+ * Function Description: Sets the errorCode passed in into struct errorInfo
+ *                       *errorInfo, and also the errorMsg
+ *
+ * Parameters: 
+ *    arg 1 - struct errorInfo *errorInfo
+ *    arg 2 - enum errorCode e
+ *    arg 3 - const char *errorMsg
+ *
+ * Side Effects: Set the errorCode and errorMsg members of struct errorInfo
+ *
+ * Error Conditions: None
+ *
+ * Return Value: None
  */
 void setErrorInfo(struct errorInfo *errorInfo, enum errorCode e,
     const char *errorMsg) {
