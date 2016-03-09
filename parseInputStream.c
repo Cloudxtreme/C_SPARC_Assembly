@@ -72,7 +72,8 @@ parseInputStream( FILE *stream, const struct argInfo *argInfoPtr,
   // read a line in from the stream and store into buf string
   while(fgets(buf, BUFSIZ, stream) != NULL)  {
     // dynamically grow the linesTmpPtr array by 4 bytes (sizeof ptr) each time
-    linesTmpPtr = (char **)realloc(linesTmpPtr, (sizeof(char *)*(lineCount+1)));
+    linesTmpPtr = (char **)realloc(linesTmpPtr, 
+                                   (sizeof(char *)*(lineCount+1)));
     
     /* Check to see if realloc() failed (returns NULL ptr), if it did then
      * free all the elements in the array first, then free the array. If it 
