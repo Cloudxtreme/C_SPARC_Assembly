@@ -1,0 +1,185 @@
+/*
+ * Filename: README (pa4)
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 3/7/16
+ * Sources of help: None for this one
+ */
+
+Description
+-----------
+
+This program mimics the functionality of the Unix program called "uniq", 
+however, with some different options. The program processes an input file or 
+stdin and discards all but one of successive identical lines. The program is 
+run with a variety of options, both regular and long. The output of the 
+program is written to an output file or stdout. 
+
+How to compile
+--------------
+
+Navigate to the program directory (pa4, and through the use of the provided
+Makefile, type "make" to compile the program. For more instructions on 
+what the Makefile can do please view "Makefile" file (other targets).
+Use "make clean" to clean the directory of compiled files.
+
+How to run
+----------	
+
+First compile the the program, resulting in the compilation of the
+"myuniq" executable. 
+
+The easiest way to see how this program works, since it can be run with several
+short and long options is to run the program with the "-h" flag to show the
+long usage instruction of the program (as seen below).
+
+example terminal command: 	
+	
+	Print the long usage message:
+	./myuniq -h
+
+	Process input from stdin, and run program in Regular Mode:
+	./myuniq 
+
+Normal Output
+-------------
+
+Normal output is printed to stdout (therefore the terminal screen). Examples
+of successful normal outputs are:
+
+Ran with help option:
+cs30xix@ieng9]:pa4:538$ ./myuniq -h
+Usage: ./myuniq [-d|-D|-u] [-cisSx] [inputfile [outputfile]]  
+Discard all but one of successive identical lines from inputfile (or stdin),
+writing to outputfile (or stdout).
+
+Mutually exclusive options (only one of):
+ -d, --repeated         only print duplicate lines
+ -D, --all-repeated     like -d but print all duplicate lines
+                                -c option ignored if combined with this option
+ -u, --unique           only print unique lines
+
+Non-mutually exclusive options (any combination of):
+ -c, --count            prefix lines by the number of occurrences
+ -i, --ignore-case      ignore differences in case when comparing
+ -s, --sort-output      sort output
+                    if -c option specified, sort by count (descending order)
+                    else sort by lines
+ -S, --sort-input       act as if the input was sorted first before being 
+			processed
+ -x, --summary          print executive summary of results
+
+ -h, --help             display this help and exit
+
+Example myuniq program run with a single flag:
+[cs30xix@ieng9]:pa4$ ./myuniq ­d ref/uniq.test
+This is a test.
+TEST.
+
+Example myuniq program run with a single long flag:
+[cs30xix@ieng9]:pa4$ ./myuniq ­­repeated ref/uniq.test
+This is a test.
+TEST.
+
+Example myuniq program run with multiple flags:
+[cs30xix@ieng9]:pa4$ ./myuniq ­d ­c ref/uniq.test
+2 This is a test.
+2 TEST.
+
+Example myuniq program run with multiple long flags:
+[cs30xix@ieng9]:pa4$ ./myuniq ­­repeated ­­count ref/uniq.test
+2 This is a test.
+2 TEST.
+
+Example myuniq program run with mixed short and long flags :
+[cs30xix@ieng9]:pa4$ ./myuniq ­­repeated ­c ref/uniq.test
+2 This is a test.
+2 TEST.
+
+
+Example myuniq program run with input from stdin (use ctrl+d to exit):
+[cs30xix@ieng9]:pa4$ ./myuniq
+hi
+hi
+bye	<ctrl+d>
+hi
+bye
+
+Example myuniq program run with summary flag (-x):
+[cs30xix@ieng9]:pa4$ ./myuniq ­x ref/uniq.test2
+foo
+bar
+BAR
+foo
+FoO
+
+=== Results ===
+Entries:
+   Duplicates: 1
+   Unique: 4
+   Total: 5
+Lines:
+   Duplicates: 2
+   Unique: 5
+   Total: 7
+
+Generated at: 18:19:09
+
+Abnormal Output
+---------------
+
+Abnormal output goes to stderr. It is expected when the options for the program 
+are invalid, meaning there are too few, too many, or mutually exclusive 
+flags, or when the flags do not have any arguments that go with them. Also
+abnormal output is expected in case of failure of the program, in which case
+reason for failure will be printed.
+
+Some example of abnormal output can be seen below:
+
+Too many arguments (extra operand):
+[cs30xix@ieng9]:pa4$ ./myuniq ref/uniq.test outputfile extra
+Extra operand 'extra'.
+Try './myuniq ­­help' for more information.
+
+Mutual Exclusion (between repeated (-d), all-repeated (-D) and unique (-u) 
+flags):
+
+
+Invalid Flag:
+
+
+Invalid Filename:
+
+
+Permission Denied to File:
+
+
+Run out of memory while parsing input file (first do "ulimit -d 8"):
+
+
+
+
+Testing
+-------
+
+The program was tested by writing many unit tests for the majority of the 
+functions. Furthermore, the program was tested by visually checking the
+difference between this program and the sample program. 
+
+NOTE: This program compiles and works with SOME errors. The parseArgs()
+function is hurting very much. However, on the bright side, the program
+can build an angram database from a supplied dictionary, and the program
+can successfully search for anagrams (with one minor error with an erroneous
+help string printed on occasion).
+
+Questions:
+----------
+
+1) 
+  
+ 
+
+
+
+
+
