@@ -128,7 +128,7 @@ Generated at: 18:19:09
 Abnormal Output
 ---------------
 
-Abnormal output goes to stderr. It is expected when the options for the program 
+Abnormal output goes to stderr. It is expected when the options for the program
 are invalid, meaning there are too few, too many, or mutually exclusive 
 flags, or when the flags do not have any arguments that go with them. Also
 abnormal output is expected in case of failure of the program, in which case
