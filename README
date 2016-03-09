@@ -143,39 +143,53 @@ Try './myuniq ­­help' for more information.
 
 Mutual Exclusion (between repeated (-d), all-repeated (-D) and unique (-u) 
 flags):
-
+[cs30xix@ieng9]:pa4$ ./myuniq ­d ­D ref/uniq.test
+Mutually exclusive options were given!
+Try './myuniq ­­help' for more information.
 
 Invalid Flag:
-
+[cs30xix@ieng9]:pa4$ ./myuniq ­z ref/uniq.test
+./myuniq: illegal option ­­ z
+Try './myuniq ­­help' for more information.
 
 Invalid Filename:
-
+[cs30xix@ieng9]:pa4$ ./myuniq fake_file
+fake_file: No such file or directory
+Try './myuniq ­­help' for more information.
 
 Permission Denied to File:
-
+[cs30xix@ieng9]:pa4$ ./myuniq no_perm
+no_perm: Permission denied
+Try './myuniq ­­help' for more information.
 
 Run out of memory while parsing input file (first do "ulimit -d 8"):
-
-
+[cs30xix@ieng9]:pa4$ ./myuniq ~/pa3/ref/anagram_phrases
+Parsing input: Not enough space
+Try './myuniq ­­help' for more information.
 
 
 Testing
 -------
 
-The program was tested by writing many unit tests for the majority of the 
-functions. Furthermore, the program was tested by visually checking the
-difference between this program and the sample program. 
+This program was tested by writing unit tests (for the milestone files). For
+the files and functions after the milestone, the program was tested as a whole
+to see the operational functionality of the program, compared with the 
+sample pa4test executable. During the process of coding this program, GDB was
+used heavily to track and find errors when they existed. Also GDB was used to
+inspect a core dump that occurred when checking to find errors when there
+was program failure due to running out of memory.
 
-NOTE: This program compiles and works with SOME errors. The parseArgs()
-function is hurting very much. However, on the bright side, the program
-can build an angram database from a supplied dictionary, and the program
-can successfully search for anagrams (with one minor error with an erroneous
-help string printed on occasion).
+Furthermore, this program was tested by running this program and the sample
+pa4test executable with the same inputs, outputs, and options. This program
+produces idential outputs when provided identical inputs and options as the 
+sample pa4test executable. The outputs were written to files and compared
+using the Unix diff command, as well as visual inspection.  
+
 
 Questions:
 ----------
 
-1) 
+1)  
   
  
 
