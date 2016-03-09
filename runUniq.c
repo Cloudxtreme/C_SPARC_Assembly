@@ -117,9 +117,6 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
    * immediately; errorInfo is already set in parseInputStream(). 
    */
   if(errParseInput != 0) {
-    for(i = 0; i < parsedInputInfoPtr.numOfEntries; i++) {
-      free(&parsedInputInfoPtr.parsedInputPtr[i]);
-    }
     (void) fclose(input);
     (void) fclose(output);
     return;
@@ -133,9 +130,9 @@ runUniq( const struct argInfo *argInfoPtr, struct errorInfo *errorInfoPtr ) {
    * parseInputStream(). 
    */
   if(errFindUniq != 0) {
-    //for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
-      //free(&uniqInfoPtr.uniqPtr[i]);
-    //}
+    for(i = 0; i < uniqInfoPtr.numOfEntries; i++) {
+      free(&uniqInfoPtr.uniqPtr[i].dups);
+    }
     (void) fclose(input);
     (void) fclose(output);
     return;
