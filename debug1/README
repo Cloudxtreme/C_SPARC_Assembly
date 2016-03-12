@@ -1,0 +1,161 @@
+/*
+ * Filename: README (debug1)
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 02/19/16
+ * Sources of help: gdb --help, git --help, CSE30 Useful Links (R_SPARC_13 err)
+ */
+
+
+Compilation Errors (2):
+-----------------------
+
+1)  The first compilation error was found when running make for the first time.
+    The output of this make command can be seen below:
+    ___________________________________________________________________________
+    Assembling each assembly source file separately ...
+    gcc -c -g reverse.s
+    /usr/bin/as: "reverse.s", line 29: error: location counter not on word 
+    boundary
+
+    *** Error code 1
+    make: Fatal error: Command failed for target `reverse.o'
+    ___________________________________________________________________________
+
+    We never declared where the text section begins for this assembly
+    file, so .section ".text" was added on line 13, after the data section,
+    where palStr is defined.
+
+
+2) After fixing the first compilation error, the second compilation error was
+   found when running the make command again. The output of this make command
+   can be seen below:
+   ____________________________________________________________________________
+   Assembling each assembly source file separately ...
+   gcc -c -g reverse.s
+
+   Assembling each assembly source file separately ...
+   gcc -c -g swapChars.s
+
+   Assembling each assembly source file separately ...
+   gcc -c -g findEnd.s
+
+   2nd phase lint on all C source files ...
+   lint -u -err=warn *.ln
+
+   Linking all object modules ...
+   gcc -o reverseString -g -Wall main.o reverse.o swapChars.o findEnd.o
+   ld: fatal: relocation error: R_SPARC_13: file reverse.o: symbol .data
+   (section): value 0x21100 does not fit
+   collect2: error: ld returned 1 exit status
+   *** Error code 1
+   make: Fatal error: Command failed for target `reverseString'
+   ____________________________________________________________________________
+
+   The compilation error given here is a relocation error: R_SPARC_13. This
+   error occurs when we are using a mov instruction where a set instruction is
+   needed on a label or large constant greater than +/- 4k (from CSE30
+   website-useful links page, yes I read all these links Prof Ord! Thank you,
+   there are invaluable).
+
+   After combing through reverse.s, since the line number was not specified
+   in the compilation error where we had an incorrect use of mov instruction,
+   I found the error on line 73. On this line we are attempting to move the
+   label palStr label into the %o0 register with a mov instruction. To fix this
+   I simply changed it from a mov to a set instruction.
+
+   After fixing this error, make runs and there are no more compilation erros. 
+
+
+Runtime & Functionality Errors (6):
+-----------------------------------
+
+1) The first error I found quickly using VDB was in reverse.s, where the save
+   instruction is not implemented correctly. There is a missing minus sign,
+   after correcting this error, line 31 is as follows:
+
+   	save	%sp, -(92+4) & -8, %sp
+
+2) After fixing the first error, making again, then running the program with a
+   test string, I received a bus error (core dumped). So I ran the current
+   program with gdb, ran it with the same test argument, the program crashed 
+   gdb reported a Seg-fault in the findEnd() function. 
+
+   Opening findEnd.s, the first thing I noticed is a missing save call at the
+   beginning of the function. This was remedied by add the line below on line 
+   24, right after where "findEnd:" is.
+
+   	save	%sp, -96, %sp
+
+3) After fixing the second error, making again, and running the program with a
+   test string, I still received a Seg-fault somewhere in findEnd instruction
+   area. Upon closer inspection with GDB, I noticed that on line 29 of 
+   findEnd.s, we are trying to load a byte into a register using the ld 
+   instruction, where we should be using the ldub  instruction. So line 29 is 
+   as follows now:
+
+   	ldub	[%i0], %l0
+
+4) After fixing the third error, making again, and running the program with a
+   test string, I was receiving a bus error (core dumped). Upon closer
+   inspection with GDB, I set a breakpoint in the findEnd() function and 
+   ran the program with GDB and stepped through. Unlike with the third error
+   previously, I was able to step through until I hit some instruction that
+   caused a Seg-fault somewhere in the checkChar instructions. 
+
+   Same as before, on line 40 of findEnd.s, we are using ld instruction to load
+   a char, when we should be using the ldub instruction. Line 40 is as follows
+   now:
+
+	ldub 	[%i0], %l0
+
+
+5) After fixing the fifth error, making again, and running the program with a
+   test string, I was receiving a Seg-fault. Upon close inspection with GDB
+   I noticed that the when I was stepping through the program, I was stuck in
+   an endless loop. The function with a for-loop is in reverse(). After
+   scanning through the code I noticed that on line 59 of reverse.s, that 
+   endptr was not being decremented properly. Instead of subtracting, the
+   instruction was using add. Line 59 of reverse.s now reads:
+
+	sub	%l2, 1, %l2
+
+6) After fixing the fifth error, making again, and running the program with a
+   test string, the program worked. However, when I ran the program with
+   multiple string input arguments, such as "abba was a band with some serious
+   wow factor", the program was repeatedly checking if abba was a palindrome 
+   the same number of times as there are arguments. After inspecting with GDB,
+   I found the error in main.c on line 42, where we are reading the argument
+   string from argv[]. After fixing this error, line 42 looks as follows:
+
+   	char* str = argv[i]  // Was incorrectly argv[1], hence abba was checked
+			     // several times.
+
+6a) Although this had no adverse affect on the program, I found that missing 
+    nop instruction after line 44 of swapChar.s, where we are branching always
+    to notSame.
+   	
+After fixing these errors, the program runs successfully, and returns the
+correct output if a test string is a palindrome or not, and works great with a 
+single string input or multiple string input.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
