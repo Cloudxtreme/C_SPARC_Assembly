@@ -1,0 +1,211 @@
+/*
+ * Filename: README
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 01/12/16
+ * Sources of help: gdb --help, git --help
+ */
+
+Description
+-----------
+	This program takes an integer argument as an input and prints
+a welcome message including the assignment (PA0) due date and the square
+of the integer that was passed in as an argument via command line. 
+
+How to compile
+--------------
+	Navigate to the program directory (pa0), and through the use of the 
+provided makefile, type "make" to compile the program. For more instructions
+on what the makefile can do please view "Makefile" file. Use "make clean" to 
+clean the directory of compiled files.
+
+How to run
+----------	
+	After successful compilation an executable "a.out" is createed. Run the program
+by typing "./a.out" followed by an integer argument which is passed in to the program.
+
+	example terminal command: 	./a.out 5
+
+Normal Output
+-------------
+	Normal output is printed to stdout (therefore the terminal screen). An
+example of a successful normal output is:
+
+[cs30xix@ieng9]:pa0$ ./a.out 6
+Welcome to CSE30, Winter 2016
+PA0 is due on January 12, 2016
+The square of 6 is 36
+
+Abnormal Output
+---------------
+	Abnormal output is printed to stderr. There are two cases when abnormal output c
+occur:
+
+	1) When an integer is not specified and passed into the program as an argument:
+
+		[cs30xix@ieng9]:pa0$ ./a.out
+		./a.out: missing integer arg
+		Usage: ./a.out [INTEGER]
+		  Integer value to square
+
+	2) When there are too many integer arguments passed in
+		
+		[cs30xix@ieng9]:pa0$ ./a.out 5 7
+		./a.out: too many arguments
+		Usage: ./a.out [INTEGER]
+		  Integer value to square
+Testing
+-------
+
+The program was tested by comparing the output of this program with the pa0test
+executable. Both programs were ran providing identical input integer arguments
+and their respective outputs were redirected to files MYSOL and REFSOL 
+respectively. Output files were compared using the unix command "diff". When
+no differences were found in the outputs, it indicated that this program was
+working as it should be. 
+
+Also the squareNum function was tested manually by through three test cases:
+1) postive integer input; 2) negative integer input; and 3) zero integer
+input (0).
+
+Questions:
+----------
+
+1)	List the 4 compilation erros and 1 compilation warning you found in
+        the source files. Please include the name the of the file and the 
+	line number that consists of the error and your fix for it.
+
+	1. Error 1 - main.c ln 54:
+	   
+	   In order to use the fprintf function, main.c needed to include 
+	   stdio.h file, since that is where fprintf is defined. This was 
+	   discovered by using "man fprintf" and learning that it requires
+	   "#include <stdio.h>"
+
+	2. Error 2 - main.c ln 57:
+
+	   There was a typo in the provided code handout. STR_ERR_MISSING_ARGS
+	   should be STR_ERR_MISSING_ARG as defined in pa0_strings.h.
+	
+	3. Error 3 - main.c ln 60:
+
+	   There was a typo in the provided code handout. STR_ERROR_USAGE should
+	   be STR_ERR_USAGE as defined in pa0_strings.h.
+
+	4. Error 4 - main.c ln 88:
+
+	   The printdueDate function accepts a pointer as an argument not a 
+	   struct. Therefore, the code was changed to pass the address of the
+	   dueDate instance of the DueDate struct by using the address of
+	   operater "&". So instead of passing the parameter "dueDate",
+	   "&dueDate" was passed in.
+
+	5. Error 5 - main.C (Warning error)
+
+	   Since the main function prototype is "int main(...)", and not
+	   "void main(...)", a return value is required at the end of the int
+	   main function. To correct this, "return 0" was added to the end of
+	   int main function indicating a successful exit from the program.
+
+	6. Error 6 - printDueDate.c
+
+	   In order to use the dueDate struct in the printDueDate function 
+	   (which is being passed in as an argument to this function), we
+	   need to reference pa0.h by having an include for it. This was done
+	   by adding "#include "pa0.h"" near the top of the file.
+
+2) 	Why is the program not printing the correct output when you first run 
+	it after successful compilation? How was this fixed?
+
+	The program is not printing the correct output since it is looking
+	for an integer argument, but instead it is getting the name of the 
+	program instead. This was discovered while debugging the program 
+	using gdb. It was found that the conditional in main.c on line
+	52 is checking to see if the argument is not the EXPECTED_ARGS. However,
+	since we defined EXPECTED ARGS to be 1, which is the first argument
+	(the name of the program - argv[0]), the conditional is met and the 
+	program exits with failure. So to fix this problem, I changed the 
+	defined value of EXPECTED_ARGS to be 2 (the integer argument is
+	argv[1]), since the integer argument is the second argument. Therefore 
+	the conditonal is not met and the program does not exit with failure and
+	the program continues successfully.
+
+3)	What line of C code do you see printed to the screen?
+
+	Line 44 of main.c is printed:
+	int argVal = 0;
+
+4) 	What happens if you type nexti at this point? Why?
+
+	The next line of source code is displayed along. Using nexti command
+	in gdb is used to execute the next machine instruction.
+
+5)	Type x/s $i0. What does this do? What do you see printed on the screen?
+
+	The x/s command reads the memory contents of the address $i0 using 
+	string format. "Winter 2016" is printed to the screen. This is the 
+	same string from STR_WELCOME_QUARTER which was defined in pa0_strings.h.
+
+6) 	What is a breakpoint? How do you set one?
+
+	A breakpoint is a place where you want to stop or pause the program
+	you are debugging. 
+
+	A breakpoint is set by (in gdb) by typing in gdb:
+
+	break [FUNCTION_NAME]
+
+7)	What function are you debugging if the gdb displays:
+	<foobar+32>:	sethi %hi(0x20400), %o6
+
+	You are debugging the foobar function.
+
+8)	What is the difference between step and next? What is the difference 
+	between step/next and stepi/nexti?
+
+	Step continues running the program until the next source line of code
+	is reached and stops and returns control to gdb. Next continues to the
+	next source line of code in the	innermost stack frame. Step/next 
+	commands executes the next line of source code whereas stepi/nexti
+	commands execute the next machine instruction.
+
+9)	What are $o0, $i0, etc. referring to?
+
+	$o0, $i0, etc. are referring to memory address locations, specifically
+	SPARC registers where parameters are stored in memory.
+
+10)	What is the difference between x and p commands? Which should you use 
+	to look at the contents of a register? Which should you use to look at
+	something in memory? What do x/s and p/d mean (what do /s and /d 
+	specify)?
+	
+	The x command displays the memory contents at a given address in a
+	specified format. The p command is the print command which prints
+	the value of a given expression in a specified format. To look at
+	the contents of a register use the x command and to look at something
+	in memory use the p command. x/s means to print the contents of a 
+	register as string. p/d means to print the value of a variable
+	as a signed integer. 
+
+11)	How do you remove a file from git tracking (w/o deleting the file)?
+
+	By using the following command:
+	git rm --cached [FILENAME]
+
+12)	How do you view the list of commits you've made?
+
+	By using the following command:
+	git log
+
+13)	How do you force Git to ignore a file or all of the files with a 
+	specific extension?
+
+	Update the .gitignore file with the filename you dont want tracked
+	or with the filetype (*.[FILETYPE])
+
+14)	What is the name of the directory that contains the Git metadata
+	for your repository?
+
+	.git 
+
+
