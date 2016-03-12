@@ -1,0 +1,143 @@
+/*
+ * Filename: README (PAMT1)
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 02/19/16
+ * Sources of help: PA3 Assignment Sheet, PA3 Discussion Slides pt. 1 
+ * 		    CSE30 LAB Tutors (Albert)
+ */
+
+Description
+-----------
+
+The purpose of this program is to demonstrate the effectiveness of a
+multi-threaded functions and how they are faster than functions that are
+not multi-threaded, given a large sample size. The array, generally very large,
+is initialized with random values (within a range of -128 to 127). The 
+non-threaded function sequentially squares all the elements of the array and
+sums then up, while this operation is timed. The mult-threaded function,
+partitions the array into 8 partitions, calling the same square and sum 
+function as before, but on smaller array sizes. However, these 8 threads ares
+occuring simultaneously. Also the multi-threaded function is timed as well. The
+progrm prints out the running time of the sequential, non-threaded version and
+the running time of the multi-threaded version, aslo the factor of how much
+faster the multi-threaded applicaiton was. 
+
+How to compile
+--------------
+
+Navigate tot he program directory (pamt1), and through the use of the provided
+Makefile, type "make" to compile the program. For more instructions on what
+targets the Makefile can produce, please inspect the contents of the Makefile
+file. Use "make clean" to clean the directory of compiled files.
+
+How to run
+----------	
+
+After successful compilation an executable "squaredSumMinMax" is created. Run
+the program by typing "./squaredSumMinMax" follwed by one integer argument,
+which is the size of the test array you wish to initialized and fill with
+random integers within the range of -128 to 127, which then all the elements of
+this array will be sqaured and added together in the non-threaded sequential
+way , and then in the multi-threaded way. 
+
+example terminal command:	./squaredSumMinMax 8675309
+
+Normal Output
+-------------
+
+Normal output is printed to stdout (therefore the tereminal). An example of a
+successfull output is:
+
+[cs30xix@ieng6-202]:pamt1$ ./squaredSumMinMax 500000000
+Initializing array (size = 500000000) with random values
+
+............. Done
+
+Sequential squared sum, min, max (be patient)
+Squared Sum is: 2722614736804
+Min value is: -128
+Max value is: 127
+Completed in 1.809914 sec
+
+Async-get parallel squared sum, min, max
+Number of threads = 8
+Squared Sum is: 2722614736804
+Min value is: -128
+Max value is: 127
+Completed in 0.335405 sec
+
+Speed-up: 5.396205
+
+Abnormal Output
+---------------
+
+Abnormal output is printed to stderr. Unfortunately, there is no input argument
+validation for correct data type (since main was not fully coded by me, only
+the TODO areas). However, if no argument is passed in to the prgram then the
+usage error is printed to stderr, which can be seen below:
+
+cs30xix@ieng6-202]:pamt1$ ./squaredSumMinMax
+
+Usage: ./squaredSumMinMax array_size
+   array_size  (must be positive integer)
+
+
+If a negative integer is passed in as an argument, then the program crashes due
+to a segmentation fault, as seen below: (argument was -500000)
+
+[cs30xix@ieng6-202]:pamt1$ ./squaredSumMinMax -500000
+Initializing array (size = -500000) with random values
+
+ Done
+
+Sequential squared sum, min, max (be patient)
+Segmentation fault
+
+Testing
+-------
+
+The program was tested by running the program with various random non-negative
+array_size inputs. Upon successful running og the program, we expect to see
+Normal Output behavior, meaning that the sequential and mult-threaded function
+run times were printed out to the terminal. For array sizes that were of a 
+large magnitude, we expect to see a discernable speed-up on the multi-threaded 
+operations, whereas array sizes of a small magnitude, we would not notice a
+
+Questions:
+----------
+
+1) When I ran the program with an input array size of 500,000,000, the program
+   outputted a 5.300547 speed-up, when using 8 threads. The sequential runtime 
+   was 1.774199 seconds and the async-get parallel runtime was 0.334720 
+   seconds.
+
+   When I ran the prgram with an input array size of 500, the program outputted
+   a 0.000879 speed-up, when using 8 threads. The sequential runtime was 
+   0.00000 seconds and the async-get parallel runtime was 0.003413 seconds.
+
+   The sequential computing runtime was much for the small array size because 
+   there is an overhead time expenditure when setting up multiple threads, and
+   therefore 8 simultaneous stack frames (since the programs is calling the
+   sequentialSquaredSumMinMax() function 8 times simultaneously). The 
+   sequential computing runtime does not have this overhead time expenditure 
+   and only sets up 1 stack frame, since the program calls the 
+   sequentialSquaredSumMinMax function once. Therefore parallel processing is 
+   better for very large arrays, and sequential processing is better for small
+   arrays. 
+
+
+2) I noticed that the speedup was around ~1.00 (+/- 0.2) when the input array
+   size was within the range of 1,900,000. 
+
+   For five cosectuive runs of the program, with an input size array of
+   1,900,000 I got the following speed-up's:
+
+   	1) 0.911720
+	2) 1.158520
+	3) 1.013164
+	4) 1.042169
+	5) 0.847657
+
+   Taking the average of these speed-up values (of size 5 sample), I got a
+   speed-up of 0.994646. Pretty darn close to a speed-up of 1.0!!!
