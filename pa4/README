@@ -1,0 +1,215 @@
+/*
+ * Filename: README (pa4)
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 3/7/16
+ * Sources of help: None for this one
+ */
+
+Description
+-----------
+
+This program mimics the functionality of the Unix program called "uniq", 
+however, with some different options. The program processes an input file or 
+stdin and discards all but one of successive identical lines. The program is 
+run with a variety of options, both regular and long. The output of the 
+program is written to an output file or stdout. 
+
+How to compile
+--------------
+
+Navigate to the program directory (pa4, and through the use of the provided
+Makefile, type "make" to compile the program. For more instructions on 
+what the Makefile can do please view "Makefile" file (other targets).
+Use "make clean" to clean the directory of compiled files.
+
+How to run
+----------	
+
+First compile the the program, resulting in the compilation of the
+"myuniq" executable. 
+
+The easiest way to see how this program works, since it can be run with several
+short and long options is to run the program with the "-h" flag to show the
+long usage instruction of the program (as seen below).
+
+example terminal command: 	
+	
+	Print the long usage message:
+	./myuniq -h
+
+	Process input from stdin, and run program in Regular Mode:
+	./myuniq 
+
+Normal Output
+-------------
+
+Normal output is printed to stdout (therefore the terminal screen). Examples
+of successful normal outputs are:
+
+Ran with help option:
+cs30xix@ieng9]:pa4:538$ ./myuniq -h
+Usage: ./myuniq [-d|-D|-u] [-cisSx] [inputfile [outputfile]]  
+Discard all but one of successive identical lines from inputfile (or stdin),
+writing to outputfile (or stdout).
+
+Mutually exclusive options (only one of):
+ -d, --repeated         only print duplicate lines
+ -D, --all-repeated     like -d but print all duplicate lines
+                                -c option ignored if combined with this option
+ -u, --unique           only print unique lines
+
+Non-mutually exclusive options (any combination of):
+ -c, --count            prefix lines by the number of occurrences
+ -i, --ignore-case      ignore differences in case when comparing
+ -s, --sort-output      sort output
+                    if -c option specified, sort by count (descending order)
+                    else sort by lines
+ -S, --sort-input       act as if the input was sorted first before being 
+			processed
+ -x, --summary          print executive summary of results
+
+ -h, --help             display this help and exit
+
+Example myuniq program run with a single flag:
+[cs30xix@ieng9]:pa4$ ./myuniq ­d ref/uniq.test
+This is a test.
+TEST.
+
+Example myuniq program run with a single long flag:
+[cs30xix@ieng9]:pa4$ ./myuniq ­­repeated ref/uniq.test
+This is a test.
+TEST.
+
+Example myuniq program run with multiple flags:
+[cs30xix@ieng9]:pa4$ ./myuniq ­d ­c ref/uniq.test
+2 This is a test.
+2 TEST.
+
+Example myuniq program run with multiple long flags:
+[cs30xix@ieng9]:pa4$ ./myuniq ­­repeated ­­count ref/uniq.test
+2 This is a test.
+2 TEST.
+
+Example myuniq program run with mixed short and long flags :
+[cs30xix@ieng9]:pa4$ ./myuniq ­­repeated ­c ref/uniq.test
+2 This is a test.
+2 TEST.
+
+
+Example myuniq program run with input from stdin (use ctrl+d to exit):
+[cs30xix@ieng9]:pa4$ ./myuniq
+hi
+hi
+bye	<ctrl+d>
+hi
+bye
+
+Example myuniq program run with summary flag (-x):
+[cs30xix@ieng9]:pa4$ ./myuniq ­x ref/uniq.test2
+foo
+bar
+BAR
+foo
+FoO
+
+=== Results ===
+Entries:
+   Duplicates: 1
+   Unique: 4
+   Total: 5
+Lines:
+   Duplicates: 2
+   Unique: 5
+   Total: 7
+
+Generated at: 18:19:09
+
+Abnormal Output
+---------------
+
+Abnormal output goes to stderr. It is expected when the options for the program
+are invalid, meaning there are too few, too many, or mutually exclusive 
+flags, or when the flags do not have any arguments that go with them. Also
+abnormal output is expected in case of failure of the program, in which case
+reason for failure will be printed.
+
+Some example of abnormal output can be seen below:
+
+Too many arguments (extra operand):
+[cs30xix@ieng9]:pa4$ ./myuniq ref/uniq.test outputfile extra
+Extra operand 'extra'.
+Try './myuniq ­­help' for more information.
+
+Mutual Exclusion (between repeated (-d), all-repeated (-D) and unique (-u) 
+flags):
+[cs30xix@ieng9]:pa4$ ./myuniq ­d ­D ref/uniq.test
+Mutually exclusive options were given!
+Try './myuniq ­­help' for more information.
+
+Invalid Flag:
+[cs30xix@ieng9]:pa4$ ./myuniq ­z ref/uniq.test
+./myuniq: illegal option ­­ z
+Try './myuniq ­­help' for more information.
+
+Invalid Filename:
+[cs30xix@ieng9]:pa4$ ./myuniq fake_file
+fake_file: No such file or directory
+Try './myuniq ­­help' for more information.
+
+Permission Denied to File:
+[cs30xix@ieng9]:pa4$ ./myuniq no_perm
+no_perm: Permission denied
+Try './myuniq ­­help' for more information.
+
+Run out of memory while parsing input file (first do "ulimit -d 8"):
+[cs30xix@ieng9]:pa4$ ./myuniq ~/pa3/ref/anagram_phrases
+Parsing input: Not enough space
+Try './myuniq ­­help' for more information.
+
+
+Testing
+-------
+
+This program was tested by writing unit tests (for the milestone files). For
+the files and functions after the milestone, the program was tested as a whole
+to see the operational functionality of the program, compared with the 
+sample pa4test executable. During the process of coding this program, GDB was
+used heavily to track and find errors when they existed. Also GDB was used to
+inspect a core dump that occurred when checking to find errors when there
+was program failure due to running out of memory.
+
+Furthermore, this program was tested by running this program and the sample
+pa4test executable with the same inputs, outputs, and options. This program
+produces idential outputs when provided identical inputs and options as the 
+sample pa4test executable. The outputs were written to files and compared
+using the Unix diff command, as well as visual inspection.  
+
+
+Questions:
+----------
+
+1) I can encourage my peers to act with integrity, especially when they ask me 
+   for help on an assignment, by providing them with advice that does not
+   sacrifice my own integrity. Such advice can be providing them with legal,
+   but helpful resources such as Piazza posts,  parts of a man page for a 
+   command that helped clarify its use, or somehwere in the programming 
+   assignment sheet that may have clairfied how to do something.
+
+   I can also remind my close peers to start early and often on the 
+   programming assignments, so that they can finish early, and not be pushed
+   to resorting to desperate measures that may put my own and their integrity
+   at risk.
+
+   Furthermore, if my peers cross the line and ask me to compromise my own
+   integrity, then I will politely refuse to offer them any help. It may also
+   help to remind the consequences of such actions, and more importantly that
+   they are missing out on gained knowledge and experience of not doing the 
+   programming assignments on time and correctly. 
+  
+ 
+
+
+
+
+
