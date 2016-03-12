@@ -1,0 +1,190 @@
+/*
+ * Filename: README (PAMT2)
+ * Author: Moiz Qureshi
+ * Userid: cs30xix
+ * Date: 03/4/16
+ * Sources of help: PAMT2 Assignment Sheet, PAMT2-PA4 Discussion Slides pt. 1 
+ * 		    CSE30 LAB Tutors (Hao)
+ */
+
+Description
+-----------
+
+The purpose of this program is to demonstrate the effectiveness of 
+multi-threaded functions and how they are faster than functions that are
+not multi-threaded, given relatively large numbers. This program counts
+the number of factors a user inputted number has therefore determining
+if the number is prime or not. The program first does this in a single thread
+then it does the same operation again over multiple threads (with the number
+of threads determined by the CPU). The program outputs the same report for each
+number, followed by the runtime and speed-up calculated of how much faster the 
+multi-threaded operation was than the single threaded. 
+
+How to compile
+--------------
+
+Navigate tot he program directory (pamt2), and through the use of the provided
+Makefile, type "make" to compile the program. For more instructions on what
+targets the Makefile can produce, please inspect the contents of the Makefile
+file. Use "make clean" to clean the directory of compiled files.
+
+How to run
+----------	
+
+After successful compilation an executable "pamt2" is created. Run the program
+by typing "./pam2" follwed by number arguments for which you wish to determine
+the number of factors of that number and therefore if that number is prime or
+not. An example command for successful run of the program with user-inputted
+arguments is show below:
+
+example terminal command:	./pamt2 99999999 8081 246813607 4294967296 
+
+
+Normal Output
+-------------
+
+Normal output is printed to stdout (therefore the tereminal). The program will 
+count the number of factors and if it is prime for each individual 
+user-inputted number (99999999, 8081, 246813607, 4294967296). For each number,
+the program will determine the number of factors for each number and therefore
+if it is prime or not. The program will first do this operation in a single
+thread and then do the operation in multiple threads. Then the program will
+print a report after this for each number, stating the results of the single
+threaded and multi-threaded operations. The number of factors and if the number
+was prime or not will be the same for each single threaded and multi-threaded
+report, however, the runtim for each operation will be different, ad the
+speed-up of the multi-threaded operation will also be printed.
+
+An example of a successfull output is:
+
+  cs30xix@ieng6-201]:pamt2:426$ ./pamt2 99999999 8081 246813607 4294967296
+  Sequential numOfFactors for 99999999
+  99999999 is not prime
+  Number of factors: 47
+  Completed in 2.75942 sec
+
+  Number of threads = 8
+  Async-get parallel numOfFactors for 99999999
+  ^[[A99999999 is not prime
+  Number of factors: 47
+  Completed in 0.514702 sec
+
+  Speed-up: 5.3612
+  
+  --------------
+  
+  Sequential numOfFactors for 8081
+  8081 is prime
+  Number of factors: 1
+  Completed in 0.000175 sec
+  
+  Number of threads = 8
+  Async-get parallel numOfFactors for 8081
+  8081 is prime
+  Number of factors: 1
+  Completed in 0.001814 sec
+  
+  Speed-up: 0.0964719
+  
+  --------------
+  
+  Sequential numOfFactors for 246813607
+  246813607 is prime
+  Number of factors: 1
+  Completed in 6.9342 sec
+  
+  Number of threads = 8
+  Async-get parallel numOfFactors for 246813607
+  246813607 is prime
+  Number of factors: 1
+  Completed in 1.36231 sec
+  
+  Speed-up: 5.09004
+  
+  --------------
+  
+  Sequential numOfFactors for 4294967296
+  4294967296 is not prime
+  Number of factors: 32
+  Completed in 127.9 sec
+  
+  Number of threads = 8
+  Async-get parallel numOfFactors for 4294967296
+  4294967296 is not prime
+  Number of factors: 32
+  Completed in 19.245 sec
+  
+  Speed-up: 6.64585
+
+  --------------
+
+Abnormal Output
+---------------
+
+Abnormal output is printed to stdout. There are several cases of when abnormal
+output will be expected. The first is when one (or more) of the user-inputted
+number argument (for which you wish to determine if it is prime) is too large,
+larger than 4294967296. The second is if the user-inputted number argument, is
+less than two times the number of threads available for which the program can
+run on. In this scenario, the multi-threaded operation will not be performed
+since the number is too small. 
+
+However, if no numbers are inputted as an argument (no argument given), then 
+the usage error is printed to stderr. An example of the usage error can be seen
+below after the other abnormal cases. 
+
+Both examples of abnormal output can be seen below:
+  
+  (Number too large for program)
+  cs30xix@ieng6-201]:pamt2$ ./pamt2 9999999999999999
+  9999999999999999 is too large to run. Try a value <= to 4294967296
+  -------------- 
+
+  (Number too small for multi-threaded operation)
+  cs30xix@ieng6-201]:pamt2$ ./pamt2 5
+  Sequential numOfFactors for 5
+  5 is prime
+  Number of factors: 1
+  Completed in 3e-06 sec
+  5 is too small to run multi-threading version
+  Try a value >= 16
+  -------------- 
+
+  (No argument given)
+  cs30xix@ieng6-201]:pamt2:412$ ./pamt2
+  Usage: ./pamt2 num1 [num2 num3 ...]
+
+Testing
+-------
+
+The program was tested by running the program with the same inputs as shown in
+PAMT2 assignment sheet. The output was visually compared with the reference
+program output to see if they were the same, with regard to number of factors
+(if there were the same) and the runtime of the single threaded and
+multi-threaded operations (if they were within a close range). This program
+passed this test with the comparison of the reference program version. 
+
+Questions:
+----------
+
+1) For this program it does not matter if the entered number is prime or not
+   because the function numOfFactors() determines the number of factors of the
+   entered number by iteratively looping through a range and checking if the
+   the number is divisble by the loop-counter or not, and if it is it 
+   incrementes the loop-counter. So if a number is prime or not, the loop will
+   still iterate through the whole range and check if the numbers within the
+   range are a factor of the entered number or not. 
+
+   Furthermore this hypothesis is supported by empirically checking two example
+   runs of the program entering a very large prime number and a very large 
+   non-prime number. So the program was ran with a the large prime number of
+   4294967291 and a very large non-prime number of 4294967296. Both of these
+   numbers produced near identical single threaded and multi-threaded runtimes.
+   This was also tested with a smaller prime number of 8081 and a smaller 
+   non-prime number of 8888. Similarly, when the program was ran with these
+   numbers, both the single threaded and multi-threaded times were very 
+   similar. 
+
+2) After running many samples, I found that a value of 75000 was my breakpoint.
+   However there was a large variance between my samples witin range of 50k-90k
+   while running the program on the workstation in CSEB240. 
